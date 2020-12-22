@@ -123,8 +123,8 @@ layout: default
 
     {% include post-nav.html %}
 
-    {% if site.disqus.comments and page.comments %}
-      {% include disqus.html %}
+    {% if site.gitalk.comments and page.comments %}
+      {% include gitalk.html %}
     {% endif %}
 
     </div> <!-- #post-extend-wrapper -->
