@@ -68,7 +68,7 @@ gitalk:
   comments: true
   clientId: 'ab82be4b02f8a8f27c36'
   clientSecret: 'a17055d499d8765e427a1842fea5d5c4d3f38691'
-  repo: 'https://ramboqiu.github.io/'
+  repo: 'RamboQiu'
 
 # Prefer color scheme setting.
 #

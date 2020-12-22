@@ -6,7 +6,7 @@
         clientSecret: '{{ site.gitalk.clientSecret }}',
         repo: '{{ site.gitalk.repo }}',
         owner: '{{ site.github.username }}',
-        admin: '{{ site.github.username }}',
+        admin: ['{{ site.github.username }}'],
         distractionFreeMode: false
     });
     gitalk.render('gitalk-container');
