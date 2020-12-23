@@ -1,7 +1,7 @@
 <div id="gitalk-container"></div>
 <script>
     var gitalk  = new Gitalk({
-        id: window.location.pathname,
+        id: (decodeURIComponent(window.location.pathname)).substring(0, 49),
         clientID: '{{ site.gitalk.clientId }}',
         clientSecret: '{{ site.gitalk.clientSecret }}',
         accessToken: '{{ site.gitalk.accessToken }}',
