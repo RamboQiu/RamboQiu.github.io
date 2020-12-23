@@ -4,7 +4,7 @@ title:  "Mixpanel代代码实现策略解析之hook无埋点部分"
 date:   2017-08-09
 desc: "Mixpanel代代码实现策略解析之hook无埋点部分"
 keywords: "OC,Mixpanel,无埋点"
-categories: [工作]
+categories: [Tech, iOS]
 tags: [OC, Mixpanel, 无埋点]
 icon: icon-html
 ---

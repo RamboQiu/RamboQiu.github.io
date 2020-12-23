@@ -4,7 +4,7 @@ title:  "IDEA不选择任何maven模板创建web项目"
 date:   2017-10-02
 desc: "IDEA不选择任何maven模板创建web项目"
 keywords: "Maven,IDEA,webapp"
-categories: [工作]
+categories: [Tech, java]
 tags: [IDEA, Maven, webapp]
 icon: icon-html
 ---
