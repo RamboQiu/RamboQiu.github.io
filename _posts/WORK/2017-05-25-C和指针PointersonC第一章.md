@@ -1,5 +1,5 @@
 ---
-layout: post
+ layout: post
 title:  "C和指针PointersonC 学习之第一章"
 date:   2017-05-20
 desc: "C和指针PointersonC第一章"
