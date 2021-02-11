@@ -10,8 +10,6 @@ order: 4
 # MIT License
 ---
 
-Rambo | qiujunyun@163.com | 杭州 | github.com/RamboQiu 1992.5| 男 |175cm|75kg| 汉
-
 **教育经历**
 
 南昌大学 - 软件设计与开发 本科 软件学院
