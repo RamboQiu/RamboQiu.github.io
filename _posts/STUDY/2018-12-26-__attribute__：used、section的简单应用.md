@@ -1,5 +1,5 @@
 ---
-title:  "__attribute__-used-section的简单应用"
+title:  "__attribute__：used、section的简单应用"
 date:   2018-12-26
 desc: "18年写的文章，搬运过来，对于__attribute__ used section的一点理解"
 keywords: "c"
