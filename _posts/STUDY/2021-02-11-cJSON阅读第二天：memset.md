@@ -10,7 +10,7 @@ tags: [c,cJSON,memset]
 
 ## 1. memset
 
-oc里面，[[Object alloc] init]，初始化对象，其中init就是将内存地址进行初始化。
+oc里面，[[Object alloc] init]，初始化对象，其中init就是将内存地址进行初始化。比如如下的，cJSON.c文件中的cJSON_New_Item方法
 
 ```c
 static cJSON *cJSON_New_Item(const internal_hooks * const hooks)
