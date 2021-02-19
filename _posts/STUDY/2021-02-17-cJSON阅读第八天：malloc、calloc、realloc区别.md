@@ -57,6 +57,8 @@ else /* otherwise copy the JSON over to a new buffer */
 void* malloc(unsigned size);
 ```
 
+> 见print(const cJSON * const, cJSON_bool, const internal_hooks * const) 方法，初始化buffer->buffer
+
 在堆内存中分配一块长度为size字节的连续区域，参数size为需要内存空间的长度。此存储区中的初始值不确定。
 
 ### 2. calloc
@@ -73,7 +75,11 @@ void* calloc(size_t numElements, size_t sizeOfElement);
 void* realloc(void* ptr, unsigned newsize);
 ```
 
-使用realloc函数为ptr重新分配大小为size的一块内存空间。下面是这个函数的工作流程：
+使用realloc函数为ptr重新分配大小为size的一块内存空间
+
+> 见ensure(printbuffer * const, size_t)方法的底部 if (needed > p->length) 需要的空间不够
+
+下面是这个函数的工作流程：
 
 1. 对ptr进行判断，如果ptr为NULL，则函数相当于malloc(new_size)，试着分配一块大小为new_size的内存，如果成功将地址返回，否则返回NULL。如果ptr不为NULL，则进入 2。
 2. 查看ptr是不是在堆中，如果不是的话会抛出realloc invalid pointer异常。如果ptr在堆中，则查看new_size大小，如果new_size大小为0，则相当于free(ptr)，将ptr指向的内存空间释放掉，返回NULL。如果new_size小于原大小，则ptr中的数据可能会丢失，只有new_size大小的数据会保存；如果size等于原大小，等于什么都没有做；如果size大于原大小，则查看ptr指向的位置还有没有足够的连续内存空间，如果有的话，分配更多的空间，返回的地址和ptr相同，如果没有的话，在更大的空间内查找，如果找到size大小的空间，将旧的内容拷贝到新的内存中，把旧的内存释放掉，则返回新地址，否则返回NULL。
