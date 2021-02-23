@@ -11,7 +11,7 @@ tags: [c,tinyhttpd]
 
 github上搜tinyhttpd，靠前的就两个项目：[EZLippi-Tinyhttpd](https://github.com/EZLippi/Tinyhttpd) 、 [cbsheng-tinyhttpd](https://github.com/cbsheng/tinyhttpd)
 
-我这里就是下载了第二个cbsheng的，因为他注释比较多，哈哈
+我这里就是下载了第二个cbsheng的，因为他注释比较多，哈哈。
 
 该项目很适合初学者进行学习研究，所以废话不多说，把项目clone下来，进行debug吧。[RamboQiu](https://github.com/RamboQiu)/**[tinyhttpd-Tutorial](https://github.com/RamboQiu/tinyhttpd-Tutorial)**
 
@@ -23,7 +23,7 @@ tinyhttpd-Tutorial|master⚡ ⇒ ./httpd
 httpd running on port 49535
 ```
 
-![index](/assets/img/study/screenshot-20210223-103437.png)
+![index](/assets/img/study/screenshot-20210223-103437.png){: .normal}
 
 输入blue颜色，点击提交，噶，一片空白，原因是mac系统的perl命令的文件路径错了。
 
@@ -36,7 +36,7 @@ httpd running on port 49535
 
 重新编译运行
 
-![WechatIMG98](/assets/img/study/WechatIMG98.png)
+![WechatIMG98](/assets/img/study/WechatIMG98.png){: .normal}
 
 ## Debug
 
@@ -46,7 +46,7 @@ c项目头疼的就是没有直观的像是xcode一样的直接debug的能力，
 
 >  引用：建议源码阅读顺序： main -> startup -> accept_request -> execute_cgi, 通晓主要工作流程后再仔细把每个函数的源码看一看。
 
-![screenshot-20210222-162445](/assets/img/study/screenshot-20210222-162445.png)
+![screenshot-20210222-162445](/assets/img/study/screenshot-20210222-162445.png){: .normal}
 
 
 
