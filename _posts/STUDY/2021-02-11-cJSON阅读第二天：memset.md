@@ -1,5 +1,5 @@
 ---
-title:  "cJSON阅读第一天：memset"
+title:  "cJSON阅读第二天：memset"
 date:   2021-02-11
 desc: "oc里面经常用[[Object alloc] init]，c里面init来源如此"
 keywords: "c"
