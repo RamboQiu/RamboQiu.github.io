@@ -86,7 +86,8 @@ Kylin的核心思想就是在编译时把数据（如函数指针）写入到可
 ## WHY
 ### attribute
 attribute是gcc的编译属性，主要用于改变所声明或定义的函数或数据的特性，它有很多子项，用于改变作用对象的特性。比如对函数，noline将禁止进行内联扩展、noreturn表示没有返回值、pure表明函数除 返回值外，不会通过其它（如全局变量、指针）对函数外部产生任何影响。但这里我们研究的是对代码段起作用子项section。[详见](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0491c/BABCJJID.html) <br>
-![attribute.png](https://upload-images.jianshu.io/upload_images/8250011-b29df200686fcb2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![8250011-b29df200686fcb2c](/assets/img/study/8250011-b29df200686fcb2c.png){: .normal}
 
 例如: <br>
 
@@ -150,13 +151,14 @@ struct section { /* for 32-bit architectures */
 > > **Segments** <br>
 > > A segment efines a range of bytes in a Mach-O file and the addresses and memory protection attributes at which those bytes are mapped into virtual memory when the dynamic linker loads the application. As such, segments are always virtual memory page aligned. A segment contains zero or more sections.<br>
 
+![screenshot-20210302-141011](/assets/img/study/screenshot-20210302-141011.png){: .normal}
 
-![mach-0struct.png](https://upload-images.jianshu.io/upload_images/8250011-de37964b7bdf40e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 Header 头部，包含可以执行的CPU架构，比如x86,arm64<br>
 Load commands 加载命令，包含文件的组织架构和在虚拟内存中的布局方式<br>
 Data，数据，包含load commands中需要的各个段(segment)的数据，每一个Segment都得大小是Page的整数倍。<br>
 使用**MachOView**查看DEMOmach-o文件<br>
-![mach-o.png](https://upload-images.jianshu.io/upload_images/8250011-8dca5268f0ee1440.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![8250011-8dca5268f0ee1440](/assets/img/study/8250011-8dca5268f0ee1440.png){: .normal}
 
 注意：clean->build才会重新生成新的mach-o文件
 
