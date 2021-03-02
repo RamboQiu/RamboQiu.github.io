@@ -1,12 +1,11 @@
 ---
-title:  "__attribute__：used、section的简单应用"
+title:  "attribute：used、section的简单应用"
 date:   2018-12-26
 desc: "18年写的文章，搬运过来，对于__attribute__ used section的一点理解"
 keywords: "c"
 categories: [Tech, Study]
 tags: [c,attribute,used section]
 ---
-
 # \_\_attribute\_\_ used section 简单应用
 
 [源码链接](https://github.com/RamboQiu/RAMUtil/tree/master/RAMUtil/RAMExport)
