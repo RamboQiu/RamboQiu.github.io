@@ -10,6 +10,9 @@
 
 2021
 
+- 29 Jun [埋点之入口页导购统计方案](https://ramboqiu.github.io/posts/埋点之入口页导购统计方案/)
+- 28 Jun [埋点之非入口页路径透传方案](https://ramboqiu.github.io/posts/埋点之非入口页路径透传方案/)
+- 27 Jun [iOS埋点接入文档](https://ramboqiu.github.io/posts/iOS埋点接入文档/)
 - 09 Jun [iOS15线上问题总结](https://ramboqiu.github.io/posts/iOS15线上问题总结/)
 - 07 May [iOS秒开H5实战总结](https://ramboqiu.github.io/posts/iOS秒开H5实战总结/)
 - 06 May [iOS消息转发机制](https://ramboqiu.github.io/posts/iOS消息转发机制/)
