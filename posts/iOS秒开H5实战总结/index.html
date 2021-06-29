@@ -1,0 +1,877 @@
+<!DOCTYPE html><html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="theme" content="Chirpy v2.7.0"><meta name="generator" content="Jekyll v4.2.0" /><meta property="og:title" content="iOS秒开H5实战总结" /><meta name="author" content="Rambo" /><meta property="og:locale" content="en_US" /><meta name="description" content="iOS平台的H5网页加载步骤：" /><meta property="og:description" content="iOS平台的H5网页加载步骤：" /><link rel="canonical" href="https://ramboqiu.github.io/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/" /><meta property="og:url" content="https://ramboqiu.github.io/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/" /><meta property="og:site_name" content="RAMBO" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2021-05-07T00:00:00+08:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="iOS秒开H5实战总结" /><meta name="google-site-verification" content="google88e65de3e03b1c74.html" /> <script type="application/ld+json"> {"author":{"@type":"Person","name":"Rambo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ramboqiu.github.io/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/"},"description":"iOS平台的H5网页加载步骤：","url":"https://ramboqiu.github.io/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/","@type":"BlogPosting","headline":"iOS秒开H5实战总结","dateModified":"2021-06-22T16:12:19+08:00","datePublished":"2021-05-07T00:00:00+08:00","@context":"https://schema.org"}</script><meta name="baidu-site-verification" content="baidu_verify_code-LaAMM2SYbl.html"><title>iOS秒开H5实战总结 | RAMBO</title><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" href="/assets/css/post.css" as="style"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script defer src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css"> <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> <script async src="/assets/js/post.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id=G-PHHDQK2S50"></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-PHHDQK2S50'); }); </script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">RAMBO</a></div><div class="site-subtitle font-italic">移动端开发从入门到放弃</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <span id="mode-toggle-wrapper"> <i class="mode-toggle fas fa-adjust"></i> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } var self = this; /* always follow the system prefers */ this.sysDarkPrefers.addListener(function() { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.updateMermaid(); }); } /* constructor() */ setDark() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_KEY); sessionStorage.removeItem(ModeToggle.MODE_KEY); } get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode == ModeToggle.DARK_MODE; } get isLightMode() { return this.mode == ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer) ) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } updateMermaid() { if (typeof mermaid !== "undefined") { let expectedTheme = (this.modeStatus === ModeToggle.DARK_MODE? "dark" : "default"); let config = { theme: expectedTheme }; /* re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function() { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.updateMermaid(); } /* flipMode() */ } /* ModeToggle */ let toggle = new ModeToggle(); $(".mode-toggle").click(function() { toggle.flipMode(); }); </script> </span> <span class="icon-border"></span> <a href="https://github.com/RamboQiu" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://twitter.com/" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['qiujunyun','163.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>iOS秒开H5实战总结</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>iOS秒开H5实战总结</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Fri, May 7, 2021, 12:00 AM +0800" > May 7 <i class="unloaded">2021-05-07T00:00:00+08:00</i> </span> by <span class="author"> Rambo </span></div><div> <span> Updated <span class="timeago lastmod" data-toggle="tooltip" data-placement="bottom" title="Tue, Jun 22, 2021, 4:12 PM +0800" > Jun 22 <i class="unloaded">2021-06-22T16:12:19+08:00</i> </span> </span> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="7019 words">38 min</span></div></div><div class="post-content"><p>iOS平台的H5网页加载步骤：</p><p>初始化 webview -&gt; 请求页面 -&gt; 下载数据 -&gt; 解析HTML -&gt; 请求 js/css 资源 -&gt; dom 渲染 -&gt; 解析 JS 执行 -&gt; JS 请求数据 -&gt; 解析渲染 -&gt; 下载渲染图片</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/15719123470499212303912394.png" alt="15719123470499212303912394" class="normal" /></p><p>优化的就是从WebView到Dom渲染这一段，总结如下：</p><ol><li>降低请求量：合并资源，减少http请求数量<li>加快请求速度：预解析DNS，减少域名数，并行加载，CDN分发<li>缓存：离线缓存<li>渲染</ol><p>其中本问主要对客户端能做的事情，进行总结：</p><ol><li>离线缓存的web容器离线方案，主要是预先缓存一些静态资源（HTML/JS/CSS/图片等资源），使用H5拦截技术，对要加载的资源进行拦截使用缓存中的。<li>Prefetch：用移动端来并行H5的请求，好比请求缓存<li>容器预热：在计算机空闲的时候，就预热好一个webview在内存中，等待下一次使用<li>预解析DNS、CDN分发</ol><h2 id="1-web容器离线包方案">1. web容器离线包方案</h2><blockquote><p>最关键的环节就是拦截 WebView 发出的请求将资源映射到本地离线包</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/webofflinedata.png" alt="webofflinedata" class="normal" /></p><h3 id="资源更新">资源更新</h3><p>配置表样例</p><div class="language-json highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre><td class="rouge-code"><pre><span class="err">//</span><span class="w"> </span><span class="mi">20210510172834</span><span class="w">
+</span><span class="err">//</span><span class="w"> </span><span class="err">http://xcache.*****/xcache-provider/xhr/client/configure.json</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"553"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"update"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"resourcemap"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"https://*****/ares/0518c371936fd611fc3b897a76c11111.js"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"md5"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0518c371936fd611fc3b897a76c11111"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"download"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://*****/hxm/tech/xcache/1/516/1/cb71c52a-bf85-96e34144a405/https%253A%252F%252F*****%252Fares%252F0518c371936fd611fc3b897a76c11111.js"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"ctype"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/javascript;charset=UTF-8"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"https://*****/ares/43a2f767500fd1a14b07b5fcc6811111.js"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"md5"</span><span class="p">:</span><span class="w"> </span><span class="s2">"43a2f767500fd1a14b07b5fcc6811111"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"download"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://*****/hxm/tech/xcache/1/515/1/ff5e9f80-ace1-4256-b20e-7a40a77c5919/https%253A%252F%252F*****%252Fares%252F43a2f767500fd1a14b07b5fcc6811111.js"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"ctype"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/javascript;charset=UTF-8"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></table></code></div></div><ul><li><p>客户端使用资源的download url作为缓存key，找本地资源。</p><li><p>资源配置表检查更新接口 异常兜底，检查更新接口后端连续异常code 5次，使用的CDN上最新镜像。(APP内置最新CDN镜像链接)</p><li><p>资源配置表检查更新接口 触发时机：启动/打开webview/切前台/退出webview。配置表需要实时更新。</p><li><p>资源配置表检查更新接口，连续触发 疲劳度控制30s内不重复触发。</p><li><p>资源配置表随检查接口一起返回(若有更新)。</p><li><p>APP空闲时机WIFI环境下载资源，并且子线程队列下载优先级最低。</p><li><p>资源表里下线的资源需要删除本地已缓存的资源。</p><li><p>只diff配置表，不去diff资源文件。</p><ul><li>比如用户配置表从200个增加到201个，那么只去下载第201个。即便本地前200个缓存文件因为上次app杀死并没有下载全 也不会去下载前200的资源文件。</ul><li><p>资源url匹配规则url里#参数，如：</p><div class="language-javascript highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="nx">例如web页面的url为</span>
+<span class="nx">https</span><span class="p">:</span><span class="c1">//www.example.com/topic/v1/pub/danV9fm7RGVU.html?_stat_referer=index&amp;_stat_area=banner_2#param</span>
+<span class="nx">可以命中下面的的离线资源</span><span class="p">:</span>
+<span class="nx">https</span><span class="p">:</span><span class="c1">//www.example.com/topic/v1/pub/danV9fm7RGVU.html?_stat_referer=index&amp;_stat_area=banner_2</span>
+</pre></table></code></div></div></ul><h3 id="cdn兜底策略">CDN兜底策略</h3><p>连续5次异常code(code!=200)，切换内置的CDN兜底连接请求最新配置表</p><p>配置测试环境兜底CDN链接： https://www.example.com/hxm/tech/xcache_test/yanxuan/configure.json</p><p>和线上环境兜底CDN链接: https://www.example.com/hxm/tech/xcache/yanxuan/configure.json</p><p>本地根据版本号校验(版本号不相等)是否更新本地配置表</p><h3 id="缓存">缓存</h3><blockquote><p>缓存是模仿<code class="language-plaintext highlighter-rouge">SDImageCache</code>写的</p></blockquote><ul><li><p>资源缓存使用文件存储，以download的url作为缓存资源文件key。</p><li><p>内存缓存大小10M, 磁盘缓存大小100M（内存紧张释放内存缓存）。</p><li><p>支持两级缓存:内存缓存、磁盘缓存</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/webcache.png" alt="webcache" class="normal" /></p></ul><h3 id="h5请求拦截">H5请求拦截</h3><p><a href="https://segmentfault.com/a/1190000039111381">云音乐WKWebView 请求拦截探索与实践</a></p><p>核心思路是NSURLProtocol、wkwebview的body丢失和cookie同步的问题、wkwebview的NSURLPtotocol的私有API注册问题、以及NSURLProtocol的替换方案WKURLSchemeHandler</p><h4 id="nsurlprotocol">NSURLProtocol</h4><p>NSURLProtocol是Foundation 框架里的<a href="https://developer.apple.com/documentation/foundation/url_loading_system">URL Loading System</a>的重要组成部分。它是一个抽象类,不能去实例化它,只能子类化NSURLProtocol，然后使用的时候注册子类。一个相对晦涩难解的类。</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/urlloadingsystem_nsobject_hierarchy.png" alt="urlloadingsystem_nsobject_hierarchy" class="normal" /></p><p>NSURLProtocol在iOS系统中大概处于这样一个位置：</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/aqqpw-9g0us.png" alt="aqqpw-9g0us" class="normal" /></p><blockquote><p>An NSURLProtocol object handles the loading of protocol-specific URL data. The NSURLProtocol class itself is an abstract class that provides the infrastructure for processing URLs with a specific URL scheme. You create subclasses for any custom protocols or URL schemes that your app supports.</p></blockquote><p>可以拦截的网络请求包括NSURLSession，NSURLConnection以及UIWebVIew。基于CFNetwork的网络请求，以及WKWebView的请求是无法拦截的（需要特殊处理，使用系统的私有方法）。现在主流的iOS网络库，例如AFNetworking，Alamofire等网络库都是基于NSURLSession或NSURLConnection的，所以这些网络库的网络请求都可以被NSURLProtocol所拦截。 还有一些年代比较久远的网络库，例如ASIHTTPRequest，MKNetwokit等网路库都是基于CFNetwork的，所以这些网络库的网络请求无法被NSURLProtocol拦截。</p><p>我们使用苹果官方文档中的 <a href="https://developer.apple.com/library/ios/samplecode/CustomHTTPProtocol/CustomHTTPProtocol.zip">CustomHTTPProtocol</a> 进行介绍，你可以点击下载源代码查看。</p><h5 id="使用nsurlprotocol">使用NSURLProtocol</h5><p>NSURLProtocol是一个抽象类，我们要使用它的时候需要创建它的一个子类。</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="k">@interface</span> <span class="nc">CustomHTTPProtocol</span> <span class="p">:</span> <span class="nc">NSURLProtocol</span>
+<span class="k">@end</span>
+</pre></table></code></div></div><h5 id="注册">注册</h5><p>对于基于NSURLConnection或者使用[NSURLSession sharedSession]创建的网络请求，调用registerClass方法即可。</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="p">[</span><span class="n">NSURLProtocol</span> <span class="nf">registerClass</span><span class="p">:[</span><span class="n">NSClassFromString</span><span class="p">(</span><span class="s">@"CustomURLProtocol"</span><span class="p">)</span> <span class="nf">class</span><span class="p">]];</span>
+</pre></table></code></div></div><p>对于基于NSURLSession的网络请求，需要通过配置NSURLSessionConfiguration对象的protocolClasses属性。</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="n">NSURLSessionConfiguration</span> <span class="o">*</span><span class="n">sessionConfiguration</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLSessionConfiguration</span> <span class="nf">defaultSessionConfiguration</span><span class="p">];</span>
+<span class="n">sessionConfiguration</span><span class="p">.</span><span class="n">protocolClasses</span> <span class="o">=</span> <span class="p">@[[</span><span class="n">NSClassFromString</span><span class="p">(</span><span class="s">@"CustomURLProtocol"</span><span class="p">)</span> <span class="nf">class</span><span class="p">]];</span>
+</pre></table></code></div></div><p>注册成功之后，就需要我们的子类去实现抽象方法：</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="c1">// 决定请求是否需要当前协议对象处理,返回NO代表放过这个请求，不作处理。返回YES，代表需要处理，则会进入后续的流程。</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">canInitWithRequest</span><span class="p">:(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span><span class="p">;</span>
+<span class="c1">// 统一处理请求 request 对象的，可以修改头信息，或者重定向。没有特殊需要，则直接return request;</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nf">canonicalRequestForRequest</span><span class="p">:(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span><span class="p">;</span>
+<span class="c1">// 判断网络请求是否一致，一致的话使用缓存数据。没需要就调用 super 的方法</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">requestIsCacheEquivalent</span><span class="p">:(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">a</span> <span class="nf">toRequest</span><span class="p">:(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">b</span><span class="p">;</span>
+<span class="c1">// 子类中最重要的方法就是 -startLoading 和 -stopLoading，实现请求和取消流程。不同的自定义子类在调用这两个方法是会传入不同的内容，但共同点都是要围绕 protocol 客户端进行操作。</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">startLoading</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopLoading</span><span class="p">;</span>
+</pre></table></code></div></div><h5 id="拦截">拦截</h5><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="k">+</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">canInitWithRequest</span><span class="p">:(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span> <span class="p">{</span>
+    <span class="c1">//处理过的，放过</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">NSURLProtocol</span> <span class="nf">propertyForKey</span><span class="p">:</span><span class="n">URLProtocolHandledKey</span> <span class="nf">inRequest</span><span class="p">:</span><span class="n">request</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">//只处理http和https的请求</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[@[</span><span class="s">@"http"</span><span class="p">,</span><span class="s">@"https"</span><span class="p">]</span> <span class="nf">containsObject</span><span class="p">:[[</span><span class="n">request</span> <span class="nf">URL</span><span class="p">]</span> <span class="nf">scheme</span><span class="p">]])</span> <span class="p">{</span>
+      	<span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// 你的逻辑代码，需要和前端进行协议规定</span>
+    <span class="c1">// 1. 本地是否有离线缓存</span>
+    <span class="c1">// 2. 是否是被hook的请求，是否是ajax请求</span>
+    <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><pre><code class="language-objective-c">// 请求经过 + canInitWithRequest: 方法过滤之后，我们得到了所有要处理的请求，接下来需要对请求进行一定的操作，而这都会在 + canonicalRequestForRequest: 中进行，虽然它与 + canInitWithRequest: 方法传入的 request 对象都是一个，但是最好不要在 + canInitWithRequest: 中操作对象，可能会有语义上的问题；所以，我们需要覆写 + canonicalRequestForRequest: 方法提供一个标准的请求对象
++ (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request {
+	return request;
+}
+</code></pre><h5 id="body丢失问题解决">body丢失问题解决</h5><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithRequest</span><span class="p">:(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span> <span class="nf">cachedResponse</span><span class="p">:(</span><span class="n">NSCachedURLResponse</span> <span class="o">*</span><span class="p">)</span><span class="nv">cachedResponse</span> <span class="nf">client</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">NSURLProtocolClient</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">client</span> <span class="p">{</span>
+	<span class="c1">// 在这里去取native中自定义缓存住的body，然后放到request中，后续在wkwebview里面详解</span>
+	<span class="k">return</span> <span class="p">[</span><span class="n">super</span> <span class="nf">initWithRequest</span><span class="p">:</span><span class="n">request</span> <span class="nf">cachedResponse</span><span class="p">:</span><span class="n">cachedResponse</span> <span class="n">client</span><span class="o">:</span><span class="n">client</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h5 id="startloading">startLoading</h5><p>可以在这里修改请求信息，重定向，DNS解析，返回自定义的测试数据。URLProtocolHandledKey就一字符串</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">startLoading</span> <span class="p">{</span>
+    <span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">mutableReqeust</span> <span class="o">=</span> <span class="p">[[</span><span class="n">self</span> <span class="nf">request</span><span class="p">]</span> <span class="nf">mutableCopy</span><span class="p">];</span>
+    <span class="c1">//request处理过的放进去</span>
+    <span class="p">[</span><span class="n">NSURLProtocol</span> <span class="nf">setProperty</span><span class="p">:</span><span class="nb">@YES</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">URLProtocolHandledKey</span> <span class="n">inRequest</span><span class="o">:</span><span class="n">mutableReqeust</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">connection</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLConnection</span> <span class="nf">connectionWithRequest</span><span class="p">:</span><span class="n">mutableReqeust</span> <span class="nf">delegate</span><span class="p">:</span><span class="n">self</span><span class="p">];</span>
+  	<span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="s">@"testData"</span> <span class="nf">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+    <span class="n">NSURLResponse</span> <span class="o">*</span><span class="n">response</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSURLResponse</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithURL</span><span class="p">:</span><span class="n">mutableReqeust</span><span class="p">.</span><span class="n">URL</span>
+                               <span class="nl">MIMEType:</span><span class="s">@"text/plain"</span>
+                               <span class="nl">expectedContentLength:</span><span class="n">data</span><span class="p">.</span><span class="n">length</span>
+                               <span class="nl">textEncodingName:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">client</span> <span class="nf">URLProtocol</span><span class="p">:</span><span class="n">self</span> <span class="nf">didReceiveResponse</span><span class="p">:</span><span class="n">response</span> <span class="n">cacheStoragePolicy</span><span class="o">:</span><span class="n">NSURLCacheStorageNotAllowed</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">client</span> <span class="nf">URLProtocol</span><span class="p">:</span><span class="n">self</span> <span class="nf">didLoadData</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">client</span> <span class="nf">URLProtocolDidFinishLoading</span><span class="p">:</span><span class="n">self</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h5 id="stoploading">stopLoading</h5><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopLoading</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">connection</span> <span class="nf">cancel</span><span class="p">];</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">connection</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h4 id="wkwebview">WKWebView</h4><p>iOS8以后，苹果推出了新框架Webkit，提供了替换UIWebView的组件WKWebView。WKWebView走的是WebKit和URL Loading System没有很大关系，但是还是会调用到URL Loading System中的方法。</p><p>WKWebView相对于UIWebView有各种好处，但是也有自己的问题，由于WKWebView的网络请求是在独立进程中进行，最终会通过IPC把请求Message发送给APP线程，苹果出于性能的考虑，把HTTPBody和HTTPBodyStream两个字段丢弃，导致我们只要开启拦截wkwebview就会丢掉post请求的body数据。</p><h4 id="wkwebview和uiwebview的区别">WKWebView和UIWebView的区别</h4><ol><li><p>引擎</p><p>WKWebView使用和手机Safari浏览器一样的Nitro JavaScript引擎，相比于UIWebView的JavaScript引擎有了非常重要的性能提升。</p><li><p>进程</p><p>wk多进程，在APP主进程之外执行。当内存超过了系统分配给WKWebView的内存时候，会导致WKWebView浏览器崩溃白屏，但是App不会Crash。(app会收到系统通知，并且尝试去重新加载页面)。相反的，UIWebView是和app同一个进程，UIWebView加载页面占用的内存被计算为app内存占用的一部分，当app超过了系统分配的内存，则会被操作系统crash。在整个过程中，会经常收到iOS系统的通知用来防止app被系统kill，但是在某些时候，这些通知不够及时，或者根本没有返回通知。</p></ol><h4 id="请求拦截方案对比">请求拦截方案对比</h4><p><strong>NSURLProtocol</strong> <code class="language-plaintext highlighter-rouge">NSURLProtocol</code> 默认会拦截所有经过 URL Loading System 的请求，因此只要 <code class="language-plaintext highlighter-rouge">WKWebView</code> 发出的请求经过 URL Loading System 就可以被拦截。经过尝试，发现 <code class="language-plaintext highlighter-rouge">WKWebView</code> 独立于应用进程运行，发出去的请求默认是不会经过 URL Loading System，需要我们额外进行 hook 才能支持，具体的方式见下文介绍</p><p><strong>WKURLSchemeHandler</strong> <code class="language-plaintext highlighter-rouge">WKURLSchemeHandler</code> 是 iOS 11 引入的新特性，负责自定义请求的数据管理，如果需要支持 scheme 为 http 或 https请求的数据管理则需要 hook <code class="language-plaintext highlighter-rouge">WKWebView</code> 的 <code class="language-plaintext highlighter-rouge">handlesURLScheme</code>: 方法，然后返回NO即可。 经过一番尝试和分析，我们从以下几个方面将两种方案进行对比:</p><ul><li>隔离性：<code class="language-plaintext highlighter-rouge">NSURLProtocol</code> 一经注册就是全局开启。一般来讲我们只会拦截自己的业务页面，但使用了 <code class="language-plaintext highlighter-rouge">NSURLProtocol</code> 的方式后会导致应用内合作的三方页面也会被拦截从而被污染。<code class="language-plaintext highlighter-rouge">WKURLSchemeHandler</code> 则可以以页面为维度进行隔离，因为是跟随着 <code class="language-plaintext highlighter-rouge">WKWebViewConfiguration</code> 进行配置。<li>稳定性：<code class="language-plaintext highlighter-rouge">NSURLProtocol</code> 拦截过程中会丢失 Body，<code class="language-plaintext highlighter-rouge">WKURLSchemeHandler</code> 在 iOS 11.3 之前 (不包含) 也会丢失 Body，在 iOS 11.3 以后 WebKit 做了优化只会丢失 Blob 类型数据。<li>一致性：<code class="language-plaintext highlighter-rouge">WKWebView</code> 发出的请求被 <code class="language-plaintext highlighter-rouge">NSURLProtocol</code> 拦截后行为可能发生改变，比如想取消 video 标签的视频加载一般都是将资源地址 (src) 设置为空，但此时 <code class="language-plaintext highlighter-rouge">stopLoading</code> 方法却不会调用，相比而言 <code class="language-plaintext highlighter-rouge">WKURLSchemeHandler</code> 表现正常。</ul><p><strong>调研的结论是：<code class="language-plaintext highlighter-rouge">WKURLSchemeHandler</code> 在隔离性、稳定性、一致性上表现优于 <code class="language-plaintext highlighter-rouge">NSURLProtocol</code>，但是想在生产环境投入使用必须要解决 Body 丢失的问题。</strong></p><h4 id="wkwebview的问题解决nsurlprotocol拦截httphttps不到的问题解决">WKWebView的问题解决：NSURLProtocol拦截http、https不到的问题解决</h4><p>这里主要讲下上文中NSURLProtocol在WKWebView中的兼容问题（http、https请求NSURLProtocol拦截不到的问题）。</p><p>我们下载<a href="https://github.com/WebKit/webkit">&lt;WebKit/WebKit.h&gt;</a>的源码来进行阅读。</p><p>全局搜索关键字<code class="language-plaintext highlighter-rouge">NSURLProtocol</code>，如下</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112213.png" alt="screenshot-20210525-112213" class="normal" /></p><p>其实能看到很多我们熟悉的代码<code class="language-plaintext highlighter-rouge">[NSURLProtocol registerClass:[self class]]</code>，然后就会发现，下面都接着一行<code class="language-plaintext highlighter-rouge">[WKBrowsingContextController registerSchemeForCustomProtocol:scheme]</code></p><p>再全局搜下，<code class="language-plaintext highlighter-rouge">NSURLProtocol</code>的继承方法<code class="language-plaintext highlighter-rouge">canInitWithRequest:</code>，还是能找到示例的继承至NSURLProtocol的子类</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112650.png" alt="screenshot-20210525-112650" class="normal" /></p><p>发现，发现webkit中其实和NSURLProtocol有关联的，内部有调用<code class="language-plaintext highlighter-rouge">+ [NSURLProtocol canInitWithRequest:]</code></p><p>点进webkit源码中的<code class="language-plaintext highlighter-rouge">TestProtocol.mm</code>可以看到，整体的结构我们都差不多，但是我注意到</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">registerWithScheme</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">scheme</span> <span class="p">{</span>
+    <span class="n">testScheme</span><span class="p">()</span> <span class="o">=</span> <span class="n">scheme</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">NSURLProtocol</span> <span class="nf">registerClass</span><span class="p">:[</span><span class="n">self</span> <span class="nf">class</span><span class="p">]];</span>
+    <span class="p">[</span><span class="n">WKBrowsingContextController</span> <span class="nf">registerSchemeForCustomProtocol</span><span class="p">:</span><span class="n">scheme</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p><code class="language-plaintext highlighter-rouge">registerSchemeForCustomProtocol</code>实现如下</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre><td class="rouge-code"><pre><span class="p">[</span><span class="n">WKBrowsingContextController</span> <span class="nf">registerSchemeForCustomProtocol</span><span class="p">:</span><span class="n">testScheme</span><span class="p">];</span>
+
+<span class="c1">// 实现如下</span>
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">registerSchemeForCustomProtocol</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">scheme</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">NSThread</span> <span class="nf">isMainThread</span><span class="p">])</span>
+        <span class="n">WebKit</span><span class="o">::</span><span class="n">WebProcessPool</span><span class="o">::</span><span class="n">registerGlobalURLSchemeAsHavingCustomProtocolHandlers</span><span class="p">(</span><span class="n">scheme</span><span class="p">);</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// This cannot be RunLoop::main().dispatch because it is called before the main runloop is initialized.  See rdar://problem/73615999</span>
+        <span class="n">WorkQueue</span><span class="o">::</span><span class="n">main</span><span class="p">().</span><span class="n">dispatch</span><span class="p">([</span><span class="n">scheme</span> <span class="o">=</span> <span class="n">retainPtr</span><span class="p">(</span><span class="n">scheme</span><span class="p">)]</span> <span class="p">{</span>
+            <span class="n">WebKit</span><span class="o">::</span><span class="n">WebProcessPool</span><span class="o">::</span><span class="n">registerGlobalURLSchemeAsHavingCustomProtocolHandlers</span><span class="p">(</span><span class="n">scheme</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">WebProcessPool</span><span class="o">::</span><span class="n">registerGlobalURLSchemeAsHavingCustomProtocolHandlers</span><span class="p">(</span><span class="k">const</span> <span class="n">String</span><span class="o">&amp;</span> <span class="n">urlScheme</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">urlScheme</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">;</span>
+
+    <span class="n">InitializeWebKit2</span><span class="p">();</span>
+    <span class="n">globalURLSchemesWithCustomProtocolHandlers</span><span class="p">().</span><span class="n">add</span><span class="p">(</span><span class="n">urlScheme</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">networkProcess</span> <span class="o">:</span> <span class="n">NetworkProcessProxy</span><span class="o">::</span><span class="n">allNetworkProcesses</span><span class="p">())</span>
+        <span class="n">networkProcess</span><span class="o">-&gt;</span><span class="n">registerSchemeForLegacyCustomProtocol</span><span class="p">(</span><span class="n">urlScheme</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>通过分析猜想，WKWebview并不是不走NSURLProtocol，而是需要满足他的一个规则，他才会在入口函数这里返回YES来给你放行，这个规则便是你所请求的URL的Scheme要和它内部配置的CustomScheme相同。不过这里有一个疑问，苹果在使用webkit时候为什么会把http/https这样大众化的scheme过滤掉，看来他是不建议开发者来使用NSURLProtocol。接下来我们来看这个CustomScheme，既然苹果内部规定好的那么一定能通过某种方式来注册一个自己的scheme，实在不行就hook。</p><blockquote><p>使用了私有api有一定的审核风险， 由于要拦截wkwebview的http/https请求 必须要使用私有api WKBrowsingContextController</p></blockquote><p>我们可以使用ASCII编码混淆方式进行编码</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre><td class="rouge-code"><pre><span class="c1">//开启wkwebview 网络拦截</span>
+<span class="kt">char</span> <span class="n">cc</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mh">0x57</span><span class="p">,</span><span class="mh">0x4b</span><span class="p">,</span><span class="mh">0x42</span><span class="p">,</span><span class="mh">0x72</span><span class="p">,</span><span class="mh">0x6f</span><span class="p">,</span><span class="mh">0x77</span><span class="p">,</span><span class="mh">0x73</span><span class="p">,</span><span class="mh">0x69</span><span class="p">,</span><span class="mh">0x6e</span><span class="p">,</span><span class="mh">0x67</span><span class="p">,</span><span class="mh">0x43</span><span class="p">,</span><span class="mh">0x6f</span><span class="p">,</span><span class="mh">0x6e</span><span class="p">,</span><span class="mh">0x74</span><span class="p">,</span><span class="mh">0x65</span><span class="p">,</span><span class="mh">0x78</span><span class="p">,</span><span class="mh">0x74</span><span class="p">,</span><span class="mh">0x43</span><span class="p">,</span><span class="mh">0x6f</span><span class="p">,</span><span class="mh">0x6e</span><span class="p">,</span><span class="mh">0x74</span><span class="p">,</span><span class="mh">0x72</span><span class="p">,</span><span class="mh">0x6f</span><span class="p">,</span><span class="mh">0x6c</span><span class="p">,</span><span class="mh">0x6c</span><span class="p">,</span><span class="mh">0x65</span><span class="p">,</span><span class="mh">0x72</span><span class="p">,</span><span class="sc">'\0'</span><span class="p">};</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">ccString</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithCString</span><span class="p">:</span><span class="n">cc</span> <span class="nf">encoding</span><span class="p">:</span><span class="n">NSASCIIStringEncoding</span><span class="p">];</span>
+<span class="kt">char</span> <span class="n">rs</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mh">0x72</span><span class="p">,</span><span class="mh">0x65</span><span class="p">,</span><span class="mh">0x67</span><span class="p">,</span><span class="mh">0x69</span><span class="p">,</span><span class="mh">0x73</span><span class="p">,</span><span class="mh">0x74</span><span class="p">,</span><span class="mh">0x65</span><span class="p">,</span><span class="mh">0x72</span><span class="p">,</span><span class="mh">0x53</span><span class="p">,</span><span class="mh">0x63</span><span class="p">,</span><span class="mh">0x68</span><span class="p">,</span><span class="mh">0x65</span><span class="p">,</span><span class="mh">0x6d</span><span class="p">,</span><span class="mh">0x65</span><span class="p">,</span><span class="mh">0x46</span><span class="p">,</span><span class="mh">0x6f</span><span class="p">,</span><span class="mh">0x72</span><span class="p">,</span><span class="mh">0x43</span><span class="p">,</span><span class="mh">0x75</span><span class="p">,</span><span class="mh">0x73</span><span class="p">,</span><span class="mh">0x74</span><span class="p">,</span><span class="mh">0x6f</span><span class="p">,</span><span class="mh">0x6d</span><span class="p">,</span><span class="mh">0x50</span><span class="p">,</span><span class="mh">0x72</span><span class="p">,</span><span class="mh">0x6f</span><span class="p">,</span><span class="mh">0x74</span><span class="p">,</span><span class="mh">0x6f</span><span class="p">,</span><span class="mh">0x63</span><span class="p">,</span><span class="mh">0x6f</span><span class="p">,</span><span class="mh">0x6c</span><span class="p">,</span><span class="mh">0x3a</span><span class="p">,</span><span class="mh">0x00</span><span class="p">,</span><span class="sc">'\0'</span><span class="p">};</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">rsString</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithCString</span><span class="p">:</span><span class="n">rs</span> <span class="nf">encoding</span><span class="p">:</span><span class="n">NSASCIIStringEncoding</span><span class="p">];</span>
+<span class="n">id</span> <span class="n">contextController</span> <span class="o">=</span> <span class="n">NSClassFromString</span><span class="p">(</span><span class="n">ccString</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">contextController</span><span class="p">)</span> <span class="p">{</span>
+  	<span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">SEL</span> <span class="n">performSEL</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="n">performSEL</span> <span class="o">=</span> <span class="n">NSSelectorFromString</span><span class="p">(</span><span class="n">rsString</span><span class="p">);</span>
+<span class="cp">#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+</span><span class="k">if</span> <span class="p">([</span><span class="n">contextController</span> <span class="nf">respondsToSelector</span><span class="p">:</span><span class="n">performSEL</span><span class="p">])</span> <span class="p">{</span>
+  	<span class="p">[</span><span class="n">contextController</span> <span class="nf">performSelector</span><span class="p">:</span><span class="n">performSEL</span> <span class="nf">withObject</span><span class="p">:</span><span class="s">@"http"</span><span class="p">];</span>
+  	<span class="p">[</span><span class="n">contextController</span> <span class="nf">performSelector</span><span class="p">:</span><span class="n">performSEL</span> <span class="nf">withObject</span><span class="p">:</span><span class="s">@"https"</span><span class="p">];</span>
+  	<span class="n">self</span><span class="p">.</span><span class="n">wkWebviewNetworkProxy</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>                                       <span class="c1">//标识开启wkwebview 网络代理</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  	<span class="n">NSAssert</span><span class="p">(</span><span class="nb">NO</span><span class="p">,</span> <span class="s">@"wk拦截失败"</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">#pragma clang diagnostic pop
+</span><span class="err">}</span> <span class="k">@catch</span> <span class="p">(</span><span class="n">NSException</span> <span class="o">*</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+  	<span class="n">YXLogInfo</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span><span class="n">e</span><span class="p">);</span>
+  	<span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h4 id="wkwebview的问题解决body丢失问题">WKWebView的问题解决：Body丢失问题</h4><p><strong>wkwebview 开启拦截wkwebview的http/https请求，webview里post请求的body会丢失。ajax请求、form表单请求、fetch请求的body都会丢失。</strong></p><p>我们通过修改 JavaScript 原生的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">Fetch</a> / <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a> 等接口实现来提前拿到 Body 数据，方案设计如下图所示：</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112214.png" alt="screenshot-20210525-112214" class="normal" /></p><p>初始化WKWebiew的注入js</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre><span class="c1">//注入脚本</span>
+<span class="n">WKUserContentController</span> <span class="o">*</span><span class="n">wkUserContent</span> <span class="o">=</span> <span class="n">userContentControlle</span><span class="p">;</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">path</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSBundle</span> <span class="nf">mainBundle</span><span class="p">]</span> <span class="nf">pathForResource</span><span class="p">:</span><span class="s">@"wkwebview-interceptor"</span> <span class="nf">ofType</span><span class="p">:</span><span class="s">@"js"</span><span class="p">];</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">jsScript</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithContentsOfFile</span><span class="p">:</span><span class="n">path</span> <span class="nf">encoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span> <span class="n">error</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="k">if</span> <span class="p">([</span><span class="n">jsScript</span> <span class="nf">yx_isValidString</span><span class="p">])</span> <span class="p">{</span>
+  	<span class="n">WKUserScript</span> <span class="o">*</span><span class="n">userScript</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WKUserScript</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithSource</span><span class="p">:</span><span class="n">jsScript</span> <span class="nf">injectionTime</span><span class="p">:</span><span class="n">WKUserScriptInjectionTimeAtDocumentStart</span> <span class="n">forMainFrameOnly</span><span class="o">:</span><span class="nb">NO</span><span class="p">];</span>
+  	<span class="p">[</span><span class="n">wkUserContent</span> <span class="nf">addUserScript</span><span class="p">:</span><span class="n">userScript</span><span class="p">];</span> <span class="c1">//注入hook脚本</span>
+<span class="p">}</span>
+<span class="c1">//增加wkwebview mesage handler</span>
+<span class="c1">//通信，通过注入的脚本，获取到header和body</span>
+<span class="p">[</span><span class="n">wkUserContent</span> <span class="nf">addScriptMessageHandler</span><span class="p">:[</span><span class="n">WKwebviewAjaxRequest</span> <span class="nf">new</span><span class="p">]</span> <span class="nf">name</span><span class="p">:</span><span class="s">@"XHRCALL"</span><span class="p">];</span>
+<span class="c1">//通信，通过注入的脚本，获取到cookie</span>
+<span class="p">[</span><span class="n">wkUserContent</span> <span class="nf">addScriptMessageHandler</span><span class="p">:[</span><span class="n">WKDocumentSetCookie</span> <span class="nf">new</span><span class="p">]</span> <span class="nf">name</span><span class="p">:</span><span class="s">@"COOKIECALL"</span><span class="p">];</span>
+</pre></table></code></div></div><h5 id="脚本替换fetch实现">脚本替换Fetch实现</h5><p>注入的脚本主要完成的事情是：修改 <code class="language-plaintext highlighter-rouge">Fetch</code> 接口的处理逻辑，在请求发出去之前能将 Body 等参数收集起来传递给原生应用。通过这种方式来解决body丢失的问题。</p><div class="language-js highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="nb">window</span><span class="p">.</span><span class="nx">fetch</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">options</span><span class="p">){</span>
+<span class="p">}</span>
+</pre></table></code></div></div><blockquote><p>注入脚本的实习细节感兴趣的可以底部评论</p></blockquote><h5 id="修复body缺失问题">修复Body缺失问题</h5><p>即上图中的第八步</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre><td class="rouge-code"><pre>
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithRequest</span><span class="p">:(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span> <span class="nf">cachedResponse</span><span class="p">:(</span><span class="n">NSCachedURLResponse</span> <span class="o">*</span><span class="p">)</span><span class="nv">cachedResponse</span> <span class="nf">client</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">NSURLProtocolClient</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">client</span> <span class="p">{</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">requestId</span> <span class="o">=</span> <span class="p">[</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span> <span class="nf">webCache_isHookedRequestId</span><span class="p">];</span>
+    
+    <span class="k">if</span> <span class="p">([</span><span class="n">requestId</span> <span class="nf">isValidString</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="p">[</span><span class="n">request</span> <span class="nf">webCache_isShouldSaveBodySync</span><span class="p">])</span> <span class="p">{</span>
+        <span class="c1">//同步虚拟请求不要拿出body, 只有正式请求才取出body</span>
+        <span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">mRequest</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">mutableCopy</span><span class="p">;</span>
+      	<span class="c1">//获取到注入脚本传输过来的body</span>
+        <span class="n">id</span> <span class="n">body</span> <span class="o">=</span>  <span class="p">[[</span><span class="n">WebCacheStoreManager</span> <span class="nf">shareWebCacheStoreManger</span><span class="p">]</span> <span class="nf">getBodyForRequestIdAndRemove</span><span class="p">:</span><span class="n">requestId</span><span class="p">];</span>
+      	<span class="c1">//获取到注入脚本传输过来的header</span>
+        <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">header</span> <span class="o">=</span> <span class="p">[[</span><span class="n">WebCacheStoreManager</span> <span class="nf">shareWebCacheStoreManger</span><span class="p">]</span> <span class="nf">getHeaderForRequestIdAndRemove</span><span class="p">:</span><span class="n">requestId</span><span class="p">];</span>
+        <span class="n">NSData</span> <span class="o">*</span><span class="n">bodyData</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">([</span><span class="n">body</span> <span class="nf">isValidString</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">bodyData</span> <span class="o">=</span> <span class="p">[</span><span class="n">body</span> <span class="nf">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="n">body</span> <span class="nf">isKindOfClass</span><span class="p">:</span><span class="n">NSDictionary</span><span class="p">.</span><span class="n">class</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+            <span class="n">bodyData</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSJSONSerialization</span> <span class="nf">dataWithJSONObject</span><span class="p">:</span><span class="n">body</span> <span class="nf">options</span><span class="p">:</span><span class="mi">0</span> <span class="n">error</span><span class="o">:&amp;</span><span class="n">error</span><span class="p">];</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">LogInfo</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span><span class="n">error</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="n">body</span> <span class="nf">isKindOfClass</span><span class="p">:</span><span class="n">NSData</span><span class="p">.</span><span class="n">class</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">bodyData</span> <span class="o">=</span> <span class="n">body</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="p">[</span><span class="n">header</span> <span class="nf">enumerateKeysAndObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">key</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">obj</span><span class="p">,</span> <span class="n">BOOL</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">([</span><span class="n">key</span> <span class="nf">isValidString</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">[</span><span class="n">obj</span> <span class="nf">isValidString</span><span class="p">])</span> <span class="p">{</span>
+                <span class="p">[</span><span class="n">mRequest</span> <span class="nf">setValue</span><span class="p">:</span><span class="n">obj</span> <span class="nf">forHTTPHeaderField</span><span class="p">:</span><span class="n">key</span><span class="p">];</span>
+            <span class="p">}</span>
+        <span class="p">}];</span>
+        
+        <span class="n">mRequest</span><span class="p">.</span><span class="n">HTTPBody</span> <span class="o">=</span> <span class="n">bodyData</span><span class="p">;</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">mRequest</span><span class="p">.</span><span class="n">copy</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">super</span> <span class="nf">initWithRequest</span><span class="p">:</span><span class="n">request</span> <span class="nf">cachedResponse</span><span class="p">:</span><span class="n">cachedResponse</span> <span class="n">client</span><span class="o">:</span><span class="n">client</span><span class="p">];</span>
+<span class="p">}</span>
+
+</pre></table></code></div></div><h5 id="请求body传输协议">请求Body传输协议</h5><div class="table-wrapper"><table><thead><tr><th>属性<th>含义<th>数据类型<th>是否必须<tbody><tr><td>requestId<td>请求id,全局唯一<td>string<td>是<tr><td>body<td>请求body<td>object<td>是<tr><td>headers<td>请求Header<td>Dictionary&lt;NSString<em>, NSString</em>&gt;<td>否<tr><td>wkwebview-request-id<td>url参数带上真实请求id key<td>string<td>否</table></div><div class="language-js highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre><span class="c1">//js -&gt; native（将请求body传给客户端）</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">webkit</span><span class="p">.</span><span class="nx">messageHandlers</span><span class="p">.</span><span class="nx">YXXHRCALL</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({</span><span class="dl">"</span><span class="s2">requestId</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">****</span><span class="dl">"</span><span class="p">,</span><span class="na">body</span><span class="p">:{}})</span>
+
+<span class="c1">//native-&gt;js (客户端保存body保存成功回调)</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">yx_realxhr_callback</span><span class="p">(</span><span class="nx">requestId</span><span class="p">)</span>
+
+<span class="c1">//正式请求id通过url参数传递给客户端：  js-&gt;native</span>
+<span class="nx">yx</span><span class="o">-</span><span class="nx">wkwebview</span><span class="o">-</span><span class="nx">request</span><span class="o">-</span><span class="nx">id</span><span class="o">=</span><span class="nx">qjyuim27rn91593759831452</span>
+</pre></table></code></div></div><h4 id="wkwebview的问题解决cookie同步问题">WKWebView的问题解决：Cookie同步问题</h4><ol><li>wk开启http/https请求拦截之后会导致wk里的请求header里的cookie默认从 NSHTTPCookieStorage里取，没有从wkcookie里取。导致js document里设置的cookie ，请求header没有带上。<li>开启拦截之后，reponse里的set-cookie会自动同步到NSHTTPCookieStorage里，没有同步到wkcookie，导致document.拿不到cookie。</ol><h5 id="cookie同步流程">Cookie同步流程</h5><ol><li>docuemnt.setcookie 通知客户端将cookie同步到NSHTTPCookieStorage<li>收到请求的response，将response set-cookie通过js 同步到wkCookie。(ios11以上使用WKWebsiteDataStore进行同步)<li>根据请求的header里的x-wkwebview-request-type ，标识当前请求的response set-cookie 需要阻塞式同步到wkwebview.</ol><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112215.png" alt="screenshot-20210525-112215" class="normal" /></p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+</pre><td class="rouge-code"><pre><span class="c1">//document设置cookie</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">userContentController</span><span class="p">:(</span><span class="n">WKUserContentController</span> <span class="o">*</span><span class="p">)</span><span class="nv">userContentController</span>
+      <span class="nf">didReceiveScriptMessage</span><span class="p">:(</span><span class="n">WKScriptMessage</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span> <span class="p">{</span>
+    
+    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">body</span>  <span class="o">=</span> <span class="n">message</span><span class="p">.</span><span class="n">body</span><span class="p">;</span>
+    <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSHTTPCookiePropertyKey</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">tmpMDic</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableDictionary</span> <span class="nf">dictionary</span><span class="p">];</span>
+    <span class="k">if</span><span class="p">([</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"name"</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">tmpMDic</span> <span class="nf">setValue</span><span class="p">:[</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"name"</span><span class="p">]</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">NSHTTPCookieName</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"value"</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">tmpMDic</span> <span class="nf">setValue</span><span class="p">:[</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"value"</span><span class="p">]</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">NSHTTPCookieValue</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"originurl"</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">tmpMDic</span> <span class="nf">setValue</span><span class="p">:[</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"originurl"</span><span class="p">]</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">NSHTTPCookieOriginURL</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"domain"</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">tmpMDic</span> <span class="nf">setValue</span><span class="p">:[</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"domain"</span><span class="p">]</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">NSHTTPCookieDomain</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"path"</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">tmpMDic</span> <span class="nf">setValue</span><span class="p">:[</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"path"</span><span class="p">]</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">NSHTTPCookiePath</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"expires"</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">tmpMDic</span> <span class="nf">setValue</span><span class="p">:[[</span><span class="n">WebViewCacheManager</span> <span class="nf">cookieDateFormatter</span><span class="p">]</span> <span class="nf">dateFromString</span><span class="p">:[</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"expires"</span><span class="p">]]</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">NSHTTPCookieExpires</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"maximumage"</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">tmpMDic</span> <span class="nf">setValue</span><span class="p">:[</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"maximumage"</span><span class="p">]</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">NSHTTPCookieMaximumAge</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">body</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"secure"</span><span class="p">])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">tmpMDic</span> <span class="nf">setValue</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">)</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">NSHTTPCookieSecure</span><span class="p">];</span>
+    <span class="p">}</span>
+    
+    <span class="p">[</span><span class="n">tmpMDic</span> <span class="nf">setValue</span><span class="p">:</span><span class="n">kWebCacheWkwebviewFromDocumentCookieIdentifier</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">NSHTTPCookieComment</span><span class="p">];</span>
+    
+    <span class="n">NSHTTPCookie</span> <span class="o">*</span><span class="n">cookie</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSHTTPCookie</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithProperties</span><span class="p">:</span><span class="n">tmpMDic</span><span class="p">.</span><span class="n">copy</span><span class="p">];</span>
+    <span class="p">[[</span><span class="n">NSHTTPCookieStorage</span> <span class="nf">sharedHTTPCookieStorage</span><span class="p">]</span> <span class="nf">setCookie</span><span class="p">:</span><span class="n">cookie</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h5 id="documentsetcookie传输协议">document.setCookie传输协议</h5><div class="table-wrapper"><table><thead><tr><th>属性<th>含义<th>数据类型<th>是否必须<tbody><tr><td>name<td>cookie 名称<td>string<td>是<tr><td>value<td>cookie 值<td>object<td>是<tr><td>originurl<td>cookie 原始url<td>string<td>否<tr><td>domain<td>cookie 域名<td>string<td>是<tr><td>path<td>cookie path<td>string<td>是<tr><td>expires<td>cookie 过期时间<td>string<td>否<tr><td>maximumage<td>cookie max过期时间<td>string<td>否<tr><td>secure<td>cookie secure<td>string<td>否</table></div><p>同步cookie的js方法</p><div class="language-js highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="c1">//js-&gt;native (docuemnt.setcookie 通知客户端同步到NSHTTPCookieStorage)</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">webkit</span><span class="p">.</span><span class="nx">messageHandlers</span><span class="p">.</span><span class="nx">COOKIECALL</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({</span><span class="dl">"</span><span class="s2">**</span><span class="dl">"</span><span class="p">:</span><span class="dl">"</span><span class="s2">****</span><span class="dl">"</span><span class="p">})</span>
+
+<span class="c1">//native-&gt;js (客户端将NSHTTPCookieStorage同步到 js的document)</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">original_cookie</span><span class="o">=</span><span class="dl">'</span><span class="s1">****</span><span class="dl">'</span><span class="p">;</span>
+</pre></table></code></div></div><h2 id="2-prefetch">2. Prefetch</h2><blockquote><p>帮助h5做接口请求，缓存接口数据给h5用</p></blockquote><p>普通页面首屏声明周期</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112216.png" alt="screenshot-20210525-112216" class="normal" /></p><p>Prefetch页面首屏声明周期</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112217.png" alt="screenshot-20210525-112217" class="normal" /></p><h3 id="客户端流程图">客户端流程图</h3><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112218.png" alt="screenshot-20210525-112217" class="normal" /></p><h3 id="配置表协议">配置表协议</h3><div class="language-json highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre><td class="rouge-code"><pre><span class="p">{</span><span class="w">
+  </span><span class="nl">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"prefetchConfig"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://test.*****.com/act/pre/ApRflg5XnZqP.html"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"interfaces"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"api"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://test.*****.com/act/napi/distribution/info"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"urlParam"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"api"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://test.*****.com/topic/v1/ding/sinkList.json"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"POST"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"urlParam"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"bodyParam"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"body"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="nl">"visitRecord"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                
+              </span><span class="p">}</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></table></code></div></div><h4 id="urlparam和bodyparam">urlParam和bodyParam</h4><p><strong>get请求</strong> urlParam: true</p><div class="language-js highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre><span class="p">{</span>
+    <span class="nl">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https//m.******.com/help/new?id=163&amp;itemId=126</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">interfaces</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="na">api</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://m.******.com/xx.json</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">get</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">urlParam</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1">// 代理请求结构</span>
+<span class="nl">https</span><span class="p">:</span><span class="c1">//m.******.com/xx.json?id=163&amp;itemId=126</span>
+</pre></table></code></div></div><p><strong>post请求</strong> urlParam: true bodyParam: true</p><div class="language-js highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+</pre><td class="rouge-code"><pre><span class="c1">// urlParam: true</span>
+<span class="p">{</span>
+    <span class="nl">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https//m.******.com/help/new?id=163&amp;itemId=126</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">interfaces</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="na">api</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://m.******.com/xx.json</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">get</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">urlParam</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">cityId</span><span class="p">:</span> <span class="mi">123456</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="c1">// 代理请求结构</span>
+<span class="nl">https</span><span class="p">:</span><span class="c1">//m.******.com/xx.json?id=163&amp;itemId=126</span>
+<span class="nl">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">cityId</span><span class="p">:</span> <span class="mi">123456</span>
+<span class="p">}</span>
+
+
+
+<span class="c1">// bodyParam: true</span>
+<span class="p">{</span>
+    <span class="na">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https//m.******.com/help/new?id=163&amp;itemId=126</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">interfaces</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="na">api</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://m.******.com/xx.json</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">get</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">bodyParam</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">body</span><span class="p">:</span> <span class="p">{</span>   
+                <span class="na">cityId</span><span class="p">:</span> <span class="mi">123456</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="c1">// 代理请求结构</span>
+<span class="nl">https</span><span class="p">:</span><span class="c1">//m.******.com/xx.json</span>
+<span class="nl">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>   <span class="c1">// 字符串，这里为了数据展示，改成JSON.stringify表示</span>
+    <span class="na">cityId</span><span class="p">:</span> <span class="mi">123456</span><span class="p">,</span>
+    <span class="na">id</span><span class="p">:</span> <span class="mi">163</span><span class="p">,</span>
+    <span class="na">itemId</span><span class="p">:</span> <span class="mi">126</span>
+<span class="p">})</span>
+
+
+<span class="c1">// urlParam: true</span>
+<span class="c1">// bodyParam: true</span>
+<span class="p">{</span>
+    <span class="nl">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https//m.******.com/help/new?id=163&amp;itemId=126</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">interfaces</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="na">api</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://m.******.com/xx.json</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">get</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">urlParam</span><span class="p">:</span> <span class="kc">true</span>
+            <span class="na">bodyParam</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">cityId</span><span class="p">:</span> <span class="mi">123456</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+<span class="c1">// 代理请求结构</span>
+<span class="nl">https</span><span class="p">:</span><span class="c1">//m.******.com/xx.json?id=163&amp;itemId=126</span>
+<span class="nl">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>   <span class="c1">// 字符串，这里为了数据展示，改成JSON.stringify表示</span>
+    <span class="na">cityId</span><span class="p">:</span> <span class="mi">123456</span><span class="p">,</span>
+    <span class="na">id</span><span class="p">:</span> <span class="mi">163</span><span class="p">,</span>
+    <span class="na">itemId</span><span class="p">:</span> <span class="mi">126</span>
+<span class="p">})</span>
+</pre></table></code></div></div><h2 id="3-容器预热">3. 容器预热</h2><blockquote><p>容器预热，即是将WKWebView进行提前加载，需要注意的就是很多业务逻辑都是需要通过url去实时加载的，可以做到的是能先提前加载的就提前加载好</p></blockquote><p>方案很简单，项目中注意就是各类脚本注入的问题，可参考文章，<a href="https://juejin.cn/post/6844903860977287176#heading-1">WKWebView复用池</a></p><h2 id="4-dns-prefetch">4. DNS-Prefetch</h2><h3 id="简介">简介</h3><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112221.png" alt="screenshot-20210525-112221" class="normal" /></p><p>DNS-Prefetch解决的就是上图中，DNS解析的时间优化。</p><p>DNS Prefetch，即DNS预获取，是H5加载优化的一部分。一般来说，在前端优化中与 DNS 有关的有两点： <strong>一个是减少DNS的请求次数，另一个就是进行DNS预获取</strong> 。</p><p>DNS 作为互联网的基础协议，其解析的速度似乎很容易被网站优化人员忽视。现在大多数新浏览器已经针对DNS解析进行了优化，典型的一次DNS解析需要耗费 20-120 毫秒，减少DNS解析时间和次数是个很好的优化方式。DNS Prefetching 是让具有此属性的域名不需要用户点击链接就在后台解析，而域名解析和内容载入是串行的网络操作，所以这个方式能 <strong>减少用户的等待时间，提升用户体验</strong> 。</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112222.png" alt="screenshot-20210525-112221" class="normal" /></p><p>针对移动端出现的大量应用内请求失败的调研，运营商 LocalDNS 被劫持导致请求失败出现频率较高。传统的 <strong>UDP LocalDNS</strong> 解析容易遭到劫持，针对此种情况，提出的通过 HTTP 请求解析 domain，成功规避了 LocalDNS 被劫持的可能。</p><p>HTTPDNS 通过 HTTP 接口对外提供域名解析服务，然后直接使用解析到的 IP 地址去请求原来的服务，从而绕过运营商的Local DNS</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112219.png" alt="screenshot-20210525-112219" class="normal" /></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112220.png" alt="screenshot-20210525-112220" class="normal" /></p><p>HTTPDNS我们这里项目中用的是网易杭研提供的HTTPDNS服务，HTTPDNS更新策略和LocalDNS优先逻辑如下：</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112223.png" alt="screenshot-20210525-112220" class="normal" /></p><p>通过HTTPDNS获取到IP之后，我们就需要通过IP直连的方式链接到服务器，但是会导致两个问题：</p><ol><li>证书HOST检验问题<li>SNI问题</ol><h4 id="https-裸ip证书校验">https 裸ip证书校验</h4><p>终端在SSL握手过程会校验当前请求URL的HOST是否在服务端证书的可选域名列表里。</p><p>比如想要请求<a href="https://a.html5.qq.com/">https://a.html5.qq.com</a>,使用IP直连接后实际请求的URL为：<a href="https://183.21.152.52/">https://183.21.152.52:443</a>此时服务端返回的证书可选域名列表如下：</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210525-112224.png" alt="screenshot-20210525-112224" class="normal" /></p><p>由于请求的HOST域名被替换成IP，导致底层在进行证书验证的时候验证失败。</p><p>解决办法：在证书检验的方法会调用，使用原始域名进行校验，如下</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+</pre><td class="rouge-code"><pre><span class="c1">//裸ip证书校验</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">URLSession</span><span class="p">:(</span><span class="n">NSURLSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">session</span> <span class="nf">task</span><span class="p">:(</span><span class="n">NSURLSessionTask</span> <span class="o">*</span><span class="p">)</span><span class="nv">task</span> <span class="nf">didReceiveChallenge</span><span class="p">:(</span><span class="n">NSURLAuthenticationChallenge</span> <span class="o">*</span><span class="p">)</span><span class="nv">challenge</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionAuthChallengeDisposition</span> <span class="n">disposition</span><span class="p">,</span> <span class="n">NSURLCredential</span> <span class="o">*</span><span class="n">credential</span><span class="p">))</span><span class="nv">completionHandler</span> <span class="p">{</span>
+    
+    <span class="n">NSURLSessionAuthChallengeDisposition</span> <span class="n">disposition</span> <span class="o">=</span> <span class="n">NSURLSessionAuthChallengePerformDefaultHandling</span><span class="p">;</span>
+    <span class="n">__block</span> <span class="n">NSURLCredential</span> <span class="o">*</span><span class="n">credential</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">([</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">authenticationMethod</span> <span class="nf">isEqualToString</span><span class="p">:</span><span class="n">NSURLAuthenticationMethodServerTrust</span><span class="p">])</span> <span class="p">{</span>
+        
+        <span class="c1">//获取原始域名</span>
+        <span class="n">NSString</span><span class="o">*</span> <span class="n">host</span> <span class="o">=</span> <span class="p">[[</span><span class="n">self</span><span class="p">.</span><span class="n">request</span> <span class="nf">allHTTPHeaderFields</span><span class="p">]</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"host"</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">host</span> <span class="nf">yx_isValidString</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">URL</span><span class="p">.</span><span class="n">host</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">([</span><span class="n">HTTPDNSManager</span> <span class="nf">shareHttpDnsManager</span><span class="p">].</span><span class="n">httpDnsServiceIsStarted</span> <span class="o">&amp;&amp;</span>
+            <span class="p">[</span><span class="n">HTTPDNSManager</span> <span class="nf">shareHttpDnsManager</span><span class="p">].</span><span class="n">allowUseHTTPDNS</span> <span class="o">&amp;&amp;</span>
+            <span class="p">[</span><span class="n">host</span> <span class="nf">isValidString</span><span class="p">])</span> <span class="p">{</span>
+            <span class="c1">//httpdns 证书校验</span>
+            <span class="n">credential</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLCredential</span> <span class="nf">credentialForTrust</span><span class="p">:</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">serverTrust</span><span class="p">];</span>
+            <span class="n">disposition</span> <span class="o">=</span> <span class="n">NSURLSessionAuthChallengeUseCredential</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">//SD默认证书校验分支</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">options</span> <span class="o">&amp;</span> <span class="n">SDWebImageDownloaderAllowInvalidSSLCertificates</span><span class="p">))</span> <span class="p">{</span>
+                <span class="n">disposition</span> <span class="o">=</span> <span class="n">NSURLSessionAuthChallengePerformDefaultHandling</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="c1">//允许使用野鸡证书</span>
+                <span class="n">credential</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLCredential</span> <span class="nf">credentialForTrust</span><span class="p">:</span><span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">serverTrust</span><span class="p">];</span>
+                <span class="n">disposition</span> <span class="o">=</span> <span class="n">NSURLSessionAuthChallengeUseCredential</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">([</span><span class="n">challenge</span> <span class="nf">previousFailureCount</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">credential</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">credential</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">credential</span><span class="p">;</span>
+                <span class="n">disposition</span> <span class="o">=</span> <span class="n">NSURLSessionAuthChallengeUseCredential</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">disposition</span> <span class="o">=</span> <span class="n">NSURLSessionAuthChallengeCancelAuthenticationChallenge</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">disposition</span> <span class="o">=</span> <span class="n">NSURLSessionAuthChallengeCancelAuthenticationChallenge</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">completionHandler</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">completionHandler</span><span class="p">(</span><span class="n">disposition</span><span class="p">,</span> <span class="n">credential</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h4 id="https-sni适配">https SNI适配</h4><p>解决了上述问题后，理论上就可以进行IP直连。但是还会有存在：一个IP转发层部署了多个域名的证书（SNI情况）。而终端使用IP直连时，服务端SSL握手阶段会获取到域名调度后的IP，服务端无法找到匹配证书时，只能返回默认的证书或者不返回，没有可匹配的证书，导致校验失败。</p><p>SNI（Server Name Indication）是为了解决一个服务器使用多个域名和证书的SSL/TLS扩展。它的工作原理如下：</p><ol><li>在连接到服务器建立SSL链接之前先发送要访问站点的域名（Hostname）。<li>服务器根据这个域名返回一个合适的证书。</ol><p>通常情况下我们的证书是和域名绑定的，有时候会存在一个 IP 对应多个域名的情况，这种情况如果客户端 IP 直连的时候，没有告诉服务端他要请求的是哪个域名的证书，服务端就没办法返回正确的证书，从而导致客户端证书校验失败。</p><p>SNI 的全称 Server Name Indication，为了解决一个服务器使用多个域名和证书的 SSL/TLS 扩展。在连接到服务器建立 SSL 连接时，客户端可以在第一次握手的 Client Hello 中的 SNI 扩展字段中填入要访问站点的域名（Hostname），这样服务器就可以根据域名返回一个合适的证书。</p><p>我们在进行 IP 直连的时候，面对单 IP 多域名的情况需要客户端手动配置 SNI 字段，但是上层的网络库 NSURLSession、NSURLConnection 都没有提供配置的接口，我们需要使用更加底层的 libcurl 库和 CFNetwork 来完成 SNI 字段的配置。</p><ol><li>使NSURLSession支持SNI</ol><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="k">@try</span> <span class="p">{</span>
+            <span class="c1">//使用私有API 使NSURLSession支持SNI</span>
+            <span class="n">NSString</span> <span class="o">*</span><span class="n">sslStr</span> <span class="o">=</span> <span class="s">@"_ssl"</span><span class="p">;</span>
+            <span class="n">NSString</span> <span class="o">*</span><span class="n">settingStr</span> <span class="o">=</span> <span class="s">@"Settings"</span><span class="p">;</span>
+            <span class="n">NSString</span> <span class="o">*</span><span class="n">finalStr</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%@%@"</span><span class="p">,</span><span class="n">sslStr</span><span class="p">,</span><span class="n">settingStr</span><span class="p">];</span>
+            <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">dict</span> <span class="o">=</span> <span class="p">[[</span><span class="n">self</span><span class="p">.</span><span class="n">dataTask</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="n">finalStr</span><span class="p">]</span> <span class="nf">mutableCopy</span><span class="p">];</span>
+            <span class="n">NSString</span> <span class="o">*</span><span class="n">host</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">allHTTPHeaderFields</span> <span class="nf">valueForKey</span><span class="p">:</span><span class="s">@"host"</span><span class="p">];</span>
+            <span class="p">[</span><span class="n">dict</span> <span class="nf">setValue</span><span class="p">:</span><span class="n">host</span> <span class="nf">forKey</span><span class="p">:(</span><span class="n">__bridge</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">kCFStreamSSLPeerName</span><span class="p">];</span>
+            <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">dataTask</span> <span class="nf">setValue</span><span class="p">:</span><span class="n">dict</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">finalStr</span><span class="p">];</span>
+        <span class="p">}</span> <span class="k">@catch</span> <span class="p">(</span><span class="n">NSException</span> <span class="o">*</span><span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">//使用私有api出现异常,关闭httpdns</span>
+            <span class="p">[</span><span class="n">HTTPDNSManager</span> <span class="nf">shareHttpDnsManager</span><span class="p">].</span><span class="n">allowUseHTTPDNS</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+            <span class="n">LogWarn</span><span class="p">(</span><span class="s">@"httpdns support SNI fail, then forbid httpdns"</span><span class="p">);</span>
+        <span class="p">}</span>
+</pre></table></code></div></div><ol><li>CFNetwork</ol><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre><span class="c1">// HTTPS 请求处理 SNI 场景</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">host</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">swizzleRequest</span><span class="p">.</span><span class="n">allHTTPHeaderFields</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"host"</span><span class="p">];</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">host</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">host</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">originalRequest</span><span class="p">.</span><span class="n">URL</span><span class="p">.</span><span class="n">host</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">inputStream</span> <span class="nf">setProperty</span><span class="p">:</span><span class="n">NSStreamSocketSecurityLevelNegotiatedSSL</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">NSStreamSocketSecurityLevelKey</span><span class="p">];</span>
+<span class="n">NSDictionary</span> <span class="o">*</span><span class="n">sslProperties</span> <span class="o">=</span> <span class="p">@{</span> <span class="p">(</span><span class="n">__bridge</span> <span class="n">id</span><span class="p">)</span> <span class="n">kCFStreamSSLPeerName</span> <span class="o">:</span> <span class="n">host</span> <span class="p">};</span>
+<span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">inputStream</span> <span class="nf">setProperty</span><span class="p">:</span><span class="n">sslProperties</span> <span class="nf">forKey</span><span class="p">:(</span><span class="n">__bridge_transfer</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span> <span class="n">kCFStreamPropertySSLSettings</span><span class="p">];</span>
+</pre></table></code></div></div><h3 id="为什么dns采用udp协议-">为什么DNS采用UDP协议 ？</h3><p>TCP通信过程太复杂并且开销大，一次TCP交换需要9个包： 三个连接包，四个断开包，一个request包，一个响应包。</p><p>UDP通信过程简单，只需要一个查询包和一个响应包。</p><h2 id="附录">附录</h2><p>开元的拦截脚本，<a href="https://github.com/li6185377/IMYWebLoader">IMYWebLoader</a></p><p>添加几个项目中碰到的问题的记录链接，基本都是和项目强相关的问题，所以不做过多介绍</p><p><a href="https://kttfkmbfmy.feishu.cn/docs/doccnvDzMJ2EOBeOUfLMYMftK2d">wkwebview cookie问题分析</a></p><p><a href="https://kttfkmbfmy.feishu.cn/docs/doccn1XFnXwMbBPIuaJ5IDKIOSd#">wk拦截优化升级</a></p><p>wk拦截同firbase performance的hook冲突会导致崩溃，崩溃信息如下，评估和wk拦截有关是因为将xcache的abt试验停掉之后，崩溃量就下来了</p><div class="language-json highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre><td class="rouge-code"><pre><span class="err">Crashed:</span><span class="w"> </span><span class="err">com.demo.webview.downloadQueue</span><span class="w"> </span><span class="err">(QOS:</span><span class="w"> </span><span class="err">USER_INITIATED)</span><span class="w">
+</span><span class="mi">0</span><span class="w">  </span><span class="err">libsystem_kernel.dylib</span><span class="w">         </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">d</span><span class="mi">8</span><span class="err">f</span><span class="mi">86414</span><span class="w"> </span><span class="err">__pthread_kill</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">8</span><span class="w">
+</span><span class="mi">1</span><span class="w">  </span><span class="err">libsystem_pthread.dylib</span><span class="w">        </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">f</span><span class="mi">6</span><span class="err">ae</span><span class="mi">0</span><span class="err">b</span><span class="mi">50</span><span class="w"> </span><span class="err">pthread_kill</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">272</span><span class="w">
+</span><span class="mi">2</span><span class="w">  </span><span class="err">libsystem_c.dylib</span><span class="w">              </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">b</span><span class="mi">445</span><span class="err">fb</span><span class="mi">74</span><span class="w"> </span><span class="err">abort</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">104</span><span class="w">
+</span><span class="mi">3</span><span class="w">  </span><span class="err">libsystem_malloc.dylib</span><span class="w">         </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">bae</span><span class="mi">3</span><span class="err">d</span><span class="mi">49</span><span class="err">c</span><span class="w"> </span><span class="err">_malloc_put</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">558</span><span class="w">
+</span><span class="mi">4</span><span class="w">  </span><span class="err">libsystem_malloc.dylib</span><span class="w">         </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">bae</span><span class="mi">3</span><span class="err">d</span><span class="mi">740</span><span class="w"> </span><span class="err">malloc_zone_error</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">104</span><span class="w">
+</span><span class="mi">5</span><span class="w">  </span><span class="err">libsystem_malloc.dylib</span><span class="w">         </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">bae</span><span class="mi">22</span><span class="err">ab</span><span class="mi">0</span><span class="w"> </span><span class="err">szone_free</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">464</span><span class="w">
+</span><span class="mi">6</span><span class="w">  </span><span class="err">CoreFoundation</span><span class="w">                 </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">aafce</span><span class="mi">62</span><span class="err">c</span><span class="w"> </span><span class="err">__CFStringDeallocate</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">192</span><span class="w">
+</span><span class="mi">7</span><span class="w">  </span><span class="err">CoreFoundation</span><span class="w">                 </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">aafaf</span><span class="mi">104</span><span class="w"> </span><span class="err">_CFRelease</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">248</span><span class="w">
+</span><span class="mi">8</span><span class="w">  </span><span class="err">Demo</span><span class="w">                           </span><span class="mi">0</span><span class="err">x</span><span class="mi">1057e8550</span><span class="w"> </span><span class="err">-</span><span class="p">[</span><span class="err">FPRNetworkTrace</span><span class="w"> </span><span class="err">didCompleteRequestWithResponse:error:</span><span class="p">]</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">248</span><span class="w">
+</span><span class="mi">9</span><span class="w">  </span><span class="err">Demo</span><span class="w">                           </span><span class="mi">0</span><span class="err">x</span><span class="mi">1057</span><span class="err">ec</span><span class="mi">894</span><span class="w"> </span><span class="err">__InstrumentURLSessionTaskDidCompleteWithError_block_invoke</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">176</span><span class="w">
+</span><span class="mi">10</span><span class="w"> </span><span class="err">CFNetwork</span><span class="w">                      </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">ab</span><span class="mi">80</span><span class="err">a</span><span class="mi">7</span><span class="err">cc</span><span class="w"> </span><span class="err">_CFNetworkHTTPConnectionCacheSetLimit</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">154256</span><span class="w">
+</span><span class="mi">11</span><span class="w"> </span><span class="err">Foundation</span><span class="w">                     </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">ac</span><span class="mi">380850</span><span class="w"> </span><span class="err">__NSBLOCKOPERATION_IS_CALLING_OUT_TO_A_BLOCK__</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">24</span><span class="w">
+</span><span class="mi">12</span><span class="w"> </span><span class="err">Foundation</span><span class="w">                     </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">ac</span><span class="mi">26</span><span class="err">d</span><span class="mi">740</span><span class="w"> </span><span class="err">-</span><span class="p">[</span><span class="err">NSBlockOperation</span><span class="w"> </span><span class="err">main</span><span class="p">]</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">104</span><span class="w">
+</span><span class="mi">13</span><span class="w"> </span><span class="err">Foundation</span><span class="w">                     </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">ac</span><span class="mi">382</span><span class="err">ca</span><span class="mi">4</span><span class="w"> </span><span class="err">__NSOPERATION_IS_INVOKING_MAIN__</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">24</span><span class="w">
+</span><span class="mi">14</span><span class="w"> </span><span class="err">Foundation</span><span class="w">                     </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">ac</span><span class="mi">26</span><span class="err">d</span><span class="mi">3</span><span class="err">c</span><span class="mi">8</span><span class="w"> </span><span class="err">-</span><span class="p">[</span><span class="err">NSOperation</span><span class="w"> </span><span class="err">start</span><span class="p">]</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">808</span><span class="w">
+</span><span class="mi">15</span><span class="w"> </span><span class="err">Foundation</span><span class="w">                     </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">ac</span><span class="mi">38374</span><span class="err">c</span><span class="w"> </span><span class="err">__NSOPERATIONQUEUE_IS_STARTING_AN_OPERATION__</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">24</span><span class="w">
+</span><span class="mi">16</span><span class="w"> </span><span class="err">Foundation</span><span class="w">                     </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">ac</span><span class="mi">3831</span><span class="err">d</span><span class="mi">4</span><span class="w"> </span><span class="err">__NSOQSchedule_f</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">184</span><span class="w">
+</span><span class="mi">17</span><span class="w"> </span><span class="err">libdispatch.dylib</span><span class="w">              </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">aac</span><span class="mi">33</span><span class="err">fb</span><span class="mi">8</span><span class="w"> </span><span class="err">_dispatch_block_async_invoke</span><span class="mi">2</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">148</span><span class="w">
+</span><span class="mi">18</span><span class="w"> </span><span class="err">libdispatch.dylib</span><span class="w">              </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">aac</span><span class="mi">25</span><span class="err">db</span><span class="mi">0</span><span class="w"> </span><span class="err">_dispatch_client_callout</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">20</span><span class="w">
+</span><span class="mi">19</span><span class="w"> </span><span class="err">libdispatch.dylib</span><span class="w">              </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">aac</span><span class="mi">2912</span><span class="err">c</span><span class="w"> </span><span class="err">_dispatch_continuation_pop</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">416</span><span class="w">
+</span><span class="mi">20</span><span class="w"> </span><span class="err">libdispatch.dylib</span><span class="w">              </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">aac</span><span class="mi">28854</span><span class="w"> </span><span class="err">_dispatch_async_redirect_invoke</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">592</span><span class="w">
+</span><span class="mi">21</span><span class="w"> </span><span class="err">libdispatch.dylib</span><span class="w">              </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">aac</span><span class="mi">3693</span><span class="err">c</span><span class="w"> </span><span class="err">_dispatch_root_queue_drain</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">356</span><span class="w">
+</span><span class="mi">22</span><span class="w"> </span><span class="err">libdispatch.dylib</span><span class="w">              </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">aac</span><span class="mi">37120</span><span class="w"> </span><span class="err">_dispatch_worker_thread</span><span class="mi">2</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">116</span><span class="w">
+</span><span class="mi">23</span><span class="w"> </span><span class="err">libsystem_pthread.dylib</span><span class="w">        </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">f</span><span class="mi">6</span><span class="err">ae</span><span class="mi">17</span><span class="err">d</span><span class="mi">8</span><span class="w"> </span><span class="err">_pthread_wqthread</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">216</span><span class="w">
+</span><span class="mi">24</span><span class="w"> </span><span class="err">libsystem_pthread.dylib</span><span class="w">        </span><span class="mi">0</span><span class="err">x</span><span class="mi">1</span><span class="err">f</span><span class="mi">6</span><span class="err">ae</span><span class="mi">876</span><span class="err">c</span><span class="w"> </span><span class="err">start_wqthread</span><span class="w"> </span><span class="err">+</span><span class="w"> </span><span class="mi">8</span><span class="w">
+</span></pre></table></code></div></div><h2 id="参考文章">参考文章</h2><p><a href="https://segmentfault.com/a/1190000039111381">WKWebView 请求拦截探索与实践 - 网易云音乐</a></p><p><a href="https://www.jianshu.com/p/8f5e1082f5e0">NSURLProtocol对WKWebView的处理 - 网易云音乐</a></p><p><a href="https://juejin.cn/post/6844903555858448391">URL Loading System 概览</a></p><p><a href="https://www.jianshu.com/p/2ed92d399b4b">UIWebView (NSURLProtocol)拦截js、css</a></p><p><a href="https://www.jianshu.com/p/67de4ff4bc9d">iOS网络编程(一)：NSURLSession介绍</a></p><p><a href="https://www.jianshu.com/p/02781c0bbca9">NSURLProtocol全攻略</a></p><p><a href="https://madaocn.github.io/urlprotocol-hook-wkwebview/">iOS使用NSURLProtocol来Hook拦截WKWebview请求并回放的一种姿(ti)势(wei)</a></p><p><a href="https://draveness.me/intercept/">iOS 开发中使用 NSURLProtocol 拦截 HTTP 请求</a></p><p><a href="https://www.jianshu.com/p/7dbe82c89c28">NSURLProtocol 详解</a></p><p><a href="https://juejin.cn/post/6844903987796246542">全面理解DNS及HTTPDNS</a></p><p><a href="https://help.aliyun.com/document_detail/30143.html?spm=a2c4g.11186623.2.10.39cc929bF9KIIS">HTTPS（含SNI）业务场景“IP直连”方案说明</a></p><p><a href="https://juejin.cn/post/6844903564960088071">iOS IP 直连原理剖析</a></p><p><a href="https://www.jianshu.com/p/59d1cbf34d67">HTTPDNS IP直连、证书强校验</a></p><p><a href="https://juejin.cn/post/6844904036294983688">APP网络优化之DNS优化实践</a></p><h3 id="部分飞书文档链接需要权限">部分飞书文档链接，需要权限</h3><p><a href="https://kttfkmbfmy.feishu.cn/docs/doccnKTo4SGYmxh41kNZBORFPmL#">wkwebview拦截方案</a></p><p><a href="https://kttfkmbfmy.feishu.cn/docs/doccn5EjtL2PLIFlRE29YOsPZFd">HttpDns 逻辑</a></p><p><a href="https://kttfkmbfmy.feishu.cn/docs/doccnuabQrPxCwqttq6bGz9e7Eb">HTTPDNS iOS详细接入文档</a></p><p><a href="https://kttfkmbfmy.feishu.cn/docs/doccn54cRqJKscxaIBo5eOidp2b">web容器离线包方案</a></p></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/tech/'>Tech</a>, <a href='/categories/study/'>Study</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/webview/" class="post-tag no-text-decoration" >webview</a> <a href="/tags/h5/" class="post-tag no-text-decoration" >h5</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=iOS秒开H5实战总结 - RAMBO&url=https://RamboQiu.github.io/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=iOS秒开H5实战总结 - RAMBO&u=https://RamboQiu.github.io/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=iOS秒开H5实战总结 - RAMBO&url=https://RamboQiu.github.io/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-lastmod" class="post"> <span>Recent Update</span><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/">iOS埋点接入文档</a><li><a href="/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E5%85%A5%E5%8F%A3%E9%A1%B5%E5%AF%BC%E8%B4%AD%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%A1%88/">埋点之入口页导购统计方案</a><li><a href="/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/">iOS消息转发机制</a><li><a href="/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/">iOS秒开H5实战总结</a><li><a href="/posts/iOS15%E7%BA%BF%E4%B8%8A%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">iOS15线上问题总结</a></ul></div><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/%E5%88%B6%E4%BD%9Cnpm%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7cli/"><div class="card-body"> <span class="timeago small" > Apr 9 <i class="unloaded">2021-04-09T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>制作npm的命令行工具cli</h3><div class="text-muted small"><p> npm：nodejs packect manage，允许用户从NPM服务器下载别人编写的第三方包到本地使用、下载并安装别人编写的命令行程序（CLI）到本地使用、将自己编写的包或命令行程序上传到NPM服务器供别人使用。 cli：command line interface，命令行界面，是指可在用户提示符下键入可执行指令的界面， 一直知道npm install一些工具之后，自己就能在终端使用...</p></div></div></a></div><div class="card"> <a href="/posts/pod%E6%8F%92%E4%BB%B6%E5%88%B6%E4%BD%9C/"><div class="card-body"> <span class="timeago small" > Apr 12 <i class="unloaded">2021-04-12T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>pod插件制作</h3><div class="text-muted small"><p> Cocoapods plugins Cocoapods plugins是一个Ruby gem（Ruby gem是Ruby的一个包管理器，它提供一个分发Ruby程序和库的标准格式，还提供一个管理程序包安装的工具。），并且CocoaPods也是通过Ruby构建的。 安装模板插件cocoapods-plugins，来建立插件，如下： pod-plugin|⇒ sudo gem install...</p></div></div></a></div><div class="card"> <a href="/posts/%E5%90%84%E7%A7%8D%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8C%BA%E5%88%AB%E6%B1%87%E6%80%BB/"><div class="card-body"> <span class="timeago small" > Apr 13 <i class="unloaded">2021-04-13T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>各种语言的区别汇总</h3><div class="text-muted small"><p> 编程语言类型 区别总结 类型 原理 优点 缺点 语言 编译型语言 通过专门的编译器，将所有源代码一次性转换成特定平台（Windows、Linux 等）执行的机器码（以可执行文件的形式存在）。 编译一次后，脱离了编译器也可以运行，并且运行效率高。...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/" class="btn btn-outline-primary"><p>iOS消息转发机制</p></a> <a href="/posts/iOS15%E7%BA%BF%E4%B8%8A%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/" class="btn btn-outline-primary"><p>iOS15线上问题总结</p></a></div><div id="gitalk-container"></div><script> var gitalk = new Gitalk({ id: (decodeURIComponent(window.location.pathname)).substring(0, 49), clientID: 'ab82be4b02f8a8f27c36', clientSecret: 'a17055d499d8765e427a1842fea5d5c4d3f38691', accessToken: '44315eb9b98036aaa9f0f64bc6c4e695508b474d', repo: 'RamboQiu.github.io', owner: 'RamboQiu', admin: ['RamboQiu'], distractionFreeMode: false }); gitalk.render('gitalk-container'); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2021 <a href="https://github.com/RamboQiu">Rambo</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy/" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://RamboQiu.github.io{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

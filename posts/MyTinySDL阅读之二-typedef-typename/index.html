@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="theme" content="Chirpy v2.7.0"><meta name="generator" content="Jekyll v4.2.0" /><meta property="og:title" content="MyTinySDL阅读之二：typedef、typename" /><meta name="author" content="Rambo" /><meta property="og:locale" content="en_US" /><meta name="description" content="在vector.h中，刚开始就出现了大量的typedef和typename，所以，恶补了下基本知识。" /><meta property="og:description" content="在vector.h中，刚开始就出现了大量的typedef和typename，所以，恶补了下基本知识。" /><link rel="canonical" href="https://ramboqiu.github.io/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%BA%8C-typedef-typename/" /><meta property="og:url" content="https://ramboqiu.github.io/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%BA%8C-typedef-typename/" /><meta property="og:site_name" content="RAMBO" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2021-03-05T00:00:00+08:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="MyTinySDL阅读之二：typedef、typename" /><meta name="google-site-verification" content="google88e65de3e03b1c74.html" /> <script type="application/ld+json"> {"author":{"@type":"Person","name":"Rambo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ramboqiu.github.io/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%BA%8C-typedef-typename/"},"description":"在vector.h中，刚开始就出现了大量的typedef和typename，所以，恶补了下基本知识。","url":"https://ramboqiu.github.io/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%BA%8C-typedef-typename/","@type":"BlogPosting","headline":"MyTinySDL阅读之二：typedef、typename","dateModified":"2021-03-05T00:00:00+08:00","datePublished":"2021-03-05T00:00:00+08:00","@context":"https://schema.org"}</script><meta name="baidu-site-verification" content="baidu_verify_code-LaAMM2SYbl.html"><title>MyTinySDL阅读之二：typedef、typename | RAMBO</title><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" href="/assets/css/post.css" as="style"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script defer src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css"> <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> <script async src="/assets/js/post.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id=G-PHHDQK2S50"></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-PHHDQK2S50'); }); </script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">RAMBO</a></div><div class="site-subtitle font-italic">移动端开发从入门到放弃</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <span id="mode-toggle-wrapper"> <i class="mode-toggle fas fa-adjust"></i> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } var self = this; /* always follow the system prefers */ this.sysDarkPrefers.addListener(function() { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.updateMermaid(); }); } /* constructor() */ setDark() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_KEY); sessionStorage.removeItem(ModeToggle.MODE_KEY); } get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode == ModeToggle.DARK_MODE; } get isLightMode() { return this.mode == ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer) ) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } updateMermaid() { if (typeof mermaid !== "undefined") { let expectedTheme = (this.modeStatus === ModeToggle.DARK_MODE? "dark" : "default"); let config = { theme: expectedTheme }; /* re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function() { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.updateMermaid(); } /* flipMode() */ } /* ModeToggle */ let toggle = new ModeToggle(); $(".mode-toggle").click(function() { toggle.flipMode(); }); </script> </span> <span class="icon-border"></span> <a href="https://github.com/RamboQiu" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://twitter.com/" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['qiujunyun','163.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>MyTinySDL阅读之二：typedef、typename</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>MyTinySDL阅读之二：typedef、typename</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Fri, Mar 5, 2021, 12:00 AM +0800" > Mar 5 <i class="unloaded">2021-03-05T00:00:00+08:00</i> </span> by <span class="author"> Rambo </span></div><div> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="2472 words">13 min</span></div></div><div class="post-content"><p>在vector.h中，刚开始就出现了大量的typedef和typename，所以，恶补了下基本知识。</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre><span class="c1">// 模板类: vector </span>
+<span class="c1">// 模板参数 T 代表类型</span>
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="p">&gt;</span>
+<span class="k">class</span> <span class="nc">vector</span>
+<span class="p">{</span>
+  <span class="k">static_assert</span><span class="p">(</span><span class="o">!</span><span class="n">std</span><span class="o">::</span><span class="n">is_same</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">,</span> <span class="s">"vector&lt;bool&gt; is abandoned in mystl"</span><span class="p">);</span>
+<span class="nl">public:</span>
+  <span class="c1">// vector 的嵌套型别定义</span>
+  <span class="k">typedef</span> <span class="n">mystl</span><span class="o">::</span><span class="n">allocator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>                      <span class="n">allocator_type</span><span class="p">;</span>
+  <span class="k">typedef</span> <span class="n">mystl</span><span class="o">::</span><span class="n">allocator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>                      <span class="n">data_allocator</span><span class="p">;</span>
+
+  <span class="k">typedef</span> <span class="k">typename</span> <span class="n">allocator_type</span><span class="o">::</span><span class="n">value_type</span>      <span class="n">value_type</span><span class="p">;</span>
+  <span class="k">typedef</span> <span class="k">typename</span> <span class="n">allocator_type</span><span class="o">::</span><span class="n">pointer</span>         <span class="n">pointer</span><span class="p">;</span>
+</pre></table></code></div></div><h1 id="typedef">typedef</h1><p>下列文章大部分摘录：<a href="https://www.cnblogs.com/charley_yang/archive/2010/12/15/1907384.html">C++ typedef用法小结</a></p><p>typedef在我的最原始的理解，就是取别名，和define挺像的。</p><h2 id="作用">作用</h2><ol><li>定义易于记忆的类型名<li>简化代码</ol><h2 id="主要使用方式">主要使用方式</h2><h3 id="1-经典用法">1. 经典用法</h3><p>C 语言提供了 <strong>typedef</strong> 关键字，可以使用它来为类型取一个新的名字（和宏的区别需要注意）。可以用作同时声明指针型的多个对象。例如：</p><ul><li><p>标识符 BYTE 可作为类型 <strong>unsigned char</strong> 的缩写</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">BYTE</span><span class="p">;</span>
+<span class="n">BYTE</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">;</span> <span class="c1">// 同下</span>
+<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">;</span>
+</pre></table></code></div></div><li><p>申明多个指针的便捷方式</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="kt">char</span><span class="o">*</span> <span class="n">pa</span><span class="p">,</span> <span class="n">pb</span><span class="p">;</span><span class="c1">// 这里只声明了一个指向字符变量的指针和一个字符变量</span>
+<span class="c1">// 利用typedef</span>
+<span class="k">typedef</span> <span class="kt">char</span><span class="o">*</span> <span class="n">PCHAR</span><span class="p">;</span> <span class="c1">// 一般用大写</span>
+<span class="n">PCHAR</span> <span class="n">pa</span><span class="p">,</span> <span class="n">pb</span><span class="p">;</span> <span class="c1">// 可行，同时声明了两个指向字符变量的指针</span>
+<span class="c1">// 就是如下</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">pa</span><span class="p">,</span> <span class="o">*</span><span class="n">pb</span><span class="p">;</span><span class="c1">// 相对来说没有用typedef的形式直观，尤其在需要大量指针的地方，typedef的方式更省事。</span>
+</pre></table></code></div></div></ul><h3 id="2-struct辅助">2. struct辅助</h3><p><a href="https://www.w3cschool.cn/c/c-typedef.html">C typedef</a></p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="k">struct</span> <span class="nc">Books</span>
+<span class="p">{</span>
+   <span class="kt">char</span>  <span class="n">title</span><span class="p">[</span><span class="mi">50</span><span class="p">];</span>
+   <span class="kt">char</span>  <span class="n">author</span><span class="p">[</span><span class="mi">50</span><span class="p">];</span>
+<span class="p">};</span>
+<span class="c1">// Books 使用</span>
+<span class="k">struct</span> <span class="nc">Books</span> <span class="n">b1</span><span class="p">;</span>
+</pre></table></code></div></div><p>以前的C代码中，声明struct新对象时，必须要带上struct，即形式为： struct 结构名 对象名。</p><p>而在C++中，则可以直接写：结构名 对象名，即：Books p1;</p><p>估计某人觉得经常多写一个struct太麻烦了，于是就发明了：</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">Books</span>
+<span class="p">{</span>
+   <span class="kt">char</span>  <span class="n">title</span><span class="p">[</span><span class="mi">50</span><span class="p">];</span>
+   <span class="kt">char</span>  <span class="n">author</span><span class="p">[</span><span class="mi">50</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">BOOK</span><span class="p">;</span>
+<span class="c1">// Books 使用</span>
+<span class="n">Book</span> <span class="n">b1</span><span class="p">;</span> <span class="c1">// 这样就比原来的方式少写了一个struct，比较省事，尤其在大量使用的时候</span>
+</pre></table></code></div></div><p>或许，在C++中，typedef的这种用途二不是很大，但是理解了它，对掌握以前的旧代码还是有帮助的，毕竟我们在项目中有可能会遇到较早些年代遗留下来的代码。</p><h3 id="3-多平台兼容">3. 多平台兼容</h3><p>最常见的在OC里面，32位和64位机型，NSInteger代表不同的</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="cp">#if __LP64__ || 0 || NS_BUILD_32_LIKE_64
+</span><span class="k">typedef</span> <span class="kt">long</span> <span class="n">NSInteger</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">NSUInteger</span><span class="p">;</span>
+<span class="cp">#else
+</span><span class="k">typedef</span> <span class="kt">int</span> <span class="n">NSInteger</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">NSUInteger</span><span class="p">;</span>
+<span class="cp">#endif
+</span></pre></table></code></div></div><p>所以 ，可以用typedef来定义与平台无关的类型。当跨平台时，只要改下 typedef 本身就行，不用对其他源码做任何修改。</p><p>另外，因为typedef是定义了一种类型的新别名，不是简单的字符串替换，所以它比宏来得稳健（虽然用宏有时也可以完成以上的用途）。</p><h3 id="4-简化复杂的申明">4. 简化复杂的申明</h3><p>为复杂的声明定义一个新的简单的别名。</p><p>方法是：在原来的声明里逐步用别名替换一部分复杂声明，如此循环，把带变量名的部分留到最后替换，得到的就是原声明的最简化版。</p><ul><li><p>例子1：</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="kt">int</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">])(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span><span class="p">);</span>
+<span class="c1">// 变量名为a，直接用一个新别名pFun替换a就可以了：</span>
+<span class="k">typedef</span> <span class="kt">int</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">pFun</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span><span class="p">);</span>
+<span class="c1">// 原声明的最简化版：</span>
+<span class="n">pFun</span> <span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+</pre></table></code></div></div><li><p>例子2：</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">b</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span> <span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">)());</span>
+<span class="c1">// 变量名为b，先替换右边部分括号里的，pFunParam为别名一：</span>
+<span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">pFunParam</span><span class="p">)();</span>
+<span class="c1">// 再替换左边的变量b，pFunx为别名二：</span>
+<span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">pFunx</span><span class="p">)(</span><span class="n">pFunParam</span><span class="p">);</span>
+<span class="c1">// 原声明的最简化版：</span>
+<span class="n">pFunx</span> <span class="n">b</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+</pre></table></code></div></div><li><p>例子3：</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="n">doube</span><span class="p">(</span><span class="o">*</span><span class="p">)()</span> <span class="p">(</span><span class="o">*</span><span class="n">e</span><span class="p">)[</span><span class="mi">9</span><span class="p">];</span>
+<span class="c1">// 变量名为e，先替换左边部分，pFuny为别名一：</span>
+<span class="k">typedef</span> <span class="nf">double</span><span class="p">(</span><span class="o">*</span><span class="n">pFuny</span><span class="p">)();</span>
+<span class="c1">// 再替换右边的变量e，pFunParamy为别名二</span>
+<span class="k">typedef</span> <span class="n">pFuny</span> <span class="p">(</span><span class="o">*</span><span class="n">pFunParamy</span><span class="p">)[</span><span class="mi">9</span><span class="p">];</span>
+<span class="c1">// 原声明的最简化版：</span>
+<span class="n">pFunParamy</span> <span class="n">e</span><span class="p">;</span>
+</pre></table></code></div></div></ul><p>理解复杂声明可用的“右左法则”：</p><p>从变量名看起，先往右，再往左，碰到一个圆括号就调转阅读的方向；括号内分析完就跳出括号，还是按先右后左的顺序，如此循环，直到整个声明分析完。举例：</p><p>int (*func)(int *p);</p><p>首先找到变量名func，外面有一对圆括号，而且左边是一个*号，这说明func是一个指针；然后跳出这个圆括号，先看右边，又遇到圆括号，这说明(*func)是一个函数，所以func是一个指向这类函数的指针，即函数指针，这类函数具有int*类型的形参，返回值类型是int。</p><p>int (*func[5])(int *);</p><p>func右边是一个[]运算符，说明func是具有5个元素的数组；func的左边有一个*，说明func的元素是指针（注意这里的*不是修饰func，而是修饰func[5]的，原因是[]运算符优先级比*高，func先跟[]结合）。跳出这个括号，看右边，又遇到圆括号，说明func数组的元素是函数类型的指针，它指向的函数具有int*类型的形参，返回值类型为int。</p><p>也可以记住2个模式：</p><ol><li>type (*)(….)函数指针<li>type (*)[]数组指针</ol><h2 id="两大陷阱">两大陷阱</h2><h3 id="陷阱一和const的配合使用">陷阱一：和const的配合使用</h3><p>记住，typedef是定义了一种类型的新别名，不同于宏，它不是简单的字符串替换。比如：</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="k">typedef</span> <span class="kt">char</span><span class="o">*</span> <span class="n">PSTR</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">mystrcmp</span><span class="p">(</span><span class="k">const</span> <span class="n">PSTR</span><span class="p">,</span> <span class="k">const</span> <span class="n">PSTR</span><span class="p">);</span>
+<span class="c1">// 实际上是下面这样</span>
+<span class="kt">int</span> <span class="nf">mystrcmp</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="k">const</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="k">const</span><span class="p">);</span>
+</pre></table></code></div></div><p>const PSTR实际上相当于const char*吗？不是的，它实际上相当于char* const。</p><p>原因在于const给予了整个指针本身以常量性，也就是形成了常量指针char* const。</p><p>简单来说，记住当const和typedef一起出现时，typedef不会是简单的字符串替换就行。</p><h3 id="陷阱二指定一个以上的存储类">陷阱二：指定一个以上的存储类</h3><p>typedef在语法上是一个存储类的关键字（如auto、extern、mutable、static、register等一样），虽然它并不真正影响对象的存储特性。</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="k">typedef</span> <span class="k">static</span> <span class="kt">int</span> <span class="n">INT2</span><span class="p">;</span> <span class="c1">//不可行,编译将失败，会提示“指定了一个以上的存储类”。</span>
+</pre></table></code></div></div><p><strong>以上资料出自：</strong>http://blog.sina.com.cn/s/blog_4826f7970100074k.html 作者：赤龙</p><h2 id="typedef-与-define的区别">typedef 与 #define的区别</h2><ul><li><p>通常讲，typedef要比#define要好，特别是在有指针的场合。请看例子：</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="k">typedef</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pStr1</span><span class="p">;</span>
+<span class="cp">#define pStr2 char *;
+</span>  
+<span class="n">pStr1</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">;</span>
+<span class="n">pStr2</span> <span class="n">s3</span><span class="p">,</span> <span class="n">s4</span><span class="p">;</span>
+</pre></table></code></div></div><p>在上述的变量定义中，s1、s2、s3都被定义为char *，而s4则定义成了char。</p><p>不是我们所预期的指针变量，根本原因就在于#define只是简单的字符串替换，而typedef则是为一个类型起新名字。</p><li><p>下面的代码中编译器会报一个错误，你知道是哪个语句错了吗？</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="k">typedef</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">pStr</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">string</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="s">"abc"</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">p1</span> <span class="o">=</span> <span class="n">string</span><span class="p">;</span>
+<span class="k">const</span> <span class="n">pStr</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">string</span><span class="p">;</span>
+<span class="n">p1</span><span class="o">++</span><span class="p">;</span>
+<span class="n">p2</span><span class="o">++</span><span class="p">;</span>
+</pre></table></code></div></div><p>是p2++出错了。</p><p>这个问题再一次提醒我们：typedef和#define不同，它不是简单的文本替换。</p><p>上述代码中const pStr p2并不等于const char * p2。（而是：char * const p2）</p><p>const pStr p2和const long x本质上没有区别，都是对变量进行只读限制，只不过此处变量p2的数据类型是我们自己定义的而不是系统固有类型而已。因此，const pStr p2的含义是：限定数据类型为char *的变量p2为只读，因此p2++错误。</p></ul><h1 id="typename">typename</h1><p>下列文章大部分摘录于：<a href="https://feihu.me/blog/2014/the-origin-and-usage-of-typename/">C++ typename的起源与用法</a></p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="p">&gt;</span>
+<span class="k">class</span> <span class="nc">vector</span>
+<span class="p">{</span>
+  <span class="k">static_assert</span><span class="p">(</span><span class="o">!</span><span class="n">std</span><span class="o">::</span><span class="n">is_same</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">,</span> <span class="s">"vector&lt;bool&gt; is abandoned in mystl"</span><span class="p">);</span>
+<span class="nl">public:</span>
+  <span class="c1">// vector 的嵌套型别定义</span>
+  <span class="k">typedef</span> <span class="n">mystl</span><span class="o">::</span><span class="n">allocator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>                      <span class="n">allocator_type</span><span class="p">;</span>
+</pre></table></code></div></div><p>上面是一个典型的C++模板，其实还有另一种写法</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">&gt;</span>
+<span class="k">class</span> <span class="nc">vector</span>
+</pre></table></code></div></div><p>class =&gt; typename</p><p>之前我看这个class就特别别扭，class不是类吗，像是模板T如果为int啥的，不是类啊，为什么会出现在模板里面，现在终于知道了：</p><p>C++之父Bjarne Stroustrup，在起草C++模板规范的时候，因为历史遗留很多程序都是用的class，最后妥协继续沿用而没有使用一个新的关键字。但是对很多人来说，总是不习惯<code class="language-plaintext highlighter-rouge">class</code>，因为从其本来存在的目的来说，是为了区别于语言的内置类型（int，float），用于声明一个用户自定义类型。</p><p>typename出现的真正原因是：</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="p">&gt;</span>
+<span class="kt">void</span> <span class="nf">foo</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">T</span><span class="o">::</span><span class="n">iterator</span> <span class="o">*</span> <span class="n">iter</span><span class="p">;</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// 比如有个自定义类型</span>
+<span class="k">struct</span> <span class="nc">ContainsAnotherType</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="kt">int</span> <span class="n">iterator</span><span class="p">;</span>
+    <span class="c1">// ...</span>
+<span class="p">};</span>
+
+<span class="c1">// 这么使用</span>
+<span class="n">foo</span><span class="o">&lt;</span><span class="n">ContainsAnotherType</span><span class="o">&gt;</span><span class="p">();</span>
+</pre></table></code></div></div><p>那么，<code class="language-plaintext highlighter-rouge">T::iterator * iter;</code>被编译器实例化为<code class="language-plaintext highlighter-rouge">ContainsAnotherType::iterator * iter;</code>，这是什么？前面是一个静态成员变量而不是类型，那么这便成了一个乘法表达式，只不过<code class="language-plaintext highlighter-rouge">iter</code>在这里没有定义，编译器会报错：</p><blockquote><p>error C2065: ‘iter’ : undeclared identifier</p></blockquote><p>这个时候typename就出来了。</p><blockquote><p>A name used in a template declaration or definition and that is dependent on a template-parameter is assumed not to name a type unless the applicable name lookup finds a type name or the name is qualified by the keyword typename.</p></blockquote><p>表达的意思即是：如果你想直接告诉编译器<code class="language-plaintext highlighter-rouge">T::iterator</code>是类型而不是变量，只需用<code class="language-plaintext highlighter-rouge">typename</code>修饰。</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="p">&gt;</span>
+<span class="kt">void</span> <span class="nf">foo</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">typename</span> <span class="n">T</span><span class="o">::</span><span class="n">iterator</span> <span class="o">*</span> <span class="n">iter</span><span class="p">;</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></table></code></div></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/tech/'>Tech</a>, <a href='/categories/study/'>Study</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/c/" class="post-tag no-text-decoration" >c++</a> <a href="/tags/sdl/" class="post-tag no-text-decoration" >SDL</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=MyTinySDL阅读之二：typedef、typename - RAMBO&url=https://RamboQiu.github.io/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%BA%8C-typedef-typename/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=MyTinySDL阅读之二：typedef、typename - RAMBO&u=https://RamboQiu.github.io/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%BA%8C-typedef-typename/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=MyTinySDL阅读之二：typedef、typename - RAMBO&url=https://RamboQiu.github.io/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%BA%8C-typedef-typename/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-lastmod" class="post"> <span>Recent Update</span><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/">iOS埋点接入文档</a><li><a href="/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E5%85%A5%E5%8F%A3%E9%A1%B5%E5%AF%BC%E8%B4%AD%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%A1%88/">埋点之入口页导购统计方案</a><li><a href="/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/">iOS消息转发机制</a><li><a href="/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/">iOS秒开H5实战总结</a><li><a href="/posts/iOS15%E7%BA%BF%E4%B8%8A%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">iOS15线上问题总结</a></ul></div><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%B8%80-vscode%E8%BF%90%E8%A1%8C%E8%B0%83%E8%AF%95/"><div class="card-body"> <span class="timeago small" > Feb 24 <i class="unloaded">2021-02-24T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>MyTinySDL阅读之一：vscode运行调试</h3><div class="text-muted small"><p> 如何优雅的使用vscode进行debug 下载最新的MyTinySTL-Tutorial源码，我已经将.vscode文件夹上传了，配置好了可以进行调试，选中Test/test.cpp文件，然后点击运行tab里面的运行即可。 详细教学文档见：Using Clang in Visual Studio Code tasks.json { "tasks": [ {...</p></div></div></a></div><div class="card"> <a href="/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%B8%89-%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/"><div class="card-body"> <span class="timeago small" > Mar 6 <i class="unloaded">2021-03-06T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>MyTinySDL阅读之三：强制类型转换</h3><div class="text-muted small"><p> allocator.h中，有段代码用到了static_cast，如下 1 2 3 4 5 template &lt;class T&gt; T* allocator&lt;T&gt;::allocate() { return static_cast&lt;T*&gt;(::operator new(sizeof(T))); } 这里涉及到两个知识点：隐式类型转换和显示类型转换。首先...</p></div></div></a></div><div class="card"> <a href="/posts/%E4%BB%8EC++%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E5%AD%A6%E4%B9%A0C++%E5%9F%BA%E7%A1%80/"><div class="card-body"> <span class="timeago small" > Mar 2 <i class="unloaded">2021-03-02T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>从C++面试题来学习C++基础</h3><div class="text-muted small"><p> 花时间学习了下W3Cschool的C++基础 、转载至C++基础题汇总interview并结合自己的认识 struct和class的区别 struct中的默认成员属性是public的；class中的默认成员属性是private的。struct是数据聚集起来，便于人访问，所以默认的是 public，而class是封装，不让人访问，所以是private。 ...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/%E4%BB%8EC++%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E5%AD%A6%E4%B9%A0C++%E5%9F%BA%E7%A1%80/" class="btn btn-outline-primary"><p>从C++面试题来学习C++基础</p></a> <a href="/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%B8%89-%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/" class="btn btn-outline-primary"><p>MyTinySDL阅读之三：强制类型转换</p></a></div><div id="gitalk-container"></div><script> var gitalk = new Gitalk({ id: (decodeURIComponent(window.location.pathname)).substring(0, 49), clientID: 'ab82be4b02f8a8f27c36', clientSecret: 'a17055d499d8765e427a1842fea5d5c4d3f38691', accessToken: '44315eb9b98036aaa9f0f64bc6c4e695508b474d', repo: 'RamboQiu.github.io', owner: 'RamboQiu', admin: ['RamboQiu'], distractionFreeMode: false }); gitalk.render('gitalk-container'); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2021 <a href="https://github.com/RamboQiu">Rambo</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy/" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://RamboQiu.github.io{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

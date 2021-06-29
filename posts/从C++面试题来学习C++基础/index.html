@@ -1,0 +1,365 @@
+<!DOCTYPE html><html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="theme" content="Chirpy v2.7.0"><meta name="generator" content="Jekyll v4.2.0" /><meta property="og:title" content="从C++面试题来学习C++基础" /><meta name="author" content="Rambo" /><meta property="og:locale" content="en_US" /><meta name="description" content="花时间学习了下W3Cschool的C++基础 、转载至C++基础题汇总interview并结合自己的认识" /><meta property="og:description" content="花时间学习了下W3Cschool的C++基础 、转载至C++基础题汇总interview并结合自己的认识" /><link rel="canonical" href="https://ramboqiu.github.io/posts/%E4%BB%8EC++%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E5%AD%A6%E4%B9%A0C++%E5%9F%BA%E7%A1%80/" /><meta property="og:url" content="https://ramboqiu.github.io/posts/%E4%BB%8EC++%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E5%AD%A6%E4%B9%A0C++%E5%9F%BA%E7%A1%80/" /><meta property="og:site_name" content="RAMBO" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2021-03-02T00:00:00+08:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="从C++面试题来学习C++基础" /><meta name="google-site-verification" content="google88e65de3e03b1c74.html" /> <script type="application/ld+json"> {"author":{"@type":"Person","name":"Rambo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ramboqiu.github.io/posts/%E4%BB%8EC++%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E5%AD%A6%E4%B9%A0C++%E5%9F%BA%E7%A1%80/"},"description":"花时间学习了下W3Cschool的C++基础 、转载至C++基础题汇总interview并结合自己的认识","url":"https://ramboqiu.github.io/posts/%E4%BB%8EC++%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E5%AD%A6%E4%B9%A0C++%E5%9F%BA%E7%A1%80/","@type":"BlogPosting","headline":"从C++面试题来学习C++基础","dateModified":"2021-03-12T21:59:21+08:00","datePublished":"2021-03-02T00:00:00+08:00","@context":"https://schema.org"}</script><meta name="baidu-site-verification" content="baidu_verify_code-LaAMM2SYbl.html"><title>从C++面试题来学习C++基础 | RAMBO</title><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" href="/assets/css/post.css" as="style"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script defer src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css"> <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> <script async src="/assets/js/post.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id=G-PHHDQK2S50"></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-PHHDQK2S50'); }); </script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">RAMBO</a></div><div class="site-subtitle font-italic">移动端开发从入门到放弃</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <span id="mode-toggle-wrapper"> <i class="mode-toggle fas fa-adjust"></i> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } var self = this; /* always follow the system prefers */ this.sysDarkPrefers.addListener(function() { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.updateMermaid(); }); } /* constructor() */ setDark() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_KEY); sessionStorage.removeItem(ModeToggle.MODE_KEY); } get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode == ModeToggle.DARK_MODE; } get isLightMode() { return this.mode == ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer) ) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } updateMermaid() { if (typeof mermaid !== "undefined") { let expectedTheme = (this.modeStatus === ModeToggle.DARK_MODE? "dark" : "default"); let config = { theme: expectedTheme }; /* re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function() { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.updateMermaid(); } /* flipMode() */ } /* ModeToggle */ let toggle = new ModeToggle(); $(".mode-toggle").click(function() { toggle.flipMode(); }); </script> </span> <span class="icon-border"></span> <a href="https://github.com/RamboQiu" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://twitter.com/" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['qiujunyun','163.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>从C++面试题来学习C++基础</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>从C++面试题来学习C++基础</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Tue, Mar 2, 2021, 12:00 AM +0800" > Mar 2 <i class="unloaded">2021-03-02T00:00:00+08:00</i> </span> by <span class="author"> Rambo </span></div><div> <span> Updated <span class="timeago lastmod" data-toggle="tooltip" data-placement="bottom" title="Fri, Mar 12, 2021, 9:59 PM +0800" > Mar 12 <i class="unloaded">2021-03-12T21:59:21+08:00</i> </span> </span> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="3356 words">18 min</span></div></div><div class="post-content"><p>花时间学习了下<a href="https://www.w3cschool.cn/cpp/">W3Cschool的C++基础</a> 、转载至C++基础题汇总<a href="https://github.com/huihut/interview">interview</a>并结合自己的认识</p><h2 id="struct和class的区别">struct和class的区别</h2><ol><li><p>struct中的默认成员属性是public的；class中的默认成员属性是private的。struct是数据聚集起来，便于人访问，所以默认的是 public，而class是封装，不让人访问，所以是private。</p><li><p>struct中不能有函数，但是可以通过使用函数指针（成员）的方式来实现</p><div class="language-c highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre><span class="k">struct</span> <span class="n">_TestS</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">fun</span><span class="p">)();</span>
+<span class="p">}</span> <span class="n">TestS</span><span class="p">;</span>
+   
+<span class="kt">void</span> <span class="nf">display</span><span class="p">()</span> <span class="p">{</span>
+<span class="p">}</span>
+   
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">TestS</span><span class="p">.</span><span class="n">fun</span> <span class="o">=</span> <span class="n">display</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><li><p>c struct不能有static成语属性，c++可以</p><div class="language-c highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="k">struct</span> <span class="n">_TestS</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+    <span class="k">static</span> <span class="kt">int</span> <span class="n">b</span><span class="p">;</span><span class="c1">// error: 此处不能指定存储类</span>
+<span class="p">}</span> <span class="n">TestS</span><span class="p">;</span>
+</pre></table></code></div></div></ol><h2 id="结构体类占内存大小">结构体，类占内存大小</h2><p>数据占用内存的大小取决于<strong>数据本身的大小</strong>和<strong>其字节对齐方式</strong></p><p>一般计算规则：</p><ol><li>计算偏移量从0开始计算；<li>当前元素的偏移从元素自身大小的整数倍开始计算。<li>最后结果一定是结构体中最大基本数据类型的整数倍；</ol><p>两大原则</p><p>第一原则：<strong>结构体中元素是按照定义顺序一个一个放到内存中去的，但并不是紧密排列的。从结构体存储的首地址开始，每一个元素放置到内存中时，它都会认为内存是以它自己的大小来划分的，因此元素放置的位置一定会在自己宽度的整数倍上开始(以结构体变量首地址为 0 计算)</strong></p><p>第二原则：<strong>在经过第一原则分析后，检查计算出的存储单元是否为所有元素中最宽的元素的长度的整数倍，如果是，则结束；若不是，则补齐为它的整数倍。</strong></p><p><a href="https://www.cnblogs.com/nowgood/p/cppstructmem.html">struct 占内存大小</a></p><h3 id="基础数据类型">基础数据类型</h3><div class="table-wrapper"><table><thead><tr><th>数据类型<th>32位<th>64位<th>取值范围（32位）<tbody><tr><td>char<td>1<td>1<td>-128~127<tr><td>unsigned char(当byte使用)<td>1<td>1<td>0~255<tr><td>short int / short<td>2<td>2<td>–32,768~32,767<tr><td>unsigned short<td>2<td>2<td>0~65,535<tr><td>int<td>4<td>4<td>-2,147,483,648~2,147,483,647<tr><td>unsigned int<td>4<td>4<td>0~4,294,967,295<tr><td><font color="red">long int / long</font><td><font color="red">4</font><td><font color="red">8</font><td>–2,147,483,648~2,147,483,647<tr><td><font color="red">unsigned long</font><td><font color="red">4</font><td><font color="red">8</font><td>0~4,294,967,295<tr><td>long long int / long long<td>8<td>8<td>-9,223,372,036,854,775,808~9,223,372,036,854,775,807<tr><td><font color="red">指针</font><td><font color="red">4</font><td><font color="red">8</font><td> <tr><td>float<td>4<td>4<td>3.4E +/- 38 (7 digits)<tr><td>double<td>8<td>8<td>1.7E +/- 308 (15 digits)</table></div><h3 id="struct">struct</h3><h4 id="空struct--0-or-1">空struct = 0 or 1</h4><p>在C++语言中的确规定了空结构体和空类所占内存大小为1，而C语言中空类和空结构体占用的大小是0。<a href="https://www.cnblogs.com/kuliuheng/p/4104213.html">C++中的空类与空结构体大小</a></p><blockquote><p>C++语言标准中规定了这样一个原则：“<strong>no object shall have the same address in memory as any other variable</strong>”，即任何不同的对象不能拥有相同的内存地址。如果空类对象大小为0，那么此类数组中的各个对象的地址将会一致，明显违反了此原则。</p><p><strong>C++编译器会在空类或空结构体中增加一个虚设的字节（有的编译器可能不止一个），以确保不同的对象都具有不同的地址。</strong></p></blockquote><h3 id="class">class</h3><h4 id="函数不占虚函数才占内寸32位的占4位64位占8位">函数不占，虚函数才占内寸，32位的占4位，64位占8位</h4><p>函数不占内存</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Point</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="n">test</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"test"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">test2</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Point</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span><span class="c1">// 1, 空类的大小</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>虚函数占，用来存放虚函数表的地址</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Point</span> <span class="p">{</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">test</span><span class="p">();</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">test2</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"teset"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="n">Point</span><span class="o">::</span><span class="n">test</span><span class="p">()</span> <span class="p">{</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Point</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span><span class="c1">// 8, 多个虚函数大小都是8，一个指针的大小</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h3 id="static--0">static = 0</h3><p>c++中，因为static是存储在静态内存，而结构体是存储在栈上的。</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Point</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Point</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span><span class="c1">// 1,空类的大小</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h3 id="union">union</h3><p>联合类型的大小是<strong>最长的分量的长度，加上补齐的字节</strong>。这里容易有一个谬误，有人说补齐的字节是将联合类型的长度补齐为各分量基本类型的倍数，这个说法在默认的字节对齐（4字节或8字节）中没问题，但是当修改对齐方式之后就有问题了。先看一下默认的情况。</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre><span class="k">union</span> <span class="n">U</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">buff</span><span class="p">[</span><span class="mi">17</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="kt">short</span> <span class="n">k</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">u</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="c1">// 20, 最长属性位17，补全到默认的字节对齐（4字节的倍数）</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>使用#pragma pack(2)，将默认对齐改成2</p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre><span class="cp">#pragma pack(push)
+#pragma pack(2)
+</span><span class="k">union</span> <span class="n">U</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">buff</span><span class="p">[</span><span class="mi">17</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="kt">short</span> <span class="n">k</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">u</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span><span class="c1">// 18, 此时得到的最长分量还是13字节，不过扩充时不是按照4字节的倍数来算，而是按照2的倍数（pragma pack指定的）来算。最终得到大小为18字节。</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">#pragma pack(pop)
+</span></pre></table></code></div></div><h3 id="enum--4">enum = 4</h3><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Point</span> <span class="p">{</span>
+    <span class="k">enum</span> <span class="p">{</span> <span class="n">red</span><span class="p">,</span>
+           <span class="n">green</span><span class="p">,</span>
+           <span class="n">blue</span><span class="p">,</span>
+           <span class="n">yellow</span> <span class="p">}</span> <span class="n">color</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Point</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span><span class="c1">//4</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h3 id="paragma-packn">#paragma pack(N)</h3><p>表示按照N个字节对齐，如果N==1，则按照大小为所有类型所占字节的和，不用对齐，此时作用跟__attribute__((packed))一样，紧凑内存。</p><p><a href="https://www.cnblogs.com/alantu2018/p/8460761.html">关于结构体占用空间大小总结</a></p><h2 id="const">const</h2><h3 id="作用">作用</h3><ol><li>修饰变量，说明该变量不可以被改变；<li>修饰指针，分为指向常量的指针（pointer to const）和自身是常量的指针（常量指针，const pointer）；<li>修饰引用，指向常量的引用（reference to const），用于形参类型，即避免了拷贝，又避免了函数对值的修改；<li>修饰成员函数，说明该成员函数内不能修改成员变量。</ol><h3 id="const的指针和引用">const的指针和引用</h3><ul><li>指针<ul><li>指向常量的指针（pointer to const）<li>自身是常量的指针（常量指针，const pointer）</ul><li>引用<ul><li>指向常量的引用（reference to const）<li>没有 const reference，因为引用本身就是 const pointer</ul></ul><blockquote><p>（为了方便记忆可以想成）被 const 修饰（在 const 后面）的值不可改变，如下文使用例子中的 <code class="language-plaintext highlighter-rouge">p2</code>、<code class="language-plaintext highlighter-rouge">p3</code></p></blockquote><h3 id="使用">使用</h3><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+</pre><td class="rouge-code"><pre><span class="cp">#include &lt;pthread.h&gt;
+</span>
+<span class="cp">#include &lt;cstdlib&gt;
+#include &lt;iostream&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="c1">// 类</span>
+<span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+   <span class="nl">private:</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>  <span class="c1">// 常对象成员，只能在初始化列表赋值 ①</span>
+		<span class="kt">int</span> <span class="n">b</span><span class="p">;</span>	
+  
+   <span class="nl">public:</span>
+    <span class="kt">int</span> <span class="n">c</span><span class="p">;</span>
+    <span class="c1">// 构造函数</span>
+    <span class="n">A</span><span class="p">()</span> <span class="o">:</span> <span class="n">a</span><span class="p">(</span><span class="mi">0</span><span class="p">){};</span>
+    <span class="n">A</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="o">:</span> <span class="n">a</span><span class="p">(</span><span class="n">x</span><span class="p">){};</span>  <span class="c1">// 初始化列表 https://www.w3cschool.cn/cpp/cpp-constructor-destructor.html</span>
+
+    <span class="c1">// const可用于对重载函数的区分</span>
+    <span class="kt">int</span> <span class="n">getValue</span><span class="p">();</span>  <span class="c1">// 普通成员函数</span>
+    <span class="kt">int</span> <span class="n">getValue</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>  <span class="c1">// ② 常成员函数，不得修改类中的任何数据成员的值</span>
+
+    <span class="n">A</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="n">A</span><span class="o">::</span><span class="n">A</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// ① error: "A::A(int x, int y)" 未提供初始值设定项: -- 常量 成员 "A::a"</span>
+   
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">A</span><span class="o">::</span><span class="n">getValue</span><span class="p">()</span> <span class="p">{</span>
+   <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span><span class="c1">// ① error:常对象成员，只能在初始化列表赋值 </span>
+   <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">A</span><span class="o">::</span><span class="n">getValue</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+   <span class="n">b</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">// ② error:表达式必须是可修改的左值</span>
+   <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 对象</span>
+    <span class="n">A</span> <span class="n">b</span><span class="p">;</span>  <span class="c1">// 普通对象，可以调用全部成员函数、更新常成员变量</span>
+    <span class="k">const</span> <span class="n">A</span> <span class="n">a</span><span class="p">;</span>        <span class="c1">// ③常对象，只能调用常成员函数</span>
+    <span class="k">const</span> <span class="n">A</span><span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">;</span>  <span class="c1">// 指针变量，指向常对象</span>
+    <span class="k">const</span> <span class="n">A</span><span class="o">&amp;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>   <span class="c1">// ④ 指向常对象的引用</span>
+		<span class="n">A</span><span class="o">&amp;</span> <span class="n">qt</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span> <span class="c1">// ④ error: 常对象，只能调用常成员函数;将 "A &amp;" 类型的引用绑定到 "const A" 类型的初始值设定项时，限定符被丢弃</span>
+    <span class="n">a</span><span class="p">.</span><span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">// ③ error:表达式必须是可修改的左值</span>
+    <span class="c1">// 指针</span>
+    <span class="kt">char</span> <span class="n">greeting</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"Hello"</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">greeting2</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"Hello2"</span><span class="p">;</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>  <span class="c1">// 指针变量，指向字符数组变量</span>
+    <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'c'</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>  <span class="c1">// 指针变量，指向字符数组常量（const 后面是</span>
+                                <span class="c1">// char，说明指向的字符（char）不可改变）</span>
+    <span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'a'</span><span class="p">;</span> <span class="c1">// error: 表达式必须是可修改的左值</span>
+    <span class="kt">char</span><span class="o">*</span> <span class="k">const</span> <span class="n">p3</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>  <span class="c1">// 自身是常量的指针，指向字符数组变量（const</span>
+                                <span class="c1">// 后面是 p3，说明 p3 指针自身不可改变）</span>
+    <span class="n">p3</span> <span class="o">=</span> <span class="n">greeting2</span><span class="p">;</span> <span class="c1">// error: 表达式必须是可修改的左值</span>
+    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="k">const</span> <span class="n">p4</span> <span class="o">=</span> <span class="n">greeting</span><span class="p">;</span>  <span class="c1">// 自身是常量的指针，指向字符数组常量</span>
+  
+<span class="p">}</span>
+
+<span class="c1">// 函数</span>
+<span class="kt">void</span> <span class="nf">function1</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="n">Var</span><span class="p">);</span>    <span class="c1">// 传递过来的参数在函数内不可变</span>
+<span class="kt">void</span> <span class="nf">function2</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">Var</span><span class="p">);</span>  <span class="c1">// 参数指针所指内容为常量</span>
+<span class="kt">void</span> <span class="nf">function3</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="k">const</span> <span class="n">Var</span><span class="p">);</span>  <span class="c1">// 参数指针为常量</span>
+<span class="kt">void</span> <span class="nf">function4</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">Var</span><span class="p">);</span>   <span class="c1">// 引用参数在函数内为常量</span>
+
+<span class="c1">// 函数返回值</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="nf">function5</span><span class="p">();</span>  <span class="c1">// 返回一个常数</span>
+<span class="k">const</span> <span class="kt">int</span><span class="o">*</span> <span class="nf">function6</span><span class="p">();</span>  <span class="c1">// 返回一个指向常量的指针变量，使用：const int *p = function6();</span>
+<span class="kt">int</span><span class="o">*</span> <span class="k">const</span> <span class="nf">function7</span><span class="p">();</span>  <span class="c1">// 返回一个指向变量的常指针，使用：int* const p = function7();</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">A</span><span class="o">*</span> <span class="n">atest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">A</span><span class="p">(</span><span class="mi">22</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h2 id="static">static</h2><p>编译器在栈上分配空间</p><h3 id="作用-1">作用</h3><ol><li>修饰普通变量，修改变量的存储区域和生命周期，使变量<strong>存储在静态区</strong>，而不是堆栈区，在 <strong>main 函数运行前就分配了空间</strong>，如果有初始值就用初始值初始化它，如果没有初始值系统用默认值初始化它。<li>修饰普通函数，表明函数的作用范围，仅在定义该函数的文件内才能使用。在多人开发项目时，为了防止与他人命名空间里的函数重名，可以将函数定位为 static。<li>修饰成员变量，修饰成员变量使所有的对象只保存一个该变量，而且不需要生成对象就可以访问该成员。<li>修饰成员函数，修饰成员函数使得不需要生成对象就可以访问该函数，但是在 static 函数内不能访问非静态成员。生成对象也可以访问该函数</ol><h3 id="使用-1">使用</h3><ol><li>被 static 修饰的变量属于类变量，可以通过<strong>类名.变量名</strong>直接引用，而不需要 new 出一个类来<li>被 static 修饰的方法属于类方法，可以通过<strong>类名.方法名</strong>直接引用，而不需要 new 出一个类来<li>静态成员可以通过双冒号来使用即 <strong>&lt;类名&gt;::&lt;静态成员名&gt;</strong></ol><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Point</span> <span class="p">{</span>
+   <span class="nl">public:</span>
+    <span class="kt">void</span> <span class="n">init</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="n">output</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">m_x</span><span class="p">);</span><span class="c1">// error: 非静态成员引用必须与特定对象相对</span>
+    <span class="p">}</span>
+
+   <span class="nl">private:</span>
+    <span class="k">static</span> <span class="kt">int</span> <span class="n">m_x</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">Point</span> <span class="n">pt</span><span class="p">;</span>
+    <span class="n">pt</span><span class="p">.</span><span class="n">init</span><span class="p">();</span>
+    <span class="n">pt</span><span class="p">.</span><span class="n">output</span><span class="p">();</span>
+    <span class="n">Point</span><span class="o">::</span><span class="n">init</span><span class="p">();</span><span class="c1">// error: 非静态成员引用必须与特定对象相对</span>
+    <span class="n">Point</span><span class="o">::</span><span class="n">output</span><span class="p">();</span>
+  
+    <span class="k">static</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="c1">//这里的赋值实际上从未被执行过，这个count的初始化在程序装载的时候被执行</span>
+    <span class="c1">//它的值被放在了全局变量区</span>
+    <span class="c1">//这个过程发生在main函数被执行之前（和全局变量的初始化类似，在所有程序执行之前已经完成了初始化）</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p><a href="https://www.cnblogs.com/BeyondAnyTime/archive/2012/06/08/2542315.html">C++中的static关键字的总结</a></p><ol><li><p>变量和全局变量</p><p>当局部变量被定义时，系统不会对其初始化，您必须自行对其初始化。定义全局变量时，系统会自动初始化0 ‘\0’ NULL</p></ol><p>访问修饰符不写默认为private</p><p>宏的介绍<a href="https://www.w3cschool.cn/cpp/cpp-preprocessor.html">C++ 预处理器</a></p><ul><li><li>static 关键字有哪些用法<li>说说继承和组合的概念？什么时候应该用继承？什么时候应该用组合<li>C++ 的菱形继承会发生什么问题？画出对应的内存布局<li>说说对 C++ 智能指针的了解<li>说说虚函数实现机制<li>如果父类中仅有方法，子类有一个 int 变量，这时候 sizeof 是多大<li>指针一定是 4 个字节吗<li>#define 和 inline 函数的区别是什么<li>const static 在哪里初始化<li>派生类的构造函数和析构函数执行顺序<li>什么情况下基类的析构函数没有被调用<li>如何生成静态库？如何生成动态库<li>如何用 gdb 调试<li>coredump 查看，core 文件分析<li>如何调试运行中的程序<li>运行了几天的程序崩掉，如何分析错误<li>如何编写 makefile<li>编译器的编译过程？链接的时候做了什么事？在中间层优化时怎么做?<li>STL 各容器如何实现<li>适配器是用来做什么的<li>queue 如何实现<li>map 用什么实现<li>如何实现 vector？优化 O（n） 的复制<li>红黑树插入数据发现不平衡应该怎么做<li>debug 模式和 release 模式编译的区别<li>如何查看链接的动态库</ul></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/tech/'>Tech</a>, <a href='/categories/study/'>Study</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/c/" class="post-tag no-text-decoration" >c++</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=从C++面试题来学习C++基础 - RAMBO&url=https://RamboQiu.github.io/posts/%E4%BB%8EC++%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E5%AD%A6%E4%B9%A0C++%E5%9F%BA%E7%A1%80/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=从C++面试题来学习C++基础 - RAMBO&u=https://RamboQiu.github.io/posts/%E4%BB%8EC++%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E5%AD%A6%E4%B9%A0C++%E5%9F%BA%E7%A1%80/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=从C++面试题来学习C++基础 - RAMBO&url=https://RamboQiu.github.io/posts/%E4%BB%8EC++%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%A5%E5%AD%A6%E4%B9%A0C++%E5%9F%BA%E7%A1%80/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-lastmod" class="post"> <span>Recent Update</span><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/">iOS埋点接入文档</a><li><a href="/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E5%85%A5%E5%8F%A3%E9%A1%B5%E5%AF%BC%E8%B4%AD%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%A1%88/">埋点之入口页导购统计方案</a><li><a href="/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/">iOS消息转发机制</a><li><a href="/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/">iOS秒开H5实战总结</a><li><a href="/posts/iOS15%E7%BA%BF%E4%B8%8A%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">iOS15线上问题总结</a></ul></div><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%B8%80-vscode%E8%BF%90%E8%A1%8C%E8%B0%83%E8%AF%95/"><div class="card-body"> <span class="timeago small" > Feb 24 <i class="unloaded">2021-02-24T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>MyTinySDL阅读之一：vscode运行调试</h3><div class="text-muted small"><p> 如何优雅的使用vscode进行debug 下载最新的MyTinySTL-Tutorial源码，我已经将.vscode文件夹上传了，配置好了可以进行调试，选中Test/test.cpp文件，然后点击运行tab里面的运行即可。 详细教学文档见：Using Clang in Visual Studio Code tasks.json { "tasks": [ {...</p></div></div></a></div><div class="card"> <a href="/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%BA%8C-typedef-typename/"><div class="card-body"> <span class="timeago small" > Mar 5 <i class="unloaded">2021-03-05T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>MyTinySDL阅读之二：typedef、typename</h3><div class="text-muted small"><p> 在vector.h中，刚开始就出现了大量的typedef和typename，所以，恶补了下基本知识。 1 2 3 4 5 6 7 8 9 10 11 12 13 // 模板类: vector // 模板参数 T 代表类型 template &lt;class T&gt; class vector { static_assert(!std::is_same&lt;bool, T&gt;...</p></div></div></a></div><div class="card"> <a href="/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%B8%89-%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/"><div class="card-body"> <span class="timeago small" > Mar 6 <i class="unloaded">2021-03-06T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>MyTinySDL阅读之三：强制类型转换</h3><div class="text-muted small"><p> allocator.h中，有段代码用到了static_cast，如下 1 2 3 4 5 template &lt;class T&gt; T* allocator&lt;T&gt;::allocate() { return static_cast&lt;T*&gt;(::operator new(sizeof(T))); } 这里涉及到两个知识点：隐式类型转换和显示类型转换。首先...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%B8%80-vscode%E8%BF%90%E8%A1%8C%E8%B0%83%E8%AF%95/" class="btn btn-outline-primary"><p>MyTinySDL阅读之一：vscode运行调试</p></a> <a href="/posts/MyTinySDL%E9%98%85%E8%AF%BB%E4%B9%8B%E4%BA%8C-typedef-typename/" class="btn btn-outline-primary"><p>MyTinySDL阅读之二：typedef、typename</p></a></div><div id="gitalk-container"></div><script> var gitalk = new Gitalk({ id: (decodeURIComponent(window.location.pathname)).substring(0, 49), clientID: 'ab82be4b02f8a8f27c36', clientSecret: 'a17055d499d8765e427a1842fea5d5c4d3f38691', accessToken: '44315eb9b98036aaa9f0f64bc6c4e695508b474d', repo: 'RamboQiu.github.io', owner: 'RamboQiu', admin: ['RamboQiu'], distractionFreeMode: false }); gitalk.render('gitalk-container'); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2021 <a href="https://github.com/RamboQiu">Rambo</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy/" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://RamboQiu.github.io{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

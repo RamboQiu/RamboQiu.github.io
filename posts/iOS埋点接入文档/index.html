@@ -1,0 +1,957 @@
+<!DOCTYPE html><html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="theme" content="Chirpy v2.7.0"><meta name="generator" content="Jekyll v4.2.0" /><meta property="og:title" content="iOS埋点接入文档" /><meta name="author" content="Rambo" /><meta property="og:locale" content="en_US" /><meta name="description" content="NEStatistics NEStatistics是严选使用的基于业务需求的打点记录用户APP操作访问行为的一块高性能数据采集模块。" /><meta property="og:description" content="NEStatistics NEStatistics是严选使用的基于业务需求的打点记录用户APP操作访问行为的一块高性能数据采集模块。" /><link rel="canonical" href="https://ramboqiu.github.io/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/" /><meta property="og:url" content="https://ramboqiu.github.io/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/" /><meta property="og:site_name" content="RAMBO" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2021-06-27T00:00:00+08:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="iOS埋点接入文档" /><meta name="google-site-verification" content="google88e65de3e03b1c74.html" /> <script type="application/ld+json"> {"author":{"@type":"Person","name":"Rambo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ramboqiu.github.io/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/"},"description":"NEStatistics NEStatistics是严选使用的基于业务需求的打点记录用户APP操作访问行为的一块高性能数据采集模块。","url":"https://ramboqiu.github.io/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/","@type":"BlogPosting","headline":"iOS埋点接入文档","dateModified":"2021-06-29T15:02:54+08:00","datePublished":"2021-06-27T00:00:00+08:00","@context":"https://schema.org"}</script><meta name="baidu-site-verification" content="baidu_verify_code-LaAMM2SYbl.html"><title>iOS埋点接入文档 | RAMBO</title><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" href="/assets/css/post.css" as="style"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script defer src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css"> <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> <script async src="/assets/js/post.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id=G-PHHDQK2S50"></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-PHHDQK2S50'); }); </script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">RAMBO</a></div><div class="site-subtitle font-italic">移动端开发从入门到放弃</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <span id="mode-toggle-wrapper"> <i class="mode-toggle fas fa-adjust"></i> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } var self = this; /* always follow the system prefers */ this.sysDarkPrefers.addListener(function() { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.updateMermaid(); }); } /* constructor() */ setDark() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_KEY); sessionStorage.removeItem(ModeToggle.MODE_KEY); } get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode == ModeToggle.DARK_MODE; } get isLightMode() { return this.mode == ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer) ) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } updateMermaid() { if (typeof mermaid !== "undefined") { let expectedTheme = (this.modeStatus === ModeToggle.DARK_MODE? "dark" : "default"); let config = { theme: expectedTheme }; /* re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function() { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.updateMermaid(); } /* flipMode() */ } /* ModeToggle */ let toggle = new ModeToggle(); $(".mode-toggle").click(function() { toggle.flipMode(); }); </script> </span> <span class="icon-border"></span> <a href="https://github.com/RamboQiu" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://twitter.com/" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['qiujunyun','163.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>iOS埋点接入文档</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>iOS埋点接入文档</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Sun, Jun 27, 2021, 12:00 AM +0800" > Jun 27 <i class="unloaded">2021-06-27T00:00:00+08:00</i> </span> by <span class="author"> Rambo </span></div><div> <span> Updated <span class="timeago lastmod" data-toggle="tooltip" data-placement="bottom" title="Tue, Jun 29, 2021, 3:02 PM +0800" > Jun 29 <i class="unloaded">2021-06-29T15:02:54+08:00</i> </span> </span> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="5098 words">28 min</span></div></div><div class="post-content"><h1 id="nestatistics">NEStatistics</h1><p>NEStatistics是严选使用的基于业务需求的打点记录用户APP操作访问行为的一块高性能数据采集模块。</p><h2 id="1-接入方法">1. 接入方法</h2><p>可以通过<a href="http://cocoapods.org/">CocoaPods</a>来进行安装</p><p>在<strong>Podfile</strong>文件上方加入私有<strong>Pod</strong>的源（建议放在官方源后面）</p><div class="language-ruby highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">source</span> <span class="s1">'https://*******.com/CocoaPods/Specs.git'</span>
+</pre></table></code></div></div><p>然后在<strong>Podfile</strong>文件添加如下，最新版本是2.5.2</p><div class="language-ruby highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">pod</span> <span class="s1">'NEStatistics'</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">'git@git.mail.netease.com:yanxuan-app/NEStatistics.git'</span><span class="p">,</span><span class="ss">:tag</span> <span class="o">=&gt;</span> <span class="err">‘</span><span class="mf">2.5</span><span class="o">.</span><span class="mi">2</span><span class="err">’</span>
+</pre></table></code></div></div><h4 id="使用地方引入头文件">使用地方引入头文件</h4><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="cp">#import &lt;NEStatistics/NEStatistics.h&gt;
+</span></pre></table></code></div></div><blockquote><p>建议在pch中全局添加</p></blockquote><h2 id="2-埋点sdk代理实现">2. 埋点SDK代理实现</h2><h3 id="21-sdk基础配置">2.1 SDK基础配置</h3><h4 id="211-导入全局头文件">2.1.1 导入全局头文件</h4><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="cp">#import &lt;NEStatistics/NEStatistics.h&gt;
+</span></pre></table></code></div></div><h4 id="212-添加埋点sdk代理">2.1.2 添加埋点SDK代理</h4><p>主要实现协议<code class="language-plaintext highlighter-rouge">NEStatisticsDelegate</code>和埋点SDK的配置初始化。建议使用代理类来写，如严选实现单例代理类，<code class="language-plaintext highlighter-rouge">YXStatisticsConfig</code>。</p><h5 id="2121-nestatisticsdelegate协议实现">2.1.2.1 NEStatisticsDelegate协议实现</h5><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre><td class="rouge-code"><pre><span class="k">@protocol</span> <span class="nc">NEStatisticsDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+<span class="err">@required</span>
+<span class="c1">/// 返回当前显示的顶层页面的页面属性</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NESPageScheme</span> <span class="o">*</span><span class="p">)</span><span class="n">nesTopvcScheme</span><span class="p">;</span>
+<span class="c1">/// 埋点数据上报接口</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">nesUploadData</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="nf">complete</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">BOOL</span><span class="p">))</span><span class="nv">complete</span><span class="p">;</span>
+
+<span class="k">@optional</span>
+<span class="c1">/// 需要实时更新的外层数据，例如：账号信息，需要放在这里更新</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">nesLiveUpdateData</span><span class="p">;</span>
+<span class="c1">/// 统计数据开始上传回调，累计的数据是按一个个包进行上报的，包中能包含的事件量eventUploadMax，这个方法是</span>
+<span class="c1">/// 开始执行上报的时候触发的</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">nesUploadStart</span><span class="p">;</span>
+<span class="c1">/// 通过埋点名，来获取埋点的abtest_dis信息</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">nesABTInfoWithEventName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">eventName</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">nesABTInfoWithPagename</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">pagename</span>
+                          <span class="nf">moduleName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span><span class="p">;</span>
+<span class="c1">/// 获取当前的网络状态</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="n">nesNetworkReachabilityStatus</span><span class="p">;</span>
+<span class="k">@end</span>
+</pre></table></code></div></div><p>其中主要实现方法如下，其他为可选实现</p><ol><li><code class="language-plaintext highlighter-rouge">nesTopvcScheme</code>，获取当前APP顶层页面的页面属性</ol><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>
+  <span class="k">-</span> <span class="p">(</span><span class="n">NESPageScheme</span> <span class="o">*</span><span class="p">)</span><span class="n">nesTopvcScheme</span> <span class="p">{</span>
+      <span class="n">UIViewController</span> <span class="o">*</span><span class="n">topController</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">topmostViewController</span><span class="p">];</span>
+      <span class="n">NESPageScheme</span> <span class="o">*</span><span class="n">topvcScheme</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">([</span><span class="n">topController</span><span class="p">.</span><span class="n">class</span> <span class="nf">isSubclassOfClass</span><span class="p">:</span><span class="n">YXBaseController</span><span class="p">.</span><span class="n">class</span><span class="p">])</span> <span class="p">{</span>
+          <span class="n">topvcScheme</span> <span class="o">=</span> <span class="p">[(</span><span class="n">YXBaseController</span> <span class="o">*</span><span class="p">)</span><span class="n">topController</span> <span class="nf">pageScheme</span><span class="p">];</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="n">topvcScheme</span><span class="p">;</span>
+  <span class="p">}</span>
+</pre></table></code></div></div><ol><li><p><code class="language-plaintext highlighter-rouge">nesUploadData:complete:</code>，数据上报接口</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">nesUploadData</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="nf">complete</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">BOOL</span><span class="p">))</span><span class="nv">complete</span> <span class="p">{</span>
+		<span class="c1">// TODO: 自行添加https接口进行数据上报</span>
+    <span class="n">complete</span><span class="p">(</span><span class="n">TRUE</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></table></code></div></div></ol><h4 id="213-在代理中完成sdk配置">2.1.3 在代理中完成SDK配置</h4><p>这部分可参考<a href="https://git.yx.netease.com/yanxuan-app/NEStatistics/tree/master/NEStatisticsDemo">Demo</a></p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+</pre><td class="rouge-code"><pre><span class="p">[</span><span class="n">NESAdditionalLogger</span> <span class="nf">setBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">int</span> <span class="n">level</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fullpath</span><span class="p">,</span> <span class="kt">int</span> <span class="n">line</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">prefix</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">content</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 注册日志输出</span>
+<span class="c1">//  [DDLog yx_channelLog:level fullpath:fullpath line:line prefix:prefix content:content];</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span> <span class="n">content</span><span class="p">);</span>
+<span class="p">}];</span>
+
+<span class="cp">#ifdef DEBUG
+</span>    <span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">openRecordLog</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span> <span class="c1">// 输出所有埋点日志</span>
+<span class="c1">//  NESConfig.sharedInstance.onlyShowVCLog = YES; // 只输出view和click</span>
+<span class="c1">//  NESConfig.sharedInstance.openReportLog = YES; // 输出上报的日志</span>
+<span class="c1">//  NESConfig.sharedInstance.openCheck = YES; // 是否启动埋点本地检查</span>
+<span class="cp">#endif
+</span>
+
+<span class="c1">/// 发送时间间隔 默认10s</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">updateSessionPeriod</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="c1">/// 项目前缀</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">projectPrefix</span> <span class="o">=</span> <span class="s">@"NE"</span><span class="p">;</span>
+<span class="c1">/// 系统版本号</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">OS_V</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"ios%@"</span><span class="p">,</span> <span class="p">[[</span><span class="n">UIDevice</span> <span class="nf">currentDevice</span><span class="p">]</span> <span class="nf">systemVersion</span><span class="p">]];</span>
+<span class="c1">/// app版本号</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">app_v</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"DEMO%@/%@"</span><span class="p">,</span>
+                                  <span class="p">[[[</span><span class="n">NSBundle</span> <span class="nf">mainBundle</span><span class="p">]</span> <span class="nf">infoDictionary</span><span class="p">]</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"CFBundleShortVersionString"</span><span class="p">],</span>
+                                  <span class="p">[[[</span><span class="n">NSBundle</span> <span class="nf">mainBundle</span><span class="p">]</span> <span class="nf">infoDictionary</span><span class="p">]</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"CFBundleVersion"</span><span class="p">]];</span>
+<span class="c1">/// 统计版本号</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">YXS_v</span> <span class="o">=</span> <span class="s">@"1"</span><span class="p">;</span>
+<span class="c1">/// 渠道号</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">ch_Id</span> <span class="o">=</span> <span class="s">@"APPStore"</span><span class="p">;</span>
+<span class="c1">/// 一次上报最多埋点数</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">eventUploadMax</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="c1">/// 手机品牌型号 iPhone 6s</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">model_Id</span> <span class="o">=</span> <span class="s">@"Simulator"</span><span class="p">;</span>
+<span class="c1">/// 设备id</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">uuid</span> <span class="o">=</span> <span class="s">@"933b6dced3dc479c5e21d1288c2261e5"</span><span class="p">;</span>
+<span class="c1">/// 主账号</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">account</span> <span class="o">=</span> <span class="s">@"qiujunyun1@163.com"</span><span class="p">;</span>
+<span class="c1">/// abtest信息</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">abtest_info</span> <span class="o">=</span> <span class="s">@"[</span><span class="se">\"</span><span class="s">YX_SUGGESTION_001-001</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">YX_WKWEBVIEW-001</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">YX_LOGIN_QQ-000</span><span class="se">\"</span><span class="s">]"</span><span class="p">;</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">skipMark</span> <span class="o">=</span> <span class="p">@[</span><span class="s">@"click_cart_order"</span><span class="p">];</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">universalPage</span> <span class="o">=</span> <span class="p">@[</span><span class="s">@"tcatelev2"</span><span class="p">];</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">idfa</span> <span class="o">=</span> <span class="s">@""</span><span class="p">;</span>
+<span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">uploadAnchor</span> <span class="o">=</span> <span class="p">@[</span><span class="s">@"open_app"</span><span class="p">,</span><span class="s">@"special_app_awake_from_h5"</span><span class="p">];</span>
+
+<span class="p">[</span><span class="n">NEStatistics</span> <span class="nf">sharedInstance</span><span class="p">].</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+<span class="p">[</span><span class="n">NEStatistics</span><span class="p">.</span><span class="n">sharedInstance</span> <span class="nf">recordFinishLaunching</span><span class="p">:</span><span class="s">@"open_app"</span><span class="p">];</span>
+<span class="p">[</span><span class="n">NEStatistics</span><span class="p">.</span><span class="n">sharedInstance</span> <span class="nf">recordEnterBackground</span><span class="p">:</span><span class="s">@"exit_app_tobackground"</span><span class="p">];</span>
+<span class="p">[</span><span class="n">NEStatistics</span><span class="p">.</span><span class="n">sharedInstance</span> <span class="nf">recordEnterForeground</span><span class="p">:</span><span class="s">@"open_app_toforeground"</span><span class="p">];</span>
+<span class="p">[</span><span class="n">NEStatistics</span><span class="p">.</span><span class="n">sharedInstance</span> <span class="nf">recordTerminate</span><span class="p">:</span><span class="s">@"exit_app"</span><span class="p">];</span>
+<span class="p">[</span><span class="n">NEStatistics</span><span class="p">.</span><span class="n">sharedInstance</span> <span class="nf">recordViewtime</span><span class="p">:</span><span class="s">@"special_default_durtime"</span><span class="p">];</span>
+</pre></table></code></div></div><p>在<a href="https://git.yx.netease.com/yanxuan-app/NEStatistics/tree/master/NEStatisticsDemo">Demo</a>的<code class="language-plaintext highlighter-rouge">NEStatisticsConfig</code>中，还有其他实现方法，比如：</p><ol><li><p><code class="language-plaintext highlighter-rouge">NESConfig.sharedInstance.schemePagenameDic</code>的实现 {schemehost: pagename}</p><p><code class="language-plaintext highlighter-rouge">schemePagenameDic</code>会在页面属性赋值scheme的时候，寻找scheme.host的key-value关系，找到这个页面的pagename，并进行赋值，然后用来实现一个页面名为default的埋点，比如，click_default_button默认页按钮点击，这种自动将此埋点的pagename属性自动设置为当前页面的pagename</p><blockquote><p>项目开发中，最好埋点管理平台的pagename就应该同路由的host保持一致</p><p>严选项目已经迭代很久，埋点管理平台问了实现三端的pagename保持一致，所以导致管理平台上的pagename和移动端的路由sheme.host并不一致</p></blockquote></ol><h4 id="214-添加uiviewcontroller的埋点属性代理">2.1.4 添加UIViewController的埋点属性代理</h4><p>主要实现协议<code class="language-plaintext highlighter-rouge">NEStatisticsVCProtocol</code>中的schemeUrl，其他为可选实现，以下面的埋点例子为讲解进行方法实现后的效果演示</p><div class="language-json highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+</pre><td class="rouge-code"><pre><span class="p">{</span><span class="w">
+  </span><span class="nl">"event_action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"event_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view_newitem"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"frompage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yanxuan://commoditydetails?source_tracker_type=1&amp;commodityid=100100"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"is_return"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"locpage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yanxuan://homepage_newarrival"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"log_source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"app"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"page_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"newitem"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"from"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"测试"</span><span class="err">，</span><span class="w">
+    </span><span class="nl">"extra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"resource"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"taskId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"44352561"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"materialId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"49011191"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"taskType"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"resourcesId"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"crmUserGroupId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"crmUserGroupName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"无分组"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"materialName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"女式咖啡碳+5℃保暖内衣（上衣/裤子）"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"itemId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1164006"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"materialType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"商品id"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"itemIdList"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"1164006"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nl">" itemFrom,"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1-运营指定 2-算法推荐"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"rcmdsort"</span><span class="p">:</span><span class="w"> </span><span class="s2">"算法排序标识boolean值, 首焦模块中可标识是否候选队列推荐素材"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"recommend"</span><span class="p">:</span><span class="w"> </span><span class="s2">"算法推荐队列数据"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"modelType"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="err">'</span><span class="mi">10</span><span class="err">_</span><span class="mi">11</span><span class="err">|</span><span class="mi">12</span><span class="err">_</span><span class="mi">13</span><span class="err">'</span><span class="w"> </span><span class="err">#实验ID_方案ID（rdc或者rcmd来源的多个实验</span><span class="w"> </span><span class="err">以</span><span class="w"> </span><span class="s2">"|"</span><span class="w"> </span><span class="err">分隔）</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"sequence"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v_1_1550734611837"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"sessionid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"416f72acc696ccd92cae7ddf3ef51c71530243064347"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp_a"</span><span class="p">:</span><span class="w"> </span><span class="mi">1530243349740</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"abtest_info"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="w"> </span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"mi"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ypm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"v_1_1550734611835"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">"newitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view_newitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"ypm_list"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"v_1_1550734611835"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view_index"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+      </span><span class="p">},{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"v_1_1550734611835"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"click_index_new"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+      </span><span class="p">},{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"v_1_1550734611835"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">"newitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view_newitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+      </span><span class="p">},{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"v_1_1550734611835"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">"newitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"click_newitem_allitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"itemid"</span><span class="p">:</span><span class="w"> </span><span class="mi">100100</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+      </span><span class="p">},{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"-1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+   </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"mark"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"module"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="s2">"click_index_lightsale"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"sequen"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"itemId"</span><span class="p">:</span><span class="mi">1098323</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+          </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></table></code></div></div><h5 id="2141-nestatisticsvcprotocol协议实现">2.1.4.1 NEStatisticsVCProtocol协议实现</h5><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+</pre><td class="rouge-code"><pre>
+<span class="k">@protocol</span> <span class="nc">NEStatisticsVCProtocol</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="err">@required</span>
+<span class="cm">/**
+ * @brief 主要必须实现方法，获取当前页面的scheme以及拼接参数
+ *
+ * schemeUrl标识一个页面的路由链接，但是很多情况会同时存在两个相同的页面，比如说两个相同商品的商品详情页
+ * 这个时候就需要配合使用NESPageScheme的declareObj
+ *
+ * 存在之初是用来赋值locpage和frompage，算是第一阶段的路径追踪
+ *
+ * 下面的代码段演示一下schemeUrl在严选项目中的赋值逻辑，当然也可以结合自己的项目单独设计
+ * @code
+ - (NSString *)schemeUrl {
+     NSMutableString *scheme = [NSMutableString string];
+     // 统一获取页面的路由scheme的接口
+     if ([self.class respondsToSelector:@selector(urlPath)]) {
+         [scheme appendFormat:@"%@?",[self.class performSelector:@selector(urlPath)]];
+     }
+     // 是否需要额外参数区分两个页面，这里是通过属性的方式拼接
+     if ([self.nessource yx_isValidString]) {
+         [scheme appendFormat:@"%@&amp;", self.nessource];
+     }
+     
+     // webview 单独处理 获取webview上面的statisticsUrl属性
+     if ([self isKindOfClass:YXWebViewController.class]) {
+         scheme = [@"yanxuan://yxwebview?" mutableCopy];
+         if ([self.nessource yx_isValidString]) {
+             [scheme appendFormat:@"%@&amp;", self.nessource];
+         }
+         
+         NSString *url = [self valueForKey:@"url"];
+         if ([url yx_isValidString]) {
+             [scheme appendFormat:@"url=%@", url];
+             return scheme;
+         }
+     }
+         
+     /// 拼接路由参数
+     if (self.routeParams) {
+         [self.routeParams enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+             // 只接受string和number的参数
+             if ([obj yx_isValidString] || [obj isKindOfClass:NSNumber.class]) {
+                 [scheme appendFormat:@"%@=%@&amp;",key , obj];
+             }
+         }];
+     }
+     /// 拼接vc的自定义参数
+     if ([self respondsToSelector:@selector(statisticsScheme:)]) {
+         scheme = [[(id&lt;NEStatisticsVCProtocol&gt;)self statisticsScheme:scheme] mutableCopy];
+     }
+     
+     return scheme;
+ }
+ *
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">schemeUrl</span><span class="p">;</span>
+
+<span class="k">@optional</span>
+
+<span class="cm">/**
+ * @brief 每个页面的页面属性
+ *
+ * schemeUrl和pageScheme的含义理解是，schemeUrl是简单字符串类型的页面标识，pageScheme则是面向对象类型的页面标识
+ *
+ * pageScheme中包含有schemeUrl的属性，他的存在目的是为了完成schemeUrl无法完成的页面透传和入口页方案，实现第二阶段的路径追踪能力
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NESPageScheme</span> <span class="o">*</span><span class="n">pageScheme</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @brief 用于跳过第一次的访问统计，使用此参数对应的KEY注意跳过之后该KEY对应的value赋值
+ *
+ * 使用场景：
+ *
+ * 1. 页面访问统计需要当前页面的接口返回的数据的时候。
+ * 访问统计必须在viewdidappear中进行的。（因为locpage frompage刷新是在基类viewdidappear）
+ * 页面数据request请求快慢不定，会在viewdidappear前后请求回来。
+ * 示例见 view_detail
+ *
+ * 2. pagecontroller的时候
+ * 第一次进入到页面会有loadpage 这个时候可用于标志位跳过第一次的viewdidappear
+ * 示例见 view_orderlist
+ *
+ * 设计这个在属性的目的，是为了灵活处理各种业务场景的bool值控制需要，这样就不用每个地方都建立一个bool，可以统一用字典管理
+ * 下面代码段演示的是二级分类页中，其中l2CategoryId是当前页面的接口请求返回的
+ * @code
+ - (void)statisticsView {
+     if ([[self.hasStatistics objectForKey:YXS_VIEW_CATELEV2] boolValue]) {
+         if (self.l2CategoryId) {
+             [NEStatistics.sharedInstance refreshPage];
+             [NEStatistics.sharedInstance recordEvent:YXS_VIEW_CATELEV2
+                                           parameters:@{@"categoryId":@(self.l2CategoryId),
+                                                        @"superCategoryId":@(self.l1CategoryId)}];
+         }
+     }
+     [self.hasStatistics setObject:@(YES) forKey:YXS_VIEW_CATELEV2];
+ }
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">hasStatistics</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @brief 通过属性赋值的方式，将存在两个页面是相同的sheme，区分开
+ *
+ * 通过source参数，来增加scheme参数进行区分，例如：
+ *
+ * 首页tab福利社和福利社落地页的scheme都是如下，取值nessource为_nestat_s=indextab
+ *
+ * yanxuan://yxwebview?url=https://m.you.163.com/saleCenter/index
+ *
+ * 改动之后：
+ *
+ * yanxuan://yxwebview?_nestat_s=indextab&amp;url=https://m.you.163.com/saleCenter/index
+ *
+ * 注意拼接的位子，可选使用参数，赋值之后需要在schemeUrl的get方法中获取使用即可
+ *
+ * 下面代码段，演示nessource赋值逻辑
+ * @code
+ NSInteger currentPage = _pageControllerView.currentPageIndex;
+ YXBaseController *vc = (YXBaseController *)[_pageControllerView pageControllerView:currentPage];
+ YXHomepageSegmentModel *item = [self.allSegmentItems at:currentPage];
+ if (item.type == YXHomepageSegmentType_limit ||
+     item.type == YXHomepageSegmentType_new ||
+     item.type == YXHomepageSegmentType_saleCenter) {
+     vc.nessource = @"_nestat_s=indextab";
+ }
+ *
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">nessource</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @brief 页面访问埋点核心触发方法，可选实现
+ *
+ * 1. 严选中实现是在基类中兜底实现view_default，如果子类没有或是忘记实现访问埋点，则会走到基类中触发兜底访问
+ *
+ * 2. 未实现此方法，则自动读取schemeUrl中的path，拼接成view_abc，例如：schemeUrl = yanxuan://abc?parama=b
+ *
+ * @code
+ - (void)statisticsViewLaunch {
+     [NEStatistics.sharedInstance recordEvent:YXS_VIEW_ABOUTUS];
+ }
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">statisticsViewLaunch</span><span class="p">;</span>
+
+<span class="cm">/*!
+ * @brief 通过协议方法实现的方式，定制页面的scheme
+ * @param scheme 当前scheme
+ *
+ * @return 返回自定义拼接参数后的scheme
+ *
+ * 下面代码段实现样例，比如商品分类页面，类目id是不一样的，但是其他scheme都是一样的，可以在类目vc中单独拼接id参数
+ * @code
+ #pragma mark - NEStatisticsVCProtocol
+ - (NSString *)statisticsScheme:(NSString *)scheme {
+     NSMutableString *schemeUrl = [NSMutableString stringWithString:scheme];
+     [schemeUrl appendFormat:@"categoryL1=%ld",self.l1Id];
+     return schemeUrl;
+ }
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">statisticsScheme</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">scheme</span><span class="p">;</span>
+<span class="k">@end</span>
+</pre></table></code></div></div><h5 id="2142-页面路由配置为埋点页面schemeurl">2.1.4.2 页面路由配置为埋点页面schemeUrl</h5><p>建议在controller的统一基类中进行配置<code class="language-plaintext highlighter-rouge">schemeUrl</code></p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="c1">// BaseViewController.m</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">schemeUrl</span> <span class="p">{</span>
+    <span class="n">NSMutableString</span> <span class="o">*</span><span class="n">scheme</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableString</span> <span class="nf">string</span><span class="p">];</span>
+    <span class="c1">// urlPath为页面路由的scheme</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">self</span><span class="p">.</span><span class="n">class</span> <span class="nf">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">urlPath</span><span class="p">)])</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">scheme</span> <span class="nf">appendFormat</span><span class="p">:</span><span class="s">@"%@?"</span><span class="p">,[</span><span class="n">self</span><span class="p">.</span><span class="n">class</span> <span class="nf">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">urlPath</span><span class="p">)]];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">scheme</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>完成以上配置即可达到埋点基础字段的<code class="language-plaintext highlighter-rouge">frompage</code>、<code class="language-plaintext highlighter-rouge">locpage</code>、<code class="language-plaintext highlighter-rouge">ypm</code>、<code class="language-plaintext highlighter-rouge">ypm_list</code></p><div class="language-json highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+</pre><td class="rouge-code"><pre><span class="err">·</span><span class="w">
+</span><span class="err">·</span><span class="w">
+</span><span class="nl">"frompage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yanxuan://commoditydetails?source_tracker_type=1&amp;commodityid=100100"</span><span class="err">,</span><span class="w">
+</span><span class="nl">"locpage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yanxuan://homepage_newarrival"</span><span class="err">,</span><span class="w">
+</span><span class="err">·</span><span class="w">
+</span><span class="err">·</span><span class="w">
+</span><span class="nl">"ypm"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"v_1_1550734611835"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">"newitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view_newitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+   </span><span class="p">}</span><span class="err">,</span><span class="w">
+  </span><span class="nl">"ypm_list"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"v_1_1550734611835"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view_index"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+      </span><span class="p">},{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"v_1_1550734611835"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">"index"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"click_index_new"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+      </span><span class="p">},{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"v_1_1550734611835"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">"newitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"view_newitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+      </span><span class="p">},{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"v_1_1550734611835"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">"newitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"click_newitem_allitem"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nl">"itemid"</span><span class="p">:</span><span class="w"> </span><span class="mi">100100</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+      </span><span class="p">},{</span><span class="w">
+      </span><span class="nl">"sequence"</span><span class="p">:</span><span class="s2">"-1"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"page_name"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"event_name"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+   </span><span class="p">]</span><span class="err">,</span><span class="w">
+   </span><span class="err">·</span><span class="w">
+   </span><span class="err">·</span><span class="w">
+</span></pre></table></code></div></div><blockquote><p>非入口页的<a href="https://git.yx.netease.com/yanxuan-app/NEStatistics/blob/master/Docs/%E9%9D%9E%E5%85%A5%E5%8F%A3%E9%A1%B5-%E8%B7%AF%E5%BE%84%E9%80%8F%E4%BC%A0%E6%96%B9%E6%A1%88.md">路径透传方案</a>，详细见方案</p></blockquote><h5 id="2143-配置项目中页面的入口页">2.1.4.3 配置项目中页面的入口页</h5><p>实现<code class="language-plaintext highlighter-rouge">NEStatisticsVCProtocol</code>中的pageScheme，如：</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="c1">// HomeViewController.m</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NESPageScheme</span> <span class="o">*</span><span class="p">)</span><span class="n">pageScheme</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span><span class="p">.</span><span class="n">pageScheme</span> <span class="nf">loadMark</span><span class="p">];</span>
+    <span class="k">return</span> <span class="n">super</span><span class="p">.</span><span class="n">pageScheme</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>重写pageScheme的get方法，标记首页为入口页，这样从首页进入到的后续非入口页的页面里面触发的埋点，都会带上首页mark</p><div class="language-json highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre><span class="nl">"mark"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"page"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"module"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="s2">"click_index_lightsale"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"parameters"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"sequen"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"itemId"</span><span class="p">:</span><span class="mi">1098323</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+          </span><span class="nl">"abtest_dis"</span><span class="p">:</span><span class="s2">"实验a_分组2|实验b_分组3"</span><span class="p">,</span><span class="w">
+          </span><span class="nl">"mi"</span><span class="p">:</span><span class="s2">""</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span></pre></table></code></div></div><h5 id="2144-其他">2.1.4.4 其他</h5><p>其他协议可参考注释自由选择实现</p><h3 id="22-使用sdk进行打点">2.2 使用SDK进行打点</h3><p>本地埋点管理有两种方式可以进行，<a href="http://yx.mail.netease.com/kuafu2/main/#/home">严选的埋点管理平台见</a></p><ol><li><p>plist文件统一管理所有埋点</p><p>优点：plist文件会使用py脚本自动生成字符串常量，在调用的时候可以灵活的使用代码提示，集中管理</p><p>缺点：多人协作的时候，plist文件容易冲突，基本每次改动合并主分支都需要手动解决冲突</p><li><p>直接代码打入埋点</p><p>优点：灵活，分散管理，跟随代码自动删除下线，无多人协作的冲突问题</p><p>缺点：埋点key需要手动输入，容易输错</p><blockquote><p>配合网易严选的埋点管理平台，集成了埋点代码块生成能力，有效解决了此问题，此部分需要配置埋点管理平台进行，如果有代码段能力，推荐使用方法2进行本地代码管理</p></blockquote></ol><h4 id="221-plist方法进行埋点管理试打点">2.2.1 plist方法进行埋点管理试打点</h4><p>iOS统计模块的埋点键值是通过python脚本编辑plist配置文件，自动生成字符串常量的.h和.m文件。</p><h5 id="2211-配置python脚本">2.2.1.1 配置Python脚本</h5><p>Targets &gt; NEStatisticsDemo &gt; Build Phases &gt; add a new build phase &gt; 输入statisticsScript.py的位置</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>/usr/bin/python ./Pods/NEStatistics/NEStatistics/Auto/statisticsScript.py
+</pre></table></code></div></div><p>然后新建的phase记得放在Compile Sources前面。</p><h5 id="2212-配置脚本编译开关">2.2.1.2 配置脚本编译开关</h5><p>在系统的三类（如果有三类）.xcconfig文件中配置如下</p><p>AppStore.xcconfig</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">NES_UPDATE_ENABLE</span> <span class="o">=</span> <span class="nb">NO</span>
+</pre></table></code></div></div><p>Debug.xcconfig</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">NES_UPDATE_ENABLE</span> <span class="o">=</span> <span class="nb">YES</span>
+</pre></table></code></div></div><p>Release.xcconfig</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">NES_UPDATE_ENABLE</span> <span class="o">=</span> <span class="nb">NO</span>
+</pre></table></code></div></div><h5 id="2213-建立埋点key配置表neseventpropertiesplist文件">2.2.1.3 建立埋点key配置表NESEventProperties.plist文件</h5><div class="table-wrapper"><table><thead><tr><th>key<th>类型<th>必填<th>备注<th> <tbody><tr><td>event_name<td>NSString<td>是<td>埋点事件名（eventaction_pagename_event）<td> <tr><td>event_action<td>NSString<td>否<td>埋点事件动作类型 click view special（如果有此项或是值为空，就不会取规范命名event_name的eventaction，反之一样如果需要自定义可以增加此项）<td> <tr><td>page_name<td>NSString<td>否<td>埋点所在页面名（如果有此项或是值为空，就不会取规范命名event_name的pagename，反之一样如果需要自定义可以增加此项）<td> <tr><td>locpage<td>NSString<td>否<td>当前埋点页面的schemeUrl<td> <tr><td>recordtopage<td>BOOL<td>否<td>是否需要记录下一个页面的locpage<td> <tr><td>ignorefrompage<td>BOOL<td>否<td>是否忽略不记录frompage 例如view_launchpage<td> <tr><td>parameterstype<td>Enum NSInteger<td>否<td>需统一添加的参数类型，目前用到的类型就是1 首页的埋点userType：是否新人标识<td> <tr><td>description<td>String<td>否<td>该埋点的需求描述文案<td> <tr><td>version<td>String<td>否<td>该埋点埋入的app版本号<td> <tr><td>date<td>String<td>否<td>埋点记录时间<td> <tr><td>params<td>String<td>否<td>埋点参数注释<td> </table></div><p>plist配置表，一项就是一个埋点。例如：</p><div class="table-wrapper"><table><thead><tr><th>key<th>类型<th>value<th> <tbody><tr><td>event_name<td>String<td>click_demopage_testaction<td> <tr><td>event_action<td>String<td>click<td> <tr><td>page_name<td>String<td>demopage<td> <tr><td>locpage<td>String<td> <td> <tr><td>recordtopage<td>Boolean<td>NO<td> <tr><td>parameterstype<td>Number<td>1<td> <tr><td>ignorefrompage<td>Boolean<td>NO<td> <tr><td>description<td>String<td>测试页面的点击按钮点击（具体属性注释可以看YXSEventProperty）<td> <tr><td>version<td>String<td>1.0.0<td> <tr><td>author<td>String<td>qiujunyun<td> <tr><td>date<td>String<td>2018-03-06<td> <tr><td>params<td>String<td>url: NSString<td> </table></div><p>编译之后就会在同目录下生成.h和.m文件，并拖到项目中</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre><td class="rouge-code"><pre><span class="c1">/// YXStatisticsHeader.m</span>
+<span class="cm">/*!
+ * @breif 测试页面 点击按钮点击（具体属性注释可以看NESEventProperty）
+ *
+ *       params: url: NSString
+ *
+ *    page_name: demopage
+ *
+ * event_action: click
+ *
+ *parameterstype: 需要底层添加userType参数。
+ *
+ * @author qiujunyun
+ * @version 1.0.0
+ * @date 2018-03-06
+ */</span> 
+<span class="n">UIKIT_EXTERN</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">NES_CLICK_DEMOPAGE_TESTACTION</span><span class="p">;</span>
+</pre></table></code></div></div><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="c1">/// YXStatisticsHeader.m</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">NES_CLICK_DEMOPAGE_TESTACTION</span>                          <span class="o">=</span> <span class="s">@"click_demopage_testaction"</span><span class="p">;</span>
+</pre></table></code></div></div><blockquote><p>精简版只需要配置event_name、topagetype、description即可</p></blockquote><h5 id="2214-使用埋点">2.2.1.4 使用埋点</h5><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="c1">/// ButtonViewController</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">clickAction</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">NEStatistics</span><span class="p">.</span><span class="n">sharedInstance</span> <span class="nf">recordEvent</span><span class="p">:</span><span class="n">NES_CLICK_DEMOPAGE_TESTACTION</span><span class="p">];</span>   
+<span class="p">}</span>
+</pre></table></code></div></div><h4 id="222-直接代码打入埋点">2.2.2 直接代码打入埋点</h4><p>直接使用埋点SDK调用接口打点，如下：</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="p">[</span><span class="n">NEStatistics</span><span class="p">.</span><span class="n">sharedInstance</span> <span class="nf">recordTK</span><span class="p">:</span><span class="s">@"click_tab"</span><span class="p">];</span>
+</pre></table></code></div></div><p>详细接口见<code class="language-plaintext highlighter-rouge">NEStatistics.h</code>头文件，主要介绍四个方法</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="c1">/// 新命名 指定key的不记录topage埋点方法</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">recordTK</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">recordTK</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span>
+          <span class="nf">params</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">parameters</span><span class="p">;</span>
+
+<span class="c1">/// 新命名 指定key的不记录topage埋点方法</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">recordNTK</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">recordNTK</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">key</span>
+           <span class="nf">params</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">parameters</span><span class="p">;</span>
+</pre></table></code></div></div><p>埋点事件主要分为四类：view（页面访问）、show（模块曝光）、click（模块点击）、special（其他事件）</p><p>其中点击埋点是需要区分，此次点击是否会跳转页面，所以有两种，在plist埋点的配置中是<code class="language-plaintext highlighter-rouge">recordtopage</code>进行配置管理</p><p>在埋点方法中则是<code class="language-plaintext highlighter-rouge">recordTK:</code>和<code class="language-plaintext highlighter-rouge">recordNTK:</code>这种进行区分</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="p">[</span><span class="n">NEStatistics</span><span class="p">.</span><span class="n">sharedInstance</span> <span class="nf">recordTK</span><span class="p">:</span><span class="s">@"click_default_button"</span><span class="p">];</span>
+<span class="p">[</span><span class="n">NEStatistics</span><span class="p">.</span><span class="n">sharedInstance</span> <span class="nf">recordNTK</span><span class="p">:</span><span class="s">@"show_default_button"</span><span class="p">];</span>
+</pre></table></code></div></div><blockquote><p>点击会跳转页面的这种称为：带跳转的点击埋点，这类埋点的表现就是</p><ol><li><p>当前埋点的基础字段的topage会有值</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="s">"topage"</span><span class="o">:</span> <span class="s">"yanxuan://homepage_newarrival"</span><span class="p">,</span>
+</pre></table></code></div></div><li><p><strong>在<a href="https://ramboqiu.github.io/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E5%85%A5%E5%8F%A3%E9%A1%B5%E5%AF%BC%E8%B4%AD%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%A1%88/">入口页方案</a>和<a href="https://ramboqiu.github.io/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E9%9D%9E%E5%85%A5%E5%8F%A3%E9%A1%B5%E8%B7%AF%E5%BE%84%E9%80%8F%E4%BC%A0%E6%96%B9%E6%A1%88/">非入口页方案</a>中，很重要</strong></p><p>只有带跳转的点击才认为是需要透传的点击，不然在ypm_list中会用-1代替，mark中的module会为空</p></ol></blockquote><p>配合埋点管理平台使用代码段能力</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/夸父代码段.png" alt="夸父代码段" class="normal" /></p><p>点击即可生成埋点代码段，直接在需要打点的进行打点即可</p><h3 id="23-进入一个已经存在的页面认为是后退访问">2.3 进入一个已经存在的页面，认为是后退访问</h3><p>网易严选项目，认为后退访问是一个无效的访问，会在访问埋点上面打上一个标识位，见<a href="https://git.yx.netease.com/yanxuan-app/NEStatistics/blob/master/Docs/%E5%9F%8B%E7%82%B9%E5%9F%BA%E7%A1%80%E5%AD%97%E6%AE%B5%E7%BB%B4%E6%8A%A4.md">埋点字段</a>的<code class="language-plaintext highlighter-rouge">is_return</code></p><div class="language-json highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="s2">"is_return"</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="mi">1</span><span class="err">,</span><span class="w">
+</span></pre></table></code></div></div><p>我们定义：<strong>第二次进入一个已经存在的页面就是后退访问，除去tabcontroller一类左右多tab页面切换</strong>。</p><p>访问埋点是在页面生命流程的<code class="language-plaintext highlighter-rouge">viewDidAppear:</code>中触发的，<code class="language-plaintext highlighter-rouge">is_return</code>的逻辑也已经很好的兼容了，其中需要额外处理的是手势后退的兼容，考虑手势后退一半又取消后退了的情况下也会触发<code class="language-plaintext highlighter-rouge">viewDidAppear:</code>的问题，这种情况不应该触发访问埋点，需要在项目中进行配置，能做到手势后退一半又取消后退，见视频操作。</p><video id="video" controls="" preload="none" poster=""> <source id="mp4" src="/assets/img/study/后退手势.mp4" type="video/mp4" /> </video><p>在自定义的后退手势中，获取到取消后退的节点，并调用</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="p">[</span><span class="n">NEStatistics</span><span class="p">.</span><span class="n">sharedInstance</span> <span class="nf">navControllerBackPanGestureHandlerReceiveCancel</span><span class="p">:</span><span class="n">isCanceled</span><span class="p">];</span>
+</pre></table></code></div></div><p>详细可以参考Demo中<code class="language-plaintext highlighter-rouge">BaseViewController.m</code>的演示</p><h3 id="24-自定义的tabcontroller式的多标签页的页面">2.4 自定义的tabController式的多标签页的页面</h3><p>简单来讲这种页面就是一个UIViewController中包含多个子页面的形式，子页面也是使用Controller来实现的，如下</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210621-165142.png" alt="screenshot-20210621-165142" class="normal" /></p><p>四个页面的切换是不涉及push和pop的那种的，所以需要定制，详细见<a href="https://git.yx.netease.com/yanxuan-app/NEStatistics/tree/master/NEStatisticsDemo">Demo</a>的<code class="language-plaintext highlighter-rouge">TabMoreViewController</code></p><ol><li>复写pageScheme，将四个页面的scheme定义为四个不同的scheme，也可以通过path不同来区分，主要是区分<code class="language-plaintext highlighter-rouge">locpage</code><li>实现<code class="language-plaintext highlighter-rouge">statisticsViewLaunch</code>，然后自定义访问埋点<li>在segment和controller切换的时候主动触发访问埋点<li>记得处理当前的页面访问是否是回退访问逻辑，因为子Controller可能会触发viewDidAppear导致</ol><h3 id="25-日志输出配置">2.5 日志输出配置</h3><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>
+<span class="p">[</span><span class="n">NESAdditionalLogger</span> <span class="nf">setBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">int</span> <span class="n">level</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fullpath</span><span class="p">,</span> <span class="kt">int</span> <span class="n">line</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">prefix</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">content</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// 注册日志输出</span>
+<span class="c1">//                [DDLog yx_channelLog:level fullpath:fullpath line:line prefix:prefix content:content];</span>
+	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span> <span class="n">content</span><span class="p">);</span>
+<span class="p">}];</span>
+</pre></table></code></div></div><h3 id="26-埋点相关的日志输出控制">2.6 埋点相关的日志输出控制</h3><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="cp">#ifdef DEBUG
+</span>            <span class="n">NESConfig</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">openRecordLog</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span> <span class="c1">// 输出所有埋点日志</span>
+<span class="c1">//            NESConfig.sharedInstance.onlyShowVCLog = YES; // 只输出view和click</span>
+<span class="c1">//            NESConfig.sharedInstance.openReportLog = YES; // 输出上报的日志</span>
+<span class="c1">//            NESConfig.sharedInstance.openCheck = YES; // 是否启动埋点本地检查</span>
+<span class="cp">#endif
+</span></pre></table></code></div></div><h3 id="27-本地埋点可视化工具">2.7 本地埋点可视化工具</h3><p>实现如下方法即可</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="p">[</span><span class="n">NESAssistiveManager</span><span class="p">.</span><span class="n">shareInstance</span> <span class="nf">show</span><span class="p">];</span>
+</pre></table></code></div></div><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/study/screenshot-20210621-172622.png" alt="screenshot-20210621-172622" class="normal" /></p><h2 id="demo">Demo</h2><p><a href="https://git.yx.netease.com/yanxuan-app/NEStatistics/tree/master/NEStatisticsDemo">Demo</a>中包含完整的实现，可以参考实现</p></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/tech/'>Tech</a>, <a href='/categories/study/'>Study</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/%E5%9F%8B%E7%82%B9/" class="post-tag no-text-decoration" >埋点</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=iOS埋点接入文档 - RAMBO&url=https://RamboQiu.github.io/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=iOS埋点接入文档 - RAMBO&u=https://RamboQiu.github.io/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=iOS埋点接入文档 - RAMBO&url=https://RamboQiu.github.io/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-lastmod" class="post"> <span>Recent Update</span><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/">iOS埋点接入文档</a><li><a href="/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E5%85%A5%E5%8F%A3%E9%A1%B5%E5%AF%BC%E8%B4%AD%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%A1%88/">埋点之入口页导购统计方案</a><li><a href="/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/">iOS消息转发机制</a><li><a href="/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/">iOS秒开H5实战总结</a><li><a href="/posts/iOS15%E7%BA%BF%E4%B8%8A%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">iOS15线上问题总结</a></ul></div><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E9%9D%9E%E5%85%A5%E5%8F%A3%E9%A1%B5%E8%B7%AF%E5%BE%84%E9%80%8F%E4%BC%A0%E6%96%B9%E6%A1%88/"><div class="card-body"> <span class="timeago small" > Jun 28 <i class="unloaded">2021-06-28T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>埋点之非入口页路径透传方案</h3><div class="text-muted small"><p> 1. 简介 区别于入口页方案，非入口页算是链路追踪的升级版本，从单一节点的递进推演，直接升级为连续五个节点的统一获取的形式。 2. 透传方案 对于日渐增加的分析需求，和用户数据量的倍增，需要更快一步的支持用户的行为追踪，老一套的埋点数据分析方案，已经不能够满足需求了。 透传方案新 透传APP生命流程周期内连续五个页面的事件sequence（页面...</p></div></div></a></div><div class="card"> <a href="/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E5%85%A5%E5%8F%A3%E9%A1%B5%E5%AF%BC%E8%B4%AD%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%A1%88/"><div class="card-body"> <span class="timeago small" > Jun 29 <i class="unloaded">2021-06-29T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>埋点之入口页导购统计方案</h3><div class="text-muted small"><p> 背景介绍 当前随着页面交互形式丰富，过去通过人工制定页面层级的方式已难以快速响应及灵活、全面支持各业务场景需求，无论从数据生产/加工以及评估监控业务上都存在一定局限性。为此，共同商定新一轮导购统计规则。 考拉：分为入口和其他页面两种计算方式 入口：从前往后追溯，将固定资源位定义为入口(如：我的考拉，搜索，导航，分类等)，无论途径多少步，最终支付都归属在该入口 ...</p></div></div></a></div><div class="card"> <a href="/posts/%E5%88%B6%E4%BD%9Cnpm%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7cli/"><div class="card-body"> <span class="timeago small" > Apr 9 <i class="unloaded">2021-04-09T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>制作npm的命令行工具cli</h3><div class="text-muted small"><p> npm：nodejs packect manage，允许用户从NPM服务器下载别人编写的第三方包到本地使用、下载并安装别人编写的命令行程序（CLI）到本地使用、将自己编写的包或命令行程序上传到NPM服务器供别人使用。 cli：command line interface，命令行界面，是指可在用户提示符下键入可执行指令的界面， 一直知道npm install一些工具之后，自己就能在终端使用...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/iOS15%E7%BA%BF%E4%B8%8A%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/" class="btn btn-outline-primary"><p>iOS15线上问题总结</p></a> <a href="/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E9%9D%9E%E5%85%A5%E5%8F%A3%E9%A1%B5%E8%B7%AF%E5%BE%84%E9%80%8F%E4%BC%A0%E6%96%B9%E6%A1%88/" class="btn btn-outline-primary"><p>埋点之非入口页路径透传方案</p></a></div><div id="gitalk-container"></div><script> var gitalk = new Gitalk({ id: (decodeURIComponent(window.location.pathname)).substring(0, 49), clientID: 'ab82be4b02f8a8f27c36', clientSecret: 'a17055d499d8765e427a1842fea5d5c4d3f38691', accessToken: '44315eb9b98036aaa9f0f64bc6c4e695508b474d', repo: 'RamboQiu.github.io', owner: 'RamboQiu', admin: ['RamboQiu'], distractionFreeMode: false }); gitalk.render('gitalk-container'); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2021 <a href="https://github.com/RamboQiu">Rambo</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy/" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://RamboQiu.github.io{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

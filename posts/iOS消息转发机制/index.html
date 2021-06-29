@@ -1,0 +1,527 @@
+<!DOCTYPE html><html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="theme" content="Chirpy v2.7.0"><meta name="generator" content="Jekyll v4.2.0" /><meta property="og:title" content="iOS消息转发机制" /><meta name="author" content="Rambo" /><meta property="og:locale" content="en_US" /><meta name="description" content="简介" /><meta property="og:description" content="简介" /><link rel="canonical" href="https://ramboqiu.github.io/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/" /><meta property="og:url" content="https://ramboqiu.github.io/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/" /><meta property="og:site_name" content="RAMBO" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2021-05-06T00:00:00+08:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="iOS消息转发机制" /><meta name="google-site-verification" content="google88e65de3e03b1c74.html" /> <script type="application/ld+json"> {"author":{"@type":"Person","name":"Rambo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ramboqiu.github.io/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/"},"description":"简介","url":"https://ramboqiu.github.io/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/","@type":"BlogPosting","headline":"iOS消息转发机制","dateModified":"2021-06-22T16:12:19+08:00","datePublished":"2021-05-06T00:00:00+08:00","@context":"https://schema.org"}</script><meta name="baidu-site-verification" content="baidu_verify_code-LaAMM2SYbl.html"><title>iOS消息转发机制 | RAMBO</title><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" href="/assets/css/post.css" as="style"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script defer src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css"> <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> <script async src="/assets/js/post.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id=G-PHHDQK2S50"></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-PHHDQK2S50'); }); </script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">RAMBO</a></div><div class="site-subtitle font-italic">移动端开发从入门到放弃</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <span id="mode-toggle-wrapper"> <i class="mode-toggle fas fa-adjust"></i> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } var self = this; /* always follow the system prefers */ this.sysDarkPrefers.addListener(function() { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.updateMermaid(); }); } /* constructor() */ setDark() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_KEY); sessionStorage.removeItem(ModeToggle.MODE_KEY); } get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode == ModeToggle.DARK_MODE; } get isLightMode() { return this.mode == ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer) ) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } updateMermaid() { if (typeof mermaid !== "undefined") { let expectedTheme = (this.modeStatus === ModeToggle.DARK_MODE? "dark" : "default"); let config = { theme: expectedTheme }; /* re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function() { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.updateMermaid(); } /* flipMode() */ } /* ModeToggle */ let toggle = new ModeToggle(); $(".mode-toggle").click(function() { toggle.flipMode(); }); </script> </span> <span class="icon-border"></span> <a href="https://github.com/RamboQiu" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://twitter.com/" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['qiujunyun','163.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>iOS消息转发机制</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>iOS消息转发机制</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Thu, May 6, 2021, 12:00 AM +0800" > May 6 <i class="unloaded">2021-05-06T00:00:00+08:00</i> </span> by <span class="author"> Rambo </span></div><div> <span> Updated <span class="timeago lastmod" data-toggle="tooltip" data-placement="bottom" title="Tue, Jun 22, 2021, 4:12 PM +0800" > Jun 22 <i class="unloaded">2021-06-22T16:12:19+08:00</i> </span> </span> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="2054 words">11 min</span></div></div><div class="post-content"><h2 id="简介">简介</h2><p>Objective-C是一门<a href="https://ramboqiu.github.io/posts/%E5%90%84%E7%A7%8D%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8C%BA%E5%88%AB%E6%B1%87%E6%80%BB/">动态语言</a>，得力于他的<code class="language-plaintext highlighter-rouge">objc/runtime.h</code>，要理解runtime的实现原理，我们就需要对oc的消息发送、查找消息、消息转发进行理解。</p><blockquote><p>下文涉及知识点主要会对Object-C 2.0的源码进行分析</p></blockquote><p>所有方法调用在编译之后基本都是和objc_msgSend相关方法</p><p>知识点：</p><div class="language-objectivec highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="k">struct</span> <span class="n">objc_object</span>
+<span class="k">struct</span> <span class="n">objc_class</span> <span class="o">:</span> <span class="n">objc_object</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_class</span> <span class="o">*</span><span class="n">Class</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_object</span> <span class="o">*</span><span class="n">id</span><span class="p">;</span>
+</pre></table></code></div></div><p>OC是分两个版本</p><ul><li>Objective-C 1.0，已经废弃了不用了<li>Objective-C 2.0，现在在使用的</ul><blockquote><p><a href="http://www.veryitman.com/2019/01/28/%E8%A2%AB%E8%AF%AF%E8%A7%A3%E7%9A%84-objc-class/">被误解的-objc-class</a></p></blockquote><div class="language-objectivec highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+</pre><td class="rouge-code"><pre><span class="c1">// objc-private.h</span>
+<span class="k">struct</span> <span class="n">objc_object</span> <span class="p">{</span>
+    <span class="c1">// isa结构体</span>
+<span class="nl">private:</span>
+    <span class="n">isa_t</span> <span class="n">isa</span><span class="p">;</span>
+
+<span class="nl">public:</span>
+
+    <span class="c1">// ISA() assumes this is NOT a tagged pointer object</span>
+    <span class="n">Class</span> <span class="n">ISA</span><span class="p">();</span>
+    <span class="c1">// 下面一堆其他方法</span>
+<span class="p">}</span>
+
+<span class="c1">// objc-runtime-new.h</span>
+<span class="c1">// objc_class继承于objc_object,因此</span>
+<span class="c1">// objc_class中也有isa结构体</span>
+<span class="k">struct</span> <span class="n">objc_class</span> <span class="o">:</span> <span class="n">objc_object</span> <span class="p">{</span>
+    <span class="c1">// ISA占8位</span>
+    <span class="c1">// Class ISA;</span>
+    <span class="c1">// superclass占8位</span>
+    <span class="n">Class</span> <span class="n">superclass</span><span class="p">;</span>
+    <span class="c1">// 缓存的是指针和vtable,目的是加速方法的调用  cache占16位</span>
+    <span class="n">cache_t</span> <span class="n">cache</span><span class="p">;</span>             <span class="c1">// formerly cache pointer and vtable</span>
+    <span class="c1">// class_data_bits_t 相当于是class_rw_t 指针加上rr/alloc标志</span>
+    <span class="n">class_data_bits_t</span> <span class="n">bits</span><span class="p">;</span> 
+	<span class="c1">// 类的方法、属性、协议等信息都保存在class_rw_t结构体中</span>
+    <span class="n">class_rw_t</span> <span class="o">*</span><span class="n">data</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// 这里的bits就是class_data_bits_t bits;</span>
+        <span class="k">return</span> <span class="n">bits</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="kt">void</span> <span class="n">setData</span><span class="p">(</span><span class="n">class_rw_t</span> <span class="o">*</span><span class="n">newData</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">bits</span><span class="p">.</span><span class="n">setData</span><span class="p">(</span><span class="n">newData</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// 下面一堆其他方法</span>
+<span class="p">}</span>
+
+<span class="c1">// 类的方法、属性、协议等信息都保存在class_rw_t结构体中</span>
+<span class="k">struct</span> <span class="n">class_rw_t</span> <span class="p">{</span>
+    <span class="c1">// Be warned that Symbolication knows the layout of this structure.</span>
+    <span class="kt">uint32_t</span> <span class="n">flags</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">version</span><span class="p">;</span>
+	<span class="c1">// class_ro_t结构体存储了类在编译期就已经确定的属性、方法以及遵循的协议</span>
+    <span class="k">const</span> <span class="n">class_ro_t</span> <span class="o">*</span><span class="n">ro</span><span class="p">;</span>
+    
+    <span class="c1">// 方法信息</span>
+    <span class="n">method_array_t</span> <span class="n">methods</span><span class="p">;</span>
+    <span class="c1">// 属性信息</span>
+    <span class="n">property_array_t</span> <span class="n">properties</span><span class="p">;</span>
+    <span class="c1">// 协议信息</span>
+    <span class="n">protocol_array_t</span> <span class="n">protocols</span><span class="p">;</span>
+
+    <span class="n">Class</span> <span class="n">firstSubclass</span><span class="p">;</span>
+    <span class="n">Class</span> <span class="n">nextSiblingClass</span><span class="p">;</span>
+
+    <span class="kt">char</span> <span class="o">*</span><span class="n">demangledName</span><span class="p">;</span>
+
+<span class="cp">#if SUPPORT_INDEXED_ISA
+</span>    <span class="kt">uint32_t</span> <span class="n">index</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+    <span class="kt">void</span> <span class="n">setFlags</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">set</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="n">OSAtomicOr32Barrier</span><span class="p">(</span><span class="n">set</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">flags</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">void</span> <span class="n">clearFlags</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">clear</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="n">OSAtomicXor32Barrier</span><span class="p">(</span><span class="n">clear</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">flags</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// set and clear must not overlap</span>
+    <span class="kt">void</span> <span class="n">changeFlags</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">set</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">clear</span><span class="p">)</span> 
+    <span class="p">{</span>
+        <span class="n">assert</span><span class="p">((</span><span class="n">set</span> <span class="o">&amp;</span> <span class="n">clear</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+
+        <span class="kt">uint32_t</span> <span class="n">oldf</span><span class="p">,</span> <span class="n">newf</span><span class="p">;</span>
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="n">oldf</span> <span class="o">=</span> <span class="n">flags</span><span class="p">;</span>
+            <span class="n">newf</span> <span class="o">=</span> <span class="p">(</span><span class="n">oldf</span> <span class="o">|</span> <span class="n">set</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">clear</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">OSAtomicCompareAndSwap32Barrier</span><span class="p">(</span><span class="n">oldf</span><span class="p">,</span> <span class="n">newf</span><span class="p">,</span> <span class="p">(</span><span class="k">volatile</span> <span class="kt">int32_t</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">flags</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// class_ro_t结构体存储了类在编译期就已经确定的属性、方法以及遵循的协议</span>
+<span class="c1">// 因为在编译期就已经确定了，所以是ro(readonly)的，不可修改</span>
+<span class="k">struct</span> <span class="n">class_ro_t</span> <span class="p">{</span>
+    <span class="kt">uint32_t</span> <span class="n">flags</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">instanceStart</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">instanceSize</span><span class="p">;</span>
+<span class="cp">#ifdef __LP64__
+</span>    <span class="kt">uint32_t</span> <span class="n">reserved</span><span class="p">;</span>
+<span class="cp">#endif
+</span>
+    <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">ivarLayout</span><span class="p">;</span>
+    
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">;</span>
+    <span class="c1">// 方法列表</span>
+    <span class="n">method_list_t</span> <span class="o">*</span> <span class="n">baseMethodList</span><span class="p">;</span>
+    <span class="c1">// 协议列表</span>
+    <span class="n">protocol_list_t</span> <span class="o">*</span> <span class="n">baseProtocols</span><span class="p">;</span>
+    <span class="c1">// 变量列表</span>
+    <span class="k">const</span> <span class="n">ivar_list_t</span> <span class="o">*</span> <span class="n">ivars</span><span class="p">;</span>
+
+    <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">weakIvarLayout</span><span class="p">;</span>
+    <span class="c1">// 属性列表</span>
+    <span class="n">property_list_t</span> <span class="o">*</span><span class="n">baseProperties</span><span class="p">;</span>
+
+    <span class="n">method_list_t</span> <span class="o">*</span><span class="n">baseMethods</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">baseMethodList</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+</pre></table></code></div></div><p>总结：如何找到一个类的方法</p><p>对象（objc_object）-&gt; getIsa() -&gt; Class（objc_class）-&gt; data() -&gt; class_rw_t（动态添加的方法在这里） -&gt; ro（class_ro_t） -&gt; baseMethodList</p><h2 id="class-isa">Class ISA()</h2><p>objc_msgSend 走进汇编，最后调用到</p><div class="language-objectivec highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="c1">// objc-runtime-new.mm </span>
+<span class="n">IMP</span> <span class="nf">_class_lookupMethodAndLoadCache3</span><span class="p">(</span><span class="n">id</span> <span class="n">obj</span><span class="p">,</span> <span class="n">SEL</span> <span class="n">sel</span><span class="p">,</span> <span class="n">Class</span> <span class="n">cls</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="n">lookUpImpOrForward</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">sel</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> 
+                              <span class="nb">YES</span><span class="cm">/*initialize*/</span><span class="p">,</span> <span class="nb">NO</span><span class="cm">/*cache*/</span><span class="p">,</span> <span class="nb">YES</span><span class="cm">/*resolver*/</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">IMP</span> <span class="n">lookUpImpOrForward</span><span class="p">(</span><span class="n">Class</span> <span class="n">cls</span><span class="p">,</span> <span class="n">SEL</span> <span class="n">sel</span><span class="p">,</span> <span class="n">id</span> <span class="n">inst</span><span class="p">,</span> 
+                       <span class="n">bool</span> <span class="n">initialize</span><span class="p">,</span> <span class="n">bool</span> <span class="n">cache</span><span class="p">,</span> <span class="n">bool</span> <span class="n">resolver</span><span class="p">)</span>
+</pre></table></code></div></div><p>汇编调用部分总结<a href="https://www.jianshu.com/p/91a3f62233ff">objc_msgSend流程分析</a></p><p>lookUpImpOrForward讲解见<a href="https://www.desgard.com/iOS-Source-Probe/Objective-C/Runtime/objc_msgSend%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%20-%20%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%B5%81%E7%A8%8B.html">对象方法消息传递流程</a></p><p>总结来说，也是先找缓存，再找方法列表，再找父类的缓存和方法列表，最后没找到就是调用msgForward</p><p>objc_objcet.isa ⇒ objc_class.bits.data ⇒ class_rw_t.ro ⇒ class_ro_t.baseMethodList</p><p>被问过，对象占多大内存这种问题，蜜汁疑惑，可能是问objc_class的占内存大小吧(40)。</p><p>下面贴下简写版本的 objc_class和objc_object，</p><div class="language-cpp highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+</pre><td class="rouge-code"><pre><span class="c1">//</span>
+<span class="c1">//  main.cpp</span>
+<span class="c1">//  RAMCPPDemo</span>
+<span class="c1">//</span>
+<span class="c1">//  Created by rambo on 2020/11/24.</span>
+<span class="c1">//</span>
+
+<span class="cp">#include &lt;iostream&gt;
+</span>
+<span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="o">*</span><span class="n">IMP</span><span class="p">)(</span><span class="kt">void</span> <span class="cm">/* id, SEL, ... */</span> <span class="p">);</span>
+<span class="k">struct</span> <span class="nc">objc_class</span><span class="p">;</span>
+<span class="k">struct</span> <span class="nc">objc_object</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="nc">objc_class</span> <span class="o">*</span><span class="n">Class</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="k">struct</span> <span class="nc">Test</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+        <span class="kt">long</span> <span class="n">b</span><span class="p">;</span>
+        <span class="kt">void</span> <span class="n">test</span><span class="p">();</span>
+        <span class="kt">void</span> <span class="n">test2</span><span class="p">();</span>
+    <span class="p">};</span>
+    
+    <span class="k">union</span> <span class="n">isa_t</span> <span class="p">{</span>
+        <span class="n">Class</span> <span class="n">cls</span><span class="p">;</span>
+        <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">bits</span><span class="p">;</span>
+        <span class="k">struct</span> <span class="p">{</span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">nonpointer</span>        <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">has_assoc</span>         <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">has_cxx_dtor</span>      <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">shiftcls</span>          <span class="o">:</span> <span class="mi">33</span><span class="p">;</span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">magic</span>             <span class="o">:</span> <span class="mi">6</span><span class="p">;</span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">weakly_referenced</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">deallocating</span>      <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">has_sidetable_rc</span>  <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">extra_rc</span>          <span class="o">:</span> <span class="mi">19</span><span class="p">;</span>
+        <span class="p">};</span>
+    <span class="p">};</span>
+    
+    <span class="k">struct</span> <span class="nc">bucket_t</span> <span class="p">{</span>
+        <span class="nl">private:</span>
+            <span class="c1">// IMP-first is better for arm64e ptrauth and no worse for arm64.</span>
+            <span class="c1">// SEL-first is better for armv7* and i386 and x86_64.</span>
+        <span class="cp">#if __arm64__
+</span>            <span class="n">MethodCacheIMP</span> <span class="n">_imp</span><span class="p">;</span>
+            <span class="n">cache_key_t</span> <span class="n">_key</span><span class="p">;</span>
+        <span class="cp">#else
+</span>            <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">_key</span><span class="p">;</span>
+            <span class="n">IMP</span> <span class="n">_imp</span><span class="p">;</span>
+        <span class="cp">#endif
+</span>    <span class="p">};</span>
+    <span class="k">struct</span> <span class="nc">cache_t</span> <span class="p">{</span>
+        <span class="k">struct</span> <span class="nc">bucket_t</span> <span class="o">*</span><span class="n">_buckets</span><span class="p">;</span>
+        <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">_mask</span><span class="p">;</span>
+        <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">_occupied</span><span class="p">;</span>
+    <span class="p">};</span>
+    
+    <span class="k">struct</span> <span class="nc">class_data_bits_t</span> <span class="p">{</span>
+        <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">bits</span><span class="p">;</span>
+    <span class="p">};</span>
+    
+	<span class="c1">// 类的方法、属性、协议等信息都保存在class_rw_t结构体中</span>
+	<span class="k">struct</span> <span class="nc">class_rw_t</span> <span class="p">{</span>
+	    <span class="c1">// Be warned that Symbolication knows the layout of this structure.</span>
+	    <span class="kt">uint32_t</span> <span class="n">flags</span><span class="p">;</span>
+	    <span class="kt">uint32_t</span> <span class="n">version</span><span class="p">;</span>
+	    <span class="c1">// class_ro_t结构体存储了类在编译期就已经确定的属性、方法以及遵循的协议</span>
+	    <span class="k">const</span> <span class="n">class_ro_t</span> <span class="o">*</span><span class="n">ro</span><span class="p">;</span>
+	    
+	    <span class="c1">// 方法信息</span>
+	    <span class="n">method_array_t</span> <span class="n">methods</span><span class="p">;</span>
+	    <span class="c1">// 属性信息</span>
+	    <span class="n">property_array_t</span> <span class="n">properties</span><span class="p">;</span>
+	    <span class="c1">// 协议信息</span>
+	    <span class="n">protocol_array_t</span> <span class="n">protocols</span><span class="p">;</span>
+	
+	    <span class="n">Class</span> <span class="n">firstSubclass</span><span class="p">;</span>
+	    <span class="n">Class</span> <span class="n">nextSiblingClass</span><span class="p">;</span>
+	
+	    <span class="kt">char</span> <span class="o">*</span><span class="n">demangledName</span><span class="p">;</span>
+	<span class="p">}</span>
+    <span class="c1">// class_ro_t结构体存储了类在编译期就已经确定的属性、方法以及遵循的协议</span>
+	<span class="c1">// 因为在编译期就已经确定了，所以是ro(readonly)的，不可修改</span>
+	<span class="k">struct</span> <span class="nc">class_ro_t</span> <span class="p">{</span>
+	    <span class="kt">uint32_t</span> <span class="n">flags</span><span class="p">;</span>
+	    <span class="kt">uint32_t</span> <span class="n">instanceStart</span><span class="p">;</span>
+	    <span class="c1">// 实例变量大小，决定对象创建时要分配的内存</span>
+	    <span class="kt">uint32_t</span> <span class="n">instanceSize</span><span class="p">;</span>
+	<span class="cp">#ifdef __LP64__
+</span>	    <span class="kt">uint32_t</span> <span class="n">reserved</span><span class="p">;</span>
+	<span class="cp">#endif
+</span>	
+	    <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">ivarLayout</span><span class="p">;</span>
+	    <span class="c1">// 类名</span>
+	    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">name</span><span class="p">;</span>
+	    <span class="c1">// （编译时确定的）方法列表</span>
+	    <span class="n">method_list_t</span> <span class="o">*</span> <span class="n">baseMethodList</span><span class="p">;</span>
+	    <span class="c1">// (编译时确定的）所属协议列表</span>
+	    <span class="n">protocol_list_t</span> <span class="o">*</span> <span class="n">baseProtocols</span><span class="p">;</span>
+	    <span class="c1">//（编译时确定的）实例变量列表</span>
+	    <span class="k">const</span> <span class="n">ivar_list_t</span> <span class="o">*</span> <span class="n">ivars</span><span class="p">;</span>
+	
+	    <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span> <span class="n">weakIvarLayout</span><span class="p">;</span>
+	    <span class="c1">// （编译时确定的）属性列表</span>
+	    <span class="n">property_list_t</span> <span class="o">*</span><span class="n">baseProperties</span><span class="p">;</span>
+	
+	    <span class="n">method_list_t</span> <span class="o">*</span><span class="n">baseMethods</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+	        <span class="k">return</span> <span class="n">baseMethodList</span><span class="p">;</span>
+	    <span class="p">}</span>
+	<span class="p">};</span>
+
+    <span class="k">struct</span> <span class="nc">objc_object</span> <span class="p">{</span>
+        <span class="c1">// isa结构体</span>
+        <span class="n">isa_t</span> <span class="n">isa</span><span class="p">;</span>
+    <span class="p">};</span>
+    <span class="k">struct</span> <span class="nc">objc_class</span> <span class="o">:</span> <span class="n">objc_object</span> <span class="p">{</span>
+        <span class="c1">// ISA占8位</span>
+        <span class="c1">// Class ISA;</span>
+        <span class="c1">// superclass占8位</span>
+        <span class="n">Class</span> <span class="n">superclass</span><span class="p">;</span>
+        <span class="c1">// 缓存的是指针和vtable,目的是加速方法的调用  cache占16位</span>
+        <span class="n">cache_t</span> <span class="n">cache</span><span class="p">;</span>             <span class="c1">// formerly cache pointer and vtable</span>
+        <span class="c1">// class_data_bits_t 相当于是class_rw_t 指针加上rr/alloc标志  占8位</span>
+        <span class="n">class_data_bits_t</span> <span class="n">bits</span><span class="p">;</span>    <span class="c1">// class_rw_t * plus custom rr/alloc flags</span>
+
+	    <span class="n">class_rw_t</span> <span class="o">*</span><span class="n">data</span><span class="p">()</span> <span class="p">{</span>
+	        <span class="c1">// 这里的bits就是class_data_bits_t bits;</span>
+	        <span class="k">return</span> <span class="n">bits</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+	    <span class="p">}</span>
+    <span class="p">};</span>
+    
+    
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%lu</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">objc_class</span><span class="p">));</span><span class="c1">//共占 40</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</pre></table></code></div></div><ol><li>Objective-C 对象是什么？Class 是什么？id 又是什么？<li>isa 是什么？为什么要有 isa？<li>为什么在 Objective-C 中，所以的对象都用一个指针来追踪？<li>Objective-C 对象是如何被创建（alloc）和初始化（init）的？<li>Objective-C 对象的实例变量是什么？为什么不能给 Objective-C 对象动态添加实例变量？<li>Objective-C 对象的属性是什么？属性跟实例变量的区别？<li>Objective-C 对象的方法是什么？Objective-C 对象的方法在内存中的存储结构是什么样的？<li>什么是 IMP？什么是选择器 selector ？<li>消息发送和消息转发<li>Method Swizzling<li>Category<li>Associated Objects 的原理是什么？到底能不能在 Category 中给 Objective-C 类添加属性和实例变量？<li>Objective-C 中的 Protocol 是什么？<li>self 和 super 的本质<li>load 方法和 initialize 方法</ol><p><a href="https://juejin.cn/post/6873015387022655496#heading-7">isa和objc-object解析</a></p><p><a href="https://shannonchenchn.github.io/2018/03/16/objc-runtime-learning-notes/">读 objc4 源码，深入理解 Objective-C Runtime</a></p><p><a href="https://draveness.me/message/">从源代码看 ObjC 中消息的发送</a></p><p>https://juejin.im/post/5aa79411f265da237a4cb045</p><p>https://www.jianshu.com/p/fb0595651cc9</p><p>MyClass *myClass = [[MyClass alloc] init];</p><p>[myClass printLog];</p><p>先被编译成 ((void (*)(id, SEL))(void *) objc_msgSend)(myClass, @selector(printLog));</p><p>沿着入参 myClass 的 isa 指针，找到 myClass 的类对象（Class），也就是 MyClass</p><p>先找cache，接着在 MyClass 的方法列表 methodLists 中，找到对应的 Method，没有就找superClass,</p><p>最后找到 Method 中的 IMP 指针，执行具体实现，并且添加cache中</p><p>类对象的类方法是保存在元类对象中的</p><p>objc_msgSend找不到方法会调用IMP _objc_msgForward _objc_msgForward_stret</p><p>resolveInstanceMethod resolveClassMethod：利用runtime添加方法（动态方法解析）</p><p>forwardingTargetForSelector： 将方法转发到另一个对象上（备援接受者）</p><p>methodSignatureForSelector forwardInvocation（完整的消息转发机制）</p></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/tech/'>Tech</a>, <a href='/categories/study/'>Study</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91/" class="post-tag no-text-decoration" >消息转发</a> <a href="/tags/runloop/" class="post-tag no-text-decoration" >runloop</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=iOS消息转发机制 - RAMBO&url=https://RamboQiu.github.io/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=iOS消息转发机制 - RAMBO&u=https://RamboQiu.github.io/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=iOS消息转发机制 - RAMBO&url=https://RamboQiu.github.io/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-lastmod" class="post"> <span>Recent Update</span><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/">iOS埋点接入文档</a><li><a href="/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E5%85%A5%E5%8F%A3%E9%A1%B5%E5%AF%BC%E8%B4%AD%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%A1%88/">埋点之入口页导购统计方案</a><li><a href="/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/">iOS消息转发机制</a><li><a href="/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/">iOS秒开H5实战总结</a><li><a href="/posts/iOS15%E7%BA%BF%E4%B8%8A%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">iOS15线上问题总结</a></ul></div><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/iOS%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E5%93%8D%E5%BA%94%E5%85%A8%E8%BF%87%E7%A8%8B/"><div class="card-body"> <span class="timeago small" > Apr 27 <i class="unloaded">2021-04-27T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>iOS点击事件响应全过程</h3><div class="text-muted small"><p> 小球是一位码农，拿出他心爱的iPhone，解除锁屏，滑动屏幕找到今日头条APP，打开他并点击了其中一篇新闻，进入到了新闻详情页。这时他突然意识到，我从拿出手机到看到新闻详情，具体的实现细节是什么？？ 屏幕解锁 操作系统层面的，硬件，驱动，系统唤醒 触摸屏幕 操作系统层面，硬件驱动处理 IOKit.framework为系统内核库，封装事件为IOHIDEvent 通过m...</p></div></div></a></div><div class="card"> <a href="/posts/%E5%88%B6%E4%BD%9Cnpm%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7cli/"><div class="card-body"> <span class="timeago small" > Apr 9 <i class="unloaded">2021-04-09T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>制作npm的命令行工具cli</h3><div class="text-muted small"><p> npm：nodejs packect manage，允许用户从NPM服务器下载别人编写的第三方包到本地使用、下载并安装别人编写的命令行程序（CLI）到本地使用、将自己编写的包或命令行程序上传到NPM服务器供别人使用。 cli：command line interface，命令行界面，是指可在用户提示符下键入可执行指令的界面， 一直知道npm install一些工具之后，自己就能在终端使用...</p></div></div></a></div><div class="card"> <a href="/posts/pod%E6%8F%92%E4%BB%B6%E5%88%B6%E4%BD%9C/"><div class="card-body"> <span class="timeago small" > Apr 12 <i class="unloaded">2021-04-12T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>pod插件制作</h3><div class="text-muted small"><p> Cocoapods plugins Cocoapods plugins是一个Ruby gem（Ruby gem是Ruby的一个包管理器，它提供一个分发Ruby程序和库的标准格式，还提供一个管理程序包安装的工具。），并且CocoaPods也是通过Ruby构建的。 安装模板插件cocoapods-plugins，来建立插件，如下： pod-plugin|⇒ sudo gem install...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/iOS%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E5%93%8D%E5%BA%94%E5%85%A8%E8%BF%87%E7%A8%8B/" class="btn btn-outline-primary"><p>iOS点击事件响应全过程</p></a> <a href="/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/" class="btn btn-outline-primary"><p>iOS秒开H5实战总结</p></a></div><div id="gitalk-container"></div><script> var gitalk = new Gitalk({ id: (decodeURIComponent(window.location.pathname)).substring(0, 49), clientID: 'ab82be4b02f8a8f27c36', clientSecret: 'a17055d499d8765e427a1842fea5d5c4d3f38691', accessToken: '44315eb9b98036aaa9f0f64bc6c4e695508b474d', repo: 'RamboQiu.github.io', owner: 'RamboQiu', admin: ['RamboQiu'], distractionFreeMode: false }); gitalk.render('gitalk-container'); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2021 <a href="https://github.com/RamboQiu">Rambo</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy/" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://RamboQiu.github.io{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

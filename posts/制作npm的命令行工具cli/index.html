@@ -1,0 +1,407 @@
+<!DOCTYPE html><html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="theme" content="Chirpy v2.7.0"><meta name="generator" content="Jekyll v4.2.0" /><meta property="og:title" content="制作npm的命令行工具cli" /><meta name="author" content="Rambo" /><meta property="og:locale" content="en_US" /><meta name="description" content="npm：nodejs packect manage，允许用户从NPM服务器下载别人编写的第三方包到本地使用、下载并安装别人编写的命令行程序（CLI）到本地使用、将自己编写的包或命令行程序上传到NPM服务器供别人使用。" /><meta property="og:description" content="npm：nodejs packect manage，允许用户从NPM服务器下载别人编写的第三方包到本地使用、下载并安装别人编写的命令行程序（CLI）到本地使用、将自己编写的包或命令行程序上传到NPM服务器供别人使用。" /><link rel="canonical" href="https://ramboqiu.github.io/posts/%E5%88%B6%E4%BD%9Cnpm%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7cli/" /><meta property="og:url" content="https://ramboqiu.github.io/posts/%E5%88%B6%E4%BD%9Cnpm%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7cli/" /><meta property="og:site_name" content="RAMBO" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2021-04-09T00:00:00+08:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="制作npm的命令行工具cli" /><meta name="google-site-verification" content="google88e65de3e03b1c74.html" /> <script type="application/ld+json"> {"author":{"@type":"Person","name":"Rambo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ramboqiu.github.io/posts/%E5%88%B6%E4%BD%9Cnpm%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7cli/"},"description":"npm：nodejs packect manage，允许用户从NPM服务器下载别人编写的第三方包到本地使用、下载并安装别人编写的命令行程序（CLI）到本地使用、将自己编写的包或命令行程序上传到NPM服务器供别人使用。","url":"https://ramboqiu.github.io/posts/%E5%88%B6%E4%BD%9Cnpm%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7cli/","@type":"BlogPosting","headline":"制作npm的命令行工具cli","dateModified":"2021-04-09T00:00:00+08:00","datePublished":"2021-04-09T00:00:00+08:00","@context":"https://schema.org"}</script><meta name="baidu-site-verification" content="baidu_verify_code-LaAMM2SYbl.html"><title>制作npm的命令行工具cli | RAMBO</title><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" href="/assets/css/post.css" as="style"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script defer src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css"> <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> <script async src="/assets/js/post.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id=G-PHHDQK2S50"></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-PHHDQK2S50'); }); </script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">RAMBO</a></div><div class="site-subtitle font-italic">移动端开发从入门到放弃</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <span id="mode-toggle-wrapper"> <i class="mode-toggle fas fa-adjust"></i> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } var self = this; /* always follow the system prefers */ this.sysDarkPrefers.addListener(function() { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.updateMermaid(); }); } /* constructor() */ setDark() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_KEY); sessionStorage.removeItem(ModeToggle.MODE_KEY); } get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode == ModeToggle.DARK_MODE; } get isLightMode() { return this.mode == ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer) ) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } updateMermaid() { if (typeof mermaid !== "undefined") { let expectedTheme = (this.modeStatus === ModeToggle.DARK_MODE? "dark" : "default"); let config = { theme: expectedTheme }; /* re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function() { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.updateMermaid(); } /* flipMode() */ } /* ModeToggle */ let toggle = new ModeToggle(); $(".mode-toggle").click(function() { toggle.flipMode(); }); </script> </span> <span class="icon-border"></span> <a href="https://github.com/RamboQiu" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://twitter.com/" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['qiujunyun','163.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>制作npm的命令行工具cli</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>制作npm的命令行工具cli</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Fri, Apr 9, 2021, 12:00 AM +0800" > Apr 9 <i class="unloaded">2021-04-09T00:00:00+08:00</i> </span> by <span class="author"> Rambo </span></div><div> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="2252 words">12 min</span></div></div><div class="post-content"><p><strong>npm</strong>：nodejs packect manage，允许用户从NPM服务器下载别人编写的第三方包到本地使用、下载并安装别人编写的命令行程序（CLI）到本地使用、将自己编写的包或命令行程序上传到NPM服务器供别人使用。</p><p><strong>cli</strong>：command line interface，命令行界面，是指可在用户提示符下键入可执行指令的界面，</p><p>一直知道npm install一些工具之后，自己就能在终端使用，但是一直不了解原理，后来才知道这是npm包的发布和cli工具的结合</p><h2 id="node包管理器">Node包管理器</h2><p>node包管理和iOS的pod很像，主要实现的目的就是解决多人协作中的组件库/模块复用的问题，当然node包管理还能和cli结合使用的好处。</p><p>一般公司都有自己的<a href="http://yx.mail.netease.com/wiki/#/doc/319334">NPM管理平台</a>（不做过多介绍），官方的管理平台是<a href="https://www.npmjs.com/">npmjs</a>，这里有成千上万的开源的模块，你只需要一行命令，就能使用别人写好的模块。</p><h2 id="创建第一个node模块">创建第一个node模块</h2><p>使用npm init命令即可创建，如下：</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+</pre><td class="rouge-code"><pre>nodejs|⇒ <span class="nb">mkdir </span>npm-module
+nodejs|⇒ <span class="nb">cd </span>npm-module
+npm-module|⇒ npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See <span class="sb">`</span>npm <span class="nb">help </span>json<span class="sb">`</span> <span class="k">for </span>definitive documentation on these fields
+and exactly what they <span class="k">do</span><span class="nb">.</span>
+
+Use <span class="sb">`</span>npm <span class="nb">install</span> &lt;pkg&gt;<span class="sb">`</span> afterwards to <span class="nb">install </span>a package and
+save it as a dependency <span class="k">in </span>the package.json file.
+
+Press ^C at any <span class="nb">time </span>to quit.
+package name: <span class="o">(</span>npm-module<span class="o">)</span>
+version: <span class="o">(</span>1.0.0<span class="o">)</span>
+description: 制作npm的命令行工具cli
+entry point: <span class="o">(</span>index.js<span class="o">)</span>
+<span class="nb">test command</span>:
+git repository:
+keywords: npm cli
+author: rambo
+license: <span class="o">(</span>ISC<span class="o">)</span>
+About to write to /Users/rambo/Documents/MyProject/nodejs/npm-module/package.json:
+
+<span class="o">{</span>
+  <span class="s2">"name"</span>: <span class="s2">"npm-module"</span>,
+  <span class="s2">"version"</span>: <span class="s2">"1.0.0"</span>,
+  <span class="s2">"description"</span>: <span class="s2">"制作npm的命令行工具cli"</span>,
+  <span class="s2">"main"</span>: <span class="s2">"index.js"</span>,
+  <span class="s2">"scripts"</span>: <span class="o">{</span>
+    <span class="s2">"test"</span>: <span class="s2">"echo </span><span class="se">\"</span><span class="s2">Error: no test specified</span><span class="se">\"</span><span class="s2"> &amp;&amp; exit 1"</span>
+  <span class="o">}</span>,
+  <span class="s2">"keywords"</span>: <span class="o">[</span>
+    <span class="s2">"npm"</span>,
+    <span class="s2">"cli"</span>
+  <span class="o">]</span>,
+  <span class="s2">"author"</span>: <span class="s2">"rambo"</span>,
+  <span class="s2">"license"</span>: <span class="s2">"ISC"</span>
+<span class="o">}</span>
+
+
+Is this OK? <span class="o">(</span><span class="nb">yes</span><span class="o">)</span> <span class="nb">yes
+</span>npm-module|⇒ ll
+total 8
+<span class="nt">-rw-r--r--</span>  1 rambo  staff  283  4 12 15:59 package.json
+npm-module|⇒ <span class="nb">cat </span>package.json
+<span class="o">{</span>
+  <span class="s2">"name"</span>: <span class="s2">"npm-module"</span>,
+  <span class="s2">"version"</span>: <span class="s2">"1.0.0"</span>,
+  <span class="s2">"description"</span>: <span class="s2">"制作npm的命令行工具cli"</span>,
+  <span class="s2">"main"</span>: <span class="s2">"index.js"</span>,
+  <span class="s2">"scripts"</span>: <span class="o">{</span>
+    <span class="s2">"test"</span>: <span class="s2">"echo </span><span class="se">\"</span><span class="s2">Error: no test specified</span><span class="se">\"</span><span class="s2"> &amp;&amp; exit 1"</span>
+  <span class="o">}</span>,
+  <span class="s2">"keywords"</span>: <span class="o">[</span>
+    <span class="s2">"npm"</span>,
+    <span class="s2">"cli"</span>
+  <span class="o">]</span>,
+  <span class="s2">"author"</span>: <span class="s2">"rambo"</span>,
+  <span class="s2">"license"</span>: <span class="s2">"ISC"</span>
+<span class="o">}</span>
+npm-module|⇒vim index.js
+exports.showMsg <span class="o">=</span> <span class="k">function</span> <span class="o">()</span> <span class="o">{</span>
+        console.log<span class="o">(</span><span class="s2">"这是我的第一个node模块"</span><span class="o">)</span><span class="p">;</span>
+<span class="o">}</span><span class="p">;</span>
+npm-module|⇒ ll
+total 16
+<span class="nt">-rw-r--r--</span>  1 rambo  staff   84  4 12 16:10 index.js
+<span class="nt">-rw-r--r--</span>  1 rambo  staff  283  4 12 15:59 package.json
+npm-module|⇒
+</pre></table></code></div></div><p>到此，我们就编写完了一个npm包。</p><h2 id="发布包到npmjs并使用">发布包到npmjs，并使用</h2><ol><li><p>注册npm账号，去<a href="https://www.npmjs.com/">官网</a>注册或是使用npm adduser命令行注册</p><li><p>登录，首次需要，npm login会将证书保存到本地，后面就不需要每次都登录了</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>npm-module|⇒ npm login
+Username: ramboq
+Password:
+Email: <span class="o">(</span>this IS public<span class="o">)</span> qiujunyun@163.com
+Logged <span class="k">in </span>as ramboq on http://npm.mail.netease.com/registry/.
+</pre></table></code></div></div><li><p>开始发布 npm publish</p><p>不想发布的内容模块，可以通过.gitignore或是.npmignore文件进行忽略</p><blockquote><p>使用 cnpm 的注意报错： no_perms Private mode enable, only admin can publish this module 设置回原本的就可以了 <strong>npm config set registry <a href="http://registry.npmjs.org">registry.npmjs.org</a></strong> 发布完成之后,如果还想回到之前的cnpm,使用下面的命令 <strong>npm config set registry <a href="https://registry.npm.taobao.org">registry.npm.taobao.org</a></strong></p></blockquote><li><p>创建案例，并应用刚上传的包</p><p>在自己的项目中npm install npm-module即可</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre>npm-module|⇒ npm publish
+npm notice 
+npm notice 📦  npm-module@1.0.0
+npm notice <span class="o">===</span> Tarball Contents <span class="o">===</span> 
+npm notice 283B   package.json
+npm notice 84B    index.js
+npm notice <span class="o">===</span> Tarball Details <span class="o">===</span> 
+npm notice name:          npm-module                         
+npm notice version:       1.0.0                                   
+npm notice package size:  1.1 kB                                  
+npm notice unpacked size: 2.8 kB                                 
+npm notice shasum:        5667da556208b
+npm notice integrity:     <span class="nv">UE9w</span><span class="o">==</span>
+npm notice total files:   2                                       
+npm notice 
++ npm-module@1.0.0
+</pre></table></code></div></div></ol><h2 id="添加cli能力">添加CLI能力</h2><p>回到上面的例子，我们继续编辑<code class="language-plaintext highlighter-rouge">package.json</code>文件，要想实现cli能力，关键的是配置<code class="language-plaintext highlighter-rouge">bin</code>属性，该属性对应的是可执行文件的路径。例如将 <code class="language-plaintext highlighter-rouge">bin</code> 对应的可执行文件路径配置为当前项目下的 <code class="language-plaintext highlighter-rouge">./cli.js</code>。</p><div class="language-json highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="nl">"bin"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">   
+		</span><span class="err">//</span><span class="w"> </span><span class="err">rambo</span><span class="w"> </span><span class="err">是一个可执行的命令，该命令指向了</span><span class="w"> </span><span class="err">./cli.js</span><span class="w"> </span><span class="err">脚本</span><span class="w">
+    </span><span class="nl">"rambo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"./cli.js"</span><span class="w">
+ </span><span class="p">}</span><span class="w">
+</span></pre></table></code></div></div><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>npm-module|⇒ ll
+total 16
+<span class="nt">-rw-r--r--</span>  1 rambo  staff    0  4 12 16:29 cli.js
+<span class="nt">-rw-r--r--</span>  1 rambo  staff   84  4 12 16:10 index.js
+<span class="nt">-rw-r--r--</span>  1 rambo  staff  323  4 12 16:29 package.json
+</pre></table></code></div></div><p>我们简单编辑下<code class="language-plaintext highlighter-rouge">cli.js</code>，让他调用<code class="language-plaintext highlighter-rouge">index.js</code></p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>npm-module|⇒ vim cli.js
+<span class="c">#!/usr/bin/env node</span>
+var <span class="nb">test</span> <span class="o">=</span> require<span class="o">(</span><span class="s1">'./index'</span><span class="o">)</span><span class="p">;</span>
+test.showMsg<span class="o">()</span><span class="p">;</span>
+</pre></table></code></div></div><blockquote><p>在 env 中包含了一些环境变量，包括我们安装的一些软件执行路径等，因此可以使用 env 来找到不同操作系统上的 Node 执行路径，从而让文件可被正常的解释和执行。</p></blockquote><h2 id="软链接进行测试">软链接进行测试</h2><p>使用<code class="language-plaintext highlighter-rouge">npm link</code>命令将他连接到全局执行环境，这样在系统的任意路径下面都能使用该cli工具。</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre>npm-module|⇒ <span class="nb">sudo </span>npm <span class="nb">link
+</span>Password:
+npm notice created a lockfile as package-lock.json. You should commit this file.
+npm WARN npm-module@1.0.0 No repository field.
+
+up to <span class="nb">date </span><span class="k">in </span>0.099s
+/usr/local/bin/rambo -&gt; /usr/local/lib/node_modules/npm-module/cli.js
+/usr/local/lib/node_modules/npm-module -&gt; /Users/rambo/Documents/MyProject/nodejs/npm-module
+</pre></table></code></div></div><p>当执行 <code class="language-plaintext highlighter-rouge">npm link</code> 后，可以看到在 Mac 下该命令主要做了两件事：</p><ul><li>为可执行文件 <code class="language-plaintext highlighter-rouge">./cli.js</code> 创建一个软链接，将其链接到 <code class="language-plaintext highlighter-rouge">/usr/local/bin/&lt;package&gt;</code><li>为当前项目创建一个软链接，将其链接到 <code class="language-plaintext highlighter-rouge">/usr/local/lib/node_modules/&lt;package&gt;</code></ul><p>因此在全局环境执行 <code class="language-plaintext highlighter-rouge">bin</code> 配置的命令时，会启用 Node 去执行对应的可执行文件。</p><blockquote><p><strong>温馨提示</strong>：如果 <code class="language-plaintext highlighter-rouge">bin</code> 不配置执行的命令名称，默认将使用<code class="language-plaintext highlighter-rouge">pageage.json</code> 中的 <code class="language-plaintext highlighter-rouge">&lt;name&gt;</code> 字段作为命令。</p></blockquote><p>此时在任意位置执行 <code class="language-plaintext highlighter-rouge">rambo</code> 命令：</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>npm-module|⇒ rambo
+这是我的第一个node模块
+</pre></table></code></div></div><h2 id="更新npm包">更新npm包</h2><p>修改版本号之后，重新publish</p><div class="language-shell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>npm-module|⇒ npm version 1.0.1
+v1.0.1
+npm-module|⇒ npm publish
+</pre></table></code></div></div><h2 id="安装使用cli">安装使用cli</h2><p>通过 <code class="language-plaintext highlighter-rouge">npm install</code> 命令对工具进行全局安装：</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>npm-module|⇒ npm install npm-module -g
+/usr/local/bin/npm-module -&gt; /usr/local/lib/node_modules/npm-module/cli.js
++ npm-module@1.0.0
+updated 1 package in 12.977s
+复制代码
+</pre></table></code></div></div><p>由安装打印信息可以发现，最终 CLI 工具脚本链接指向了 <code class="language-plaintext highlighter-rouge">/usr/local/bin/npm-module</code> 。安装成功之后，可以在项目中使用 CLI 指定的命令了。</p><blockquote><p>全局的npm包会安装在/usr/local/lib/node_modules/目录下面</p></blockquote><h2 id="高阶使用">高阶使用</h2><p>上面讲解的只是一个简单的教程示例，下面会讲解一个示例，算是简约版本的<a href="https://cn.eslint.org/docs/user-guide/getting-started">ESLint</a> <a href="https://github.com/eslint/eslint">ESLint-github</a>，用于检查<code class="language-plaintext highlighter-rouge">commit</code>提交信息的规范和提交代码的格式化处理，其中区别教程，还需要考虑的功能如下：</p><ol><li>帮助信息打印，用于打印支持的命令，选项参数，比如：<code class="language-plaintext highlighter-rouge">rambo --help</code><li>版本信息，告知使用者当前的CLI版本，比如：<code class="language-plaintext highlighter-rouge">rambo --version</code><li>交互面板，提供使用者的可选项操作<li>信息打印，提供各种语义颜色打印<li>配置文件管理，用于写入本地进行的一个配置项管理<li>http请求<li>git hooks实现commit的hook</ol><p>处理以上功能就需要额外的依赖库，如下：</p><p><a href="https://github.com/tj/commander.js">commander</a>：完整的 <a href="http://nodejs.org/">node.js</a> 命令行解决方案。实现1、2</p><p><a href="https://github.com/SBoudrias/Inquirer.js">inquirer</a>：常见的UI交互式命令行集合。实现3</p><p><a href="https://github.com/Marak/colors.js">colors</a>、<a href="https://github.com/chalk/chalk">chalk</a> - 给node.js的控制台输出添加颜色和样式。实现4</p><p>内置模块fs：文件操作系统，读取文件是否存在，或是新建文件夹</p><p><a href="https://www.runoob.com/nodejs/nodejs-process.html">child_process</a>：子线程，调用exec使用子进程执行命令。</p><p><a href="https://github.com/indexzero/nconf#readme">nconf</a>：配置管理工具。可以用json的形式将配置信息写在单独的配置文件中进行读取操作。<a href="https://leozcx.github.io/nconf-as-your-config-mgmt/">使用介绍</a>。实现5</p><p><a href="https://github.com/request/request">request</a>：轻量的http请求。实现6。</p><h3 id="部分代码演示">部分代码演示</h3><p><code class="language-plaintext highlighter-rouge">cli.js</code></p><div class="language-js highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre><td class="rouge-code"><pre><span class="cp">#!/usr/bin/env node
+</span><span class="kd">const</span> <span class="nx">program</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">commander</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">TestMain</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./index</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">testMain</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TestMain</span><span class="p">();</span>
+
+<span class="nx">program</span>
+    <span class="p">.</span><span class="nx">version</span><span class="p">(</span><span class="dl">'</span><span class="s1">1.0.0</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">-v, --version</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="dl">'</span><span class="s1">-m, --message &lt;msg&gt;</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">输入提交信息</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="dl">'</span><span class="s1">-t, --test</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">这是一条测试命令</span><span class="dl">'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="nx">program</span><span class="p">.</span><span class="nx">opts</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">test</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">testMain</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p><code class="language-plaintext highlighter-rouge">index.js</code></p><div class="language-js highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+</pre><td class="rouge-code"><pre><span class="cp">#!/usr/bin/env node
+</span><span class="kd">const</span> <span class="p">{</span> <span class="nx">exec</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">child_process</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">colors</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">nconf</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">nconf</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">inquirer</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">inquirer</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">request</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">cwd</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">home</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">HOME</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">testHome</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">cwd</span><span class="p">}</span><span class="s2">/.test`</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">localConfig</span> <span class="o">=</span> <span class="s2">`</span><span class="p">${</span><span class="nx">cwd</span><span class="p">}</span><span class="s2">/config.json`</span>
+
+<span class="kd">class</span> <span class="nx">TestMain</span> <span class="p">{</span>
+    <span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="p">}</span>
+
+    <span class="nx">createDirIfneed</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">testHome</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nx">fs</span><span class="p">.</span><span class="nx">mkdirSync</span><span class="p">(</span><span class="nx">testHome</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">createLocalConfigIfneed</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">/// https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Using_promises</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">testHome</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nx">fs</span><span class="p">.</span><span class="nx">mkdirSync</span><span class="p">(</span><span class="nx">testHome</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="nx">nconf</span><span class="p">.</span><span class="nx">argv</span><span class="p">().</span><span class="nx">env</span><span class="p">().</span><span class="nx">file</span><span class="p">({</span> <span class="na">file</span><span class="p">:</span> <span class="nx">localConfig</span> <span class="p">});</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">localConfig</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nx">resolve</span><span class="p">();</span>
+                <span class="k">return</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="kd">const</span> <span class="nx">questions</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">rawlist</span><span class="dl">'</span><span class="p">,</span>
+                    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">where</span><span class="dl">'</span><span class="p">,</span>
+                    <span class="na">message</span><span class="p">:</span> <span class="dl">'</span><span class="s1">请选择你的祖国</span><span class="dl">'</span><span class="p">,</span>
+                    <span class="na">choices</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="dl">'</span><span class="s1">中国</span><span class="dl">'</span><span class="p">,</span>
+                        <span class="dl">'</span><span class="s1">美国</span><span class="dl">'</span><span class="p">,</span>
+                        <span class="dl">'</span><span class="s1">日本</span><span class="dl">'</span>
+                    <span class="p">]</span>
+                <span class="p">}</span>
+            <span class="p">];</span>
+            <span class="nx">inquirer</span><span class="p">.</span><span class="nx">prompt</span><span class="p">(</span><span class="nx">questions</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">answers</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="nx">nconf</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">where</span><span class="dl">'</span><span class="p">,</span> <span class="nx">answers</span><span class="p">.</span><span class="nx">where</span><span class="p">);</span>
+                <span class="nx">nconf</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+                <span class="nx">resolve</span><span class="p">();</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+    
+    <span class="k">async</span> <span class="nx">run</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">createLocalConfigIfneed</span><span class="p">();</span>
+      <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">createLocalConfigIfneed</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">TestMain</span><span class="p">;</span>
+</pre></table></code></div></div><h2 id="参考文章">参考文章</h2><p><a href="https://cnodejs.org/topic/5b10eef857137f22415c482a">一些常用的npm包</a> <a href="https://wuyou91.github.io/node-modules-in-common-use/">常用的内置模块</a></p><p><a href="https://shields.io/">svg生成</a> <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://raw.githubusercontent.com/RamboQiu/RamboQiu.github.io/master/resource/npm_module.svg" alt="" /></p><p><a href="https://www.ctolib.com/docs-Git-Chinese-Course-c-index.html">git钩子</a>，在.git/hooks文件夹中</p><p><a href="https://juejin.cn/post/6844904153030852621#heading-4">使用NPM发布和使用CLI工具</a></p></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/tech/'>Tech</a>, <a href='/categories/study/'>Study</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/npm/" class="post-tag no-text-decoration" >npm</a> <a href="/tags/nodejs/" class="post-tag no-text-decoration" >nodejs</a> <a href="/tags/cli/" class="post-tag no-text-decoration" >cli</a> <a href="/tags/git-hooks/" class="post-tag no-text-decoration" >git-hooks</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=制作npm的命令行工具cli - RAMBO&url=https://RamboQiu.github.io/posts/%E5%88%B6%E4%BD%9Cnpm%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7cli/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=制作npm的命令行工具cli - RAMBO&u=https://RamboQiu.github.io/posts/%E5%88%B6%E4%BD%9Cnpm%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7cli/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=制作npm的命令行工具cli - RAMBO&url=https://RamboQiu.github.io/posts/%E5%88%B6%E4%BD%9Cnpm%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7cli/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-lastmod" class="post"> <span>Recent Update</span><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/">iOS埋点接入文档</a><li><a href="/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E5%85%A5%E5%8F%A3%E9%A1%B5%E5%AF%BC%E8%B4%AD%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%A1%88/">埋点之入口页导购统计方案</a><li><a href="/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/">iOS消息转发机制</a><li><a href="/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/">iOS秒开H5实战总结</a><li><a href="/posts/iOS15%E7%BA%BF%E4%B8%8A%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">iOS15线上问题总结</a></ul></div><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/pod%E6%8F%92%E4%BB%B6%E5%88%B6%E4%BD%9C/"><div class="card-body"> <span class="timeago small" > Apr 12 <i class="unloaded">2021-04-12T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>pod插件制作</h3><div class="text-muted small"><p> Cocoapods plugins Cocoapods plugins是一个Ruby gem（Ruby gem是Ruby的一个包管理器，它提供一个分发Ruby程序和库的标准格式，还提供一个管理程序包安装的工具。），并且CocoaPods也是通过Ruby构建的。 安装模板插件cocoapods-plugins，来建立插件，如下： 1 2 3 4 5 6 7 8 9 10 11 12 13...</p></div></div></a></div><div class="card"> <a href="/posts/%E5%90%84%E7%A7%8D%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8C%BA%E5%88%AB%E6%B1%87%E6%80%BB/"><div class="card-body"> <span class="timeago small" > Apr 13 <i class="unloaded">2021-04-13T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>各种语言的区别汇总</h3><div class="text-muted small"><p> 编程语言类型 区别总结 类型 原理 优点 缺点 语言 编译型语言 通过专门的编译器，将所有源代码一次性转换成特定平台（Windows、Linux 等）执行的机器码（以可执行文件的形式存在）。 编译一次后，脱离了编译器也可以运行，并且运行效率高。...</p></div></div></a></div><div class="card"> <a href="/posts/iOS%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E5%93%8D%E5%BA%94%E5%85%A8%E8%BF%87%E7%A8%8B/"><div class="card-body"> <span class="timeago small" > Apr 27 <i class="unloaded">2021-04-27T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>iOS点击事件响应全过程</h3><div class="text-muted small"><p> 小球是一位码农，拿出他心爱的iPhone，解除锁屏，滑动屏幕找到今日头条APP，打开他并点击了其中一篇新闻，进入到了新闻详情页。这时他突然意识到，我从拿出手机到看到新闻详情，具体的实现细节是什么？？ 屏幕解锁 操作系统层面的，硬件，驱动，系统唤醒 触摸屏幕 操作系统层面，硬件驱动处理 IOKit.framework为系统内核库，封装事件为IOHIDEvent 通过m...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/TCP%E6%B7%B1%E5%BA%A6%E4%BA%86%E8%A7%A3/" class="btn btn-outline-primary"><p>TCP深度了解</p></a> <a href="/posts/pod%E6%8F%92%E4%BB%B6%E5%88%B6%E4%BD%9C/" class="btn btn-outline-primary"><p>pod插件制作</p></a></div><div id="gitalk-container"></div><script> var gitalk = new Gitalk({ id: (decodeURIComponent(window.location.pathname)).substring(0, 49), clientID: 'ab82be4b02f8a8f27c36', clientSecret: 'a17055d499d8765e427a1842fea5d5c4d3f38691', accessToken: '44315eb9b98036aaa9f0f64bc6c4e695508b474d', repo: 'RamboQiu.github.io', owner: 'RamboQiu', admin: ['RamboQiu'], distractionFreeMode: false }); gitalk.render('gitalk-container'); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2021 <a href="https://github.com/RamboQiu">Rambo</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy/" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://RamboQiu.github.io{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

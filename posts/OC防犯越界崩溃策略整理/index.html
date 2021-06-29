@@ -1,0 +1,637 @@
+<!DOCTYPE html><html lang="en" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="theme" content="Chirpy v2.7.0"><meta name="generator" content="Jekyll v4.2.0" /><meta property="og:title" content="OC防犯数组和字典崩溃策略整理" /><meta name="author" content="Rambo" /><meta property="og:locale" content="en_US" /><meta name="description" content="写在前面" /><meta property="og:description" content="写在前面" /><link rel="canonical" href="https://ramboqiu.github.io/posts/OC%E9%98%B2%E7%8A%AF%E8%B6%8A%E7%95%8C%E5%B4%A9%E6%BA%83%E7%AD%96%E7%95%A5%E6%95%B4%E7%90%86/" /><meta property="og:url" content="https://ramboqiu.github.io/posts/OC%E9%98%B2%E7%8A%AF%E8%B6%8A%E7%95%8C%E5%B4%A9%E6%BA%83%E7%AD%96%E7%95%A5%E6%95%B4%E7%90%86/" /><meta property="og:site_name" content="RAMBO" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2017-05-26T00:00:00+08:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="OC防犯数组和字典崩溃策略整理" /><meta name="google-site-verification" content="google88e65de3e03b1c74.html" /> <script type="application/ld+json"> {"author":{"@type":"Person","name":"Rambo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ramboqiu.github.io/posts/OC%E9%98%B2%E7%8A%AF%E8%B6%8A%E7%95%8C%E5%B4%A9%E6%BA%83%E7%AD%96%E7%95%A5%E6%95%B4%E7%90%86/"},"description":"写在前面","url":"https://ramboqiu.github.io/posts/OC%E9%98%B2%E7%8A%AF%E8%B6%8A%E7%95%8C%E5%B4%A9%E6%BA%83%E7%AD%96%E7%95%A5%E6%95%B4%E7%90%86/","@type":"BlogPosting","headline":"OC防犯数组和字典崩溃策略整理","dateModified":"2020-12-23T11:54:12+08:00","datePublished":"2017-05-26T00:00:00+08:00","@context":"https://schema.org"}</script><meta name="baidu-site-verification" content="baidu_verify_code-LaAMM2SYbl.html"><title>OC防犯数组和字典崩溃策略整理 | RAMBO</title><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" href="/assets/css/post.css" as="style"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script defer src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script><link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css"> <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script> <script async src="/assets/js/post.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id=G-PHHDQK2S50"></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-PHHDQK2S50'); }); </script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">RAMBO</a></div><div class="site-subtitle font-italic">移动端开发从入门到放弃</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <span id="mode-toggle-wrapper"> <i class="mode-toggle fas fa-adjust"></i> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return "mode"; } static get DARK_MODE() { return "dark"; } static get LIGHT_MODE() { return "light"; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } var self = this; /* always follow the system prefers */ this.sysDarkPrefers.addListener(function() { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.updateMermaid(); }); } /* constructor() */ setDark() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { $('html').attr(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { $('html').removeAttr(ModeToggle.MODE_KEY); sessionStorage.removeItem(ModeToggle.MODE_KEY); } get sysDarkPrefers() { return window.matchMedia("(prefers-color-scheme: dark)"); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode == ModeToggle.DARK_MODE; } get isLightMode() { return this.mode == ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer) ) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } updateMermaid() { if (typeof mermaid !== "undefined") { let expectedTheme = (this.modeStatus === ModeToggle.DARK_MODE? "dark" : "default"); let config = { theme: expectedTheme }; /* re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function() { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.updateMermaid(); } /* flipMode() */ } /* ModeToggle */ let toggle = new ModeToggle(); $(".mode-toggle").click(function() { toggle.flipMode(); }); </script> </span> <span class="icon-border"></span> <a href="https://github.com/RamboQiu" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://twitter.com/" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['qiujunyun','163.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>OC防犯数组和字典崩溃策略整理</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>OC防犯数组和字典崩溃策略整理</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Fri, May 26, 2017, 12:00 AM +0800" > May 26, 2017 <i class="unloaded">2017-05-26T00:00:00+08:00</i> </span> by <span class="author"> Rambo </span></div><div> <span> Updated <span class="timeago lastmod" data-toggle="tooltip" data-placement="bottom" title="Wed, Dec 23, 2020, 11:54 AM +0800" > Dec 23, 2020 <i class="unloaded">2020-12-23T11:54:12+08:00</i> </span> </span> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="1772 words">9 min</span></div></div><div class="post-content"><h2 id="写在前面">写在前面</h2><p>OC上常见崩溃一般不亚于 数组越界以及字典设置为nil。</p><p>虽然大家基本都知道这些情况下，程序会表示抱歉，我要崩溃的，但是大多数情况下传入进来的都是一个变量，变量真正的值有时候就会正在的出乎程序员的意料，比如过大导致越界，或是尽然是空的。如果说这种意外情况无法避免，那么只能从侧面采取保护措施。</p><p>我先整理下常见的崩溃方法：</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="nl">NSArray:</span>
+	<span class="n">objectAtIndex</span><span class="o">:</span>
+<span class="n">NSMutableArray</span><span class="o">:</span>
+	<span class="n">addObject</span><span class="o">:</span>
+	<span class="n">insertObject</span><span class="o">:</span><span class="n">atIndex</span><span class="o">:</span>
+	<span class="n">removeObjectAtIndex</span><span class="o">:</span>
+	<span class="n">replaceObjectAtIndex</span><span class="o">:</span><span class="n">withObject</span><span class="o">:</span>
+<span class="n">NSMutableDictionary</span><span class="o">:</span>
+	<span class="n">setObject</span><span class="o">:</span><span class="n">forKey</span><span class="o">:</span>
+</pre></table></code></div></div><ol><li>取值：index超出array的索引范围<li>添加：插入的object为nil或者Null<li>插入：index大于count、插入的object为nil或者Null<li>删除：index超出array的索引范围<li>替换：index超出array的索引范围、替换的object为nil或者Null</ol><p>现在市面上主流的两种结局方法是：</p><ul><li>使用runtime hook系统的这几个方法<li>使用分类的形式重新封装一层方法</ul><p>两种方法当然各有利弊，hack方便，但是风险不可控，使用分类的方式反锁，风险较易控制。<br /> 捕捉到错误之后，可以使用Crashlytics上传崩溃日志，这样就可以自我捕捉这些错误而不让系统抛出exception而崩溃。<br /> 个人推荐还是使用稳妥的方法，用分类重新封装一层方法的形式。<br /></p><hr /><h2 id="代替exception使用日志系统上报错误">代替exception使用日志系统上报错误</h2><p>日志上报使用的是fabric，有关fabric的使用，自行去google，这里不做过多讲解。<br /> 关键技术是使用fabric的方法recordCustomExceptionName:reason:frameArray:</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre><span class="cm">/**
+ *  This method can be used to record a single exception structure in a report. This is particularly useful
+ *  when your code interacts with non-native languages like Lua, C#, or Javascript. This call can be
+ *  expensive and should only be used shortly before process termination. This API is not intended be to used
+ *  to log NSException objects. All safely-reportable NSExceptions are automatically captured by
+ *  Crashlytics.
+ *
+ *  @param name       The name of the custom exception
+ *  @param reason     The reason this exception occured
+ *  @param frameArray An array of CLSStackFrame objects
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">recordCustomExceptionName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">reason</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">reason</span> <span class="nf">frameArray</span><span class="p">:(</span><span class="n">CLS_GENERIC_NSARRAY</span><span class="p">(</span><span class="n">CLSStackFrame</span> <span class="o">*</span><span class="p">)</span> <span class="o">*</span><span class="p">)</span><span class="nv">frameArray</span><span class="p">;</span>
+</pre></table></code></div></div><p>注释大致就是说可以自行发送日志到fabric，所以就有了下面的使用方法：</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre><td class="rouge-code"><pre><span class="k">static</span> <span class="kt">void</span> <span class="nf">Log</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
+    <span class="n">NSMutableString</span> <span class="o">*</span><span class="n">reportStr</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableString</span> <span class="nf">string</span><span class="p">];</span>
+    <span class="kt">va_list</span> <span class="n">ap</span><span class="p">;</span>
+    <span class="n">va_start</span><span class="p">(</span><span class="n">ap</span><span class="p">,</span> <span class="n">fmt</span><span class="p">);</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">content</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFormat</span><span class="p">:</span><span class="n">fmt</span> <span class="nf">arguments</span><span class="p">:</span><span class="n">ap</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">reportStr</span> <span class="nf">appendString</span><span class="p">:</span><span class="s">@"***Terminating app due to uncaught exception</span><span class="se">\r\n</span><span class="s">"</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">reportStr</span> <span class="nf">appendFormat</span><span class="p">:</span><span class="s">@"***reason:-%@</span><span class="se">\r\n</span><span class="s">"</span><span class="p">,</span> <span class="n">content</span><span class="p">];</span>
+    <span class="n">va_end</span><span class="p">(</span><span class="n">ap</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">reportStr</span> <span class="nf">appendFormat</span><span class="p">:</span><span class="s">@"*** First throw call stack:</span><span class="se">\n</span><span class="s">%@"</span><span class="p">,</span> <span class="p">[</span><span class="n">NSThread</span> <span class="nf">callStackSymbols</span><span class="p">]];</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">callStackSymbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSThread</span> <span class="nf">callStackSymbols</span><span class="p">];</span>
+    <span class="n">NSMutableArray</span><span class="o">&lt;</span><span class="n">CLSStackFrame</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">stackFrames</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="nf">arrayWithCapacity</span><span class="p">:</span><span class="n">callStackSymbols</span><span class="p">.</span><span class="n">count</span><span class="p">];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">callStachSymbol</span> <span class="k">in</span> <span class="n">callStackSymbols</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">stackFrames</span> <span class="nf">addObject</span><span class="p">:[</span><span class="n">CLSStackFrame</span> <span class="nf">stackFrameWithSymbol</span><span class="p">:</span><span class="n">callStachSymbol</span><span class="p">]];</span>
+    <span class="p">}</span>
+<span class="cp">#ifdef DEBUG
+</span>    <span class="p">[</span><span class="n">NSException</span> <span class="nf">raise</span><span class="p">:</span><span class="n">NSInvalidArgumentException</span> <span class="nf">format</span><span class="p">:</span><span class="s">@"***reason%@"</span><span class="p">,</span> <span class="n">content</span><span class="p">];</span>
+<span class="cp">#else
+</span>    <span class="p">[</span><span class="n">CrashlyticsKit</span> <span class="nf">recordCustomExceptionName</span><span class="p">:</span><span class="s">@"自捕获崩溃"</span> <span class="nf">reason</span><span class="p">:</span><span class="n">content</span> <span class="n">frameArray</span><span class="o">:</span><span class="n">stackFrames</span><span class="p">];</span>
+<span class="cp">#endif
+</span>    <span class="n">YXLogError</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span> <span class="n">reportStr</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>最后fabirc上捕捉到的日志就是non-fatals</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/work/20170526/nonfatals.png" alt="" title="" width="100%" /><br /> <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/img/work/20170526/nonfatals2.png" alt="" title="" width="100%" /><br /></p><hr /><h2 id="使用runtime-hack系统方法的形式实现">使用RunTime hack系统方法的形式实现</h2><p>工具类继承至NSObject，在load类方法中实现hack技术，分别hook住相应的方法</p><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre><td class="rouge-code"><pre><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">load</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+        <span class="c1">//        NSArray</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">swizzleInstanceMethodWithClass</span><span class="p">:</span><span class="n">NSClassFromString</span><span class="p">(</span><span class="s">@"__NSArrayI"</span><span class="p">)</span> <span class="nf">originalSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">objectAtIndex</span><span class="o">:</span><span class="p">)</span> <span class="n">swizzledMethod</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">safeObjectAtIndex</span><span class="o">:</span><span class="p">)];</span>
+        
+        <span class="c1">//        NSMutableArray</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">swizzleInstanceMethodWithClass</span><span class="p">:</span><span class="n">NSClassFromString</span><span class="p">(</span><span class="s">@"__NSArrayM"</span><span class="p">)</span> <span class="nf">originalSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">objectAtIndex</span><span class="o">:</span><span class="p">)</span> <span class="n">swizzledMethod</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">safeObjectAtIndex</span><span class="o">:</span><span class="p">)];</span>
+        <span class="c1">//        [self swizzleInstanceMethodWithClass:NSClassFromString(@"__NSArrayM") originalSelector:@selector(addObject:) swizzledMethod:@selector(safeAddObject:)];</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">swizzleInstanceMethodWithClass</span><span class="p">:</span><span class="n">NSClassFromString</span><span class="p">(</span><span class="s">@"__NSArrayM"</span><span class="p">)</span> <span class="nf">originalSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">replaceObjectAtIndex</span><span class="o">:</span><span class="n">withObject</span><span class="o">:</span><span class="p">)</span> <span class="n">swizzledMethod</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">safeReplaceObjectAtIndex</span><span class="o">:</span><span class="n">withObject</span><span class="o">:</span><span class="p">)];</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">swizzleInstanceMethodWithClass</span><span class="p">:</span><span class="n">NSClassFromString</span><span class="p">(</span><span class="s">@"__NSArrayM"</span><span class="p">)</span> <span class="nf">originalSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">insertObject</span><span class="o">:</span><span class="n">atIndex</span><span class="o">:</span><span class="p">)</span> <span class="n">swizzledMethod</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">safeInsertObject</span><span class="o">:</span><span class="n">atIndex</span><span class="o">:</span><span class="p">)];</span>
+        
+        <span class="c1">//        NSDictionary</span>
+        <span class="c1">//        [self swizzleClassMethodWithClass:[NSDictionary class] originalSelector:@selector(dictionaryWithObjects:forKeys:count:) swizzledMethod:@selector(safeDictionaryWithObjects:forKeys:count:)];</span>
+        
+        <span class="c1">//        NSMutableDictionary</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">swizzleInstanceMethodWithClass</span><span class="p">:</span><span class="n">NSClassFromString</span><span class="p">(</span><span class="s">@"__NSDictionaryM"</span><span class="p">)</span> <span class="nf">originalSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">setObject</span><span class="o">:</span><span class="n">forKey</span><span class="o">:</span><span class="p">)</span> <span class="n">swizzledMethod</span><span class="o">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">safeSetObject</span><span class="o">:</span><span class="n">forKey</span><span class="o">:</span><span class="p">)];</span>
+        
+    <span class="p">});</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h3 id="nsarray">NSArray</h3><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre><td class="rouge-code"><pre>
+<span class="k">@interface</span> <span class="nc">NSArray</span> <span class="p">(</span><span class="nl">Safte</span><span class="p">)</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">NSArray</span> <span class="p">(</span><span class="nl">Safte</span><span class="p">)</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">safeObjectAtIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">index</span> <span class="p">{</span>
+    <span class="k">@autoreleasepool</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nf">safeObjectAtIndex</span><span class="p">:</span><span class="n">index</span><span class="p">];</span>
+        <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+            
+            <span class="n">Log</span><span class="p">(</span><span class="s">@"[%@ %@] index %lu beyond bounds [0 .. %lu]"</span><span class="p">,</span>
+                    <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">self</span> <span class="nf">class</span><span class="p">]),</span>
+                    <span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">_cmd</span><span class="p">),</span>
+                    <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">index</span><span class="p">,</span>
+                    <span class="n">MAX</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+            <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</pre></table></code></div></div><h3 id="nsmutablearray">NSMutableArray</h3><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+</pre><td class="rouge-code"><pre>
+<span class="k">@interface</span> <span class="nc">NSMutableArray</span> <span class="p">(</span><span class="nl">Safte</span><span class="p">)</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">NSMutableArray</span> <span class="p">(</span><span class="nl">Safte</span><span class="p">)</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">safeObjectAtIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">index</span> <span class="p">{</span>
+    <span class="k">@autoreleasepool</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="n">index</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nf">safeObjectAtIndex</span><span class="p">:</span><span class="n">index</span><span class="p">];</span>
+        <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+            
+            <span class="n">Log</span><span class="p">(</span><span class="s">@"[%@ %@] index %lu beyond bounds [0 .. %lu]"</span><span class="p">,</span>
+                    <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">self</span> <span class="nf">class</span><span class="p">]),</span>
+                    <span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">_cmd</span><span class="p">),</span>
+                    <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">index</span><span class="p">,</span>
+                    <span class="n">MAX</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+            <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">safeAddObject</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">anObject</span> <span class="p">{</span>
+    <span class="k">@autoreleasepool</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">anObject</span><span class="p">)</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">self</span> <span class="nf">safeAddObject</span><span class="p">:</span><span class="n">anObject</span><span class="p">];</span>
+        <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+            <span class="n">Log</span><span class="p">(</span><span class="s">@"[%@ %@], nil object. object cannot be nil"</span><span class="p">,</span> <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">self</span> <span class="nf">class</span><span class="p">]),</span> <span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">_cmd</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">safeReplaceObjectAtIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">index</span> <span class="nf">withObject</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">anObject</span> <span class="p">{</span>
+    <span class="k">@autoreleasepool</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;=</span> <span class="n">self</span><span class="p">.</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Log</span><span class="p">(</span><span class="s">@"[%@ %@] index %lu beyond bounds [0 .. %lu]."</span><span class="p">,</span>
+                    <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">self</span> <span class="nf">class</span><span class="p">]),</span>
+                    <span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">_cmd</span><span class="p">),</span>
+                    <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">index</span><span class="p">,</span>
+                    <span class="n">MAX</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span><span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">anObject</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Log</span><span class="p">(</span><span class="s">@"[%@ %@] nil object. object cannot be nil"</span><span class="p">,</span> <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">self</span> <span class="nf">class</span><span class="p">]),</span> <span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">_cmd</span><span class="p">));</span>
+            <span class="k">return</span><span class="p">;</span>
+            
+        <span class="p">}</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">safeReplaceObjectAtIndex</span><span class="p">:</span><span class="n">index</span> <span class="nf">withObject</span><span class="p">:</span><span class="n">anObject</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">safeInsertObject</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">anObject</span> <span class="nf">atIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">index</span> <span class="p">{</span>
+    <span class="k">@autoreleasepool</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;</span> <span class="n">self</span><span class="p">.</span><span class="n">count</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Log</span><span class="p">(</span><span class="s">@"[%@ %@] index %lu beyond bounds [0...%lu]."</span><span class="p">,</span>
+                    <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">self</span> <span class="nf">class</span><span class="p">]),</span>
+                    <span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">_cmd</span><span class="p">),</span>
+                    <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">index</span><span class="p">,</span>
+                    <span class="n">MAX</span><span class="p">((</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">anObject</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Log</span><span class="p">(</span><span class="s">@"[%@ %@] nil object. object cannot be nil"</span><span class="p">,</span> <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">self</span> <span class="nf">class</span><span class="p">]),</span> <span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">_cmd</span><span class="p">));</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="p">[</span><span class="n">self</span> <span class="nf">safeInsertObject</span><span class="p">:</span><span class="n">anObject</span> <span class="nf">atIndex</span><span class="p">:</span><span class="n">index</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</pre></table></code></div></div><h3 id="nsdictionary">NSDictionary</h3><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre><td class="rouge-code"><pre>
+<span class="k">@interface</span> <span class="nc">NSDictionary</span> <span class="p">(</span><span class="nl">Safte</span><span class="p">)</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">NSDictionary</span> <span class="p">(</span><span class="nl">Safte</span><span class="p">)</span>
+
+
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">safeDictionaryWithObjects</span><span class="p">:(</span><span class="k">const</span> <span class="n">id</span>  <span class="n">_Nonnull</span> <span class="n">__unsafe_unretained</span> <span class="o">*</span><span class="p">)</span><span class="nv">objects</span> <span class="nf">forKeys</span><span class="p">:(</span><span class="k">const</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span>  <span class="n">_Nonnull</span> <span class="n">__unsafe_unretained</span> <span class="o">*</span><span class="p">)</span><span class="nv">keys</span> <span class="nf">count</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">cnt</span> <span class="p">{</span>
+    <span class="k">@autoreleasepool</span> <span class="p">{</span>
+        <span class="n">id</span> <span class="n">validObjects</span><span class="p">[</span><span class="nf">cnt</span><span class="p">];</span>
+        <span class="n">id</span><span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span> <span class="n">validKeys</span><span class="p">[</span><span class="nf">cnt</span><span class="p">];</span>
+        <span class="n">NSUInteger</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">NSUInteger</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">cnt</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">objects</span><span class="p">[</span><span class="nf">i</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">keys</span><span class="p">[</span><span class="nf">i</span><span class="p">])</span>
+            <span class="p">{</span>
+                <span class="n">validObjects</span><span class="p">[</span><span class="nf">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">objects</span><span class="p">[</span><span class="nf">i</span><span class="p">];</span>
+                <span class="n">validKeys</span><span class="p">[</span><span class="nf">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="nf">i</span><span class="p">];</span>
+                <span class="n">count</span> <span class="o">++</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="n">Log</span><span class="p">(</span><span class="s">@"[%@ %@] NIL object or key at index%lu."</span><span class="p">,</span>
+                        <span class="n">NSStringFromClass</span><span class="p">(</span><span class="n">self</span><span class="p">),</span>
+                        <span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">_cmd</span><span class="p">),</span>
+                        <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">i</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nf">safeDictionaryWithObjects</span><span class="p">:</span><span class="n">validObjects</span> <span class="nf">forKeys</span><span class="p">:</span><span class="n">validKeys</span> <span class="n">count</span><span class="o">:</span><span class="n">count</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+
+</pre></table></code></div></div><h3 id="nsmuatbledictionary">NSMuatbleDictionary</h3><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre><td class="rouge-code"><pre>
+<span class="k">@interface</span> <span class="nc">NSMutableDictionary</span> <span class="p">(</span><span class="nl">Safte</span><span class="p">)</span>
+
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">NSMutableDictionary</span> <span class="p">(</span><span class="nl">Safte</span><span class="p">)</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">safeSetObject</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">anObject</span> <span class="nf">forKey</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">aKey</span> <span class="p">{</span>
+    <span class="k">@autoreleasepool</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">aKey</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Log</span><span class="p">(</span><span class="s">@"[%@ %@] nil key. key cannot be nil"</span><span class="p">,</span> <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">self</span> <span class="nf">class</span><span class="p">]),</span> <span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">_cmd</span><span class="p">));</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">anObject</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Log</span><span class="p">(</span><span class="s">@"[%@ %@] nil object. object cannot be nil"</span><span class="p">,</span> <span class="n">NSStringFromClass</span><span class="p">([</span><span class="n">self</span> <span class="nf">class</span><span class="p">]),</span> <span class="n">NSStringFromSelector</span><span class="p">(</span><span class="n">_cmd</span><span class="p">));</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">safeSetObject</span><span class="p">:</span><span class="n">anObject</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">aKey</span><span class="p">];</span>        
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</pre></table></code></div></div><hr /><h2 id="安全容器方法">安全容器方法</h2><p>分装一层分类，规定以后团队都使用这个分类方法</p><h3 id="nsarray-1">NSArray</h3><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+</pre><td class="rouge-code"><pre><span class="k">@implementation</span> <span class="nc">NSArray</span> <span class="p">(</span><span class="nl">Safety</span><span class="p">)</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">at</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">i</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">self</span><span class="p">[</span><span class="nf">i</span><span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">Log</span><span class="p">(</span><span class="s">@"NSArray objectAtIndex beyond the bound: %lu is beyond the count:%lu!"</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">count</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">create</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">firstObj</span><span class="p">,</span> <span class="p">...</span> <span class="p">{</span>
+    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="nf">new</span><span class="p">];</span>
+    
+    <span class="kt">va_list</span> <span class="n">args</span><span class="p">;</span>
+    <span class="n">va_start</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">firstObj</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">id</span> <span class="n">arg</span> <span class="o">=</span> <span class="n">firstObj</span><span class="p">;</span> <span class="n">arg</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">;</span> <span class="n">arg</span> <span class="o">=</span> <span class="n">va_arg</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">id</span><span class="p">))</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">array</span> <span class="nf">add</span><span class="p">:</span><span class="n">arg</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">va_end</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="nf">isEqual</span><span class="p">:</span><span class="n">NSMutableDictionary</span><span class="p">.</span><span class="n">class</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">array</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">array</span> <span class="nf">copy</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</pre></table></code></div></div><h3 id="nsdictionary-1">NSDictionary</h3><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre><td class="rouge-code"><pre><span class="k">@implementation</span> <span class="nc">NSDictionary</span> <span class="p">(</span><span class="nl">Safety</span><span class="p">)</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">kv</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">firstObj</span><span class="p">,</span> <span class="p">...</span> <span class="p">{</span>
+    <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">dic</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableDictionary</span> <span class="nf">new</span><span class="p">];</span>
+    
+    <span class="kt">va_list</span> <span class="n">args</span><span class="p">;</span>
+    <span class="n">va_start</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">firstObj</span><span class="p">);</span>
+    <span class="n">id</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">id</span> <span class="n">arg</span> <span class="o">=</span> <span class="n">firstObj</span><span class="p">;</span> <span class="n">arg</span> <span class="o">!=</span> <span class="nb">nil</span><span class="p">;</span> <span class="n">arg</span> <span class="o">=</span> <span class="n">va_arg</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">id</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">arg</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">arg</span><span class="p">;</span>
+            <span class="p">[</span><span class="n">dic</span> <span class="nf">key</span><span class="p">:</span><span class="n">key</span> <span class="nf">value</span><span class="p">:</span><span class="n">value</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">va_end</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+    
+    <span class="k">if</span> <span class="p">([</span><span class="n">self</span> <span class="nf">isEqual</span><span class="p">:</span><span class="n">NSMutableDictionary</span><span class="p">.</span><span class="n">class</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">dic</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span>  <span class="p">{</span>
+        <span class="k">return</span> <span class="n">dic</span><span class="p">.</span><span class="n">copy</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</pre></table></code></div></div><h3 id="nsmutablearray-1">NSMutableArray</h3><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre><td class="rouge-code"><pre><span class="k">@implementation</span> <span class="nc">NSMutableArray</span> <span class="p">(</span><span class="nl">Safety</span><span class="p">)</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">add</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">object</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">object</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Log</span><span class="p">(</span><span class="s">@"NSMutableArray added a nil object!"</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="p">[</span><span class="n">self</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">object</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">insert</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">o</span> <span class="nf">at</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">i</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">o</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Log</span><span class="p">(</span><span class="s">@"NSMutableArray inserted a nil object!"</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">self</span><span class="p">.</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//这里得是&gt; 而不能&gt;=，因为insert能插入到最后一个</span>
+        <span class="n">Log</span><span class="p">(</span><span class="s">@"NSArray insertObject:atIndex: beyond the bound: %lu is beyond the count:%lu!"</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">count</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">insertObject</span><span class="p">:</span><span class="n">o</span> <span class="nf">atIndex</span><span class="p">:</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeAt</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">i</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">self</span><span class="p">.</span><span class="n">count</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">removeObjectAtIndex</span><span class="p">:</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">Log</span><span class="p">(</span><span class="s">@"NSArray removeObjectAtIndex beyond the bound: %lu is beyond the count:%lu!"</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">count</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</pre></table></code></div></div><h3 id="nsmutabledictionary">NSMutableDictionary</h3><div class="language-objc highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre><span class="k">@implementation</span> <span class="nc">NSMutableDictionary</span> <span class="p">(</span><span class="nl">Safety</span><span class="p">)</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">key</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">k</span> <span class="nf">value</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">v</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">k</span> <span class="o">==</span> <span class="nb">nil</span> <span class="o">||</span> <span class="o">!</span><span class="p">[</span><span class="n">k</span> <span class="nf">conformsToProtocol</span><span class="p">:</span><span class="k">@protocol</span><span class="err">(</span><span class="nc">NSCopying</span><span class="p">)])</span> <span class="p">{</span>
+        <span class="n">Log</span><span class="p">(</span><span class="s">@"NSMutableDictionary setObject:forKey:, key %@ is invalid!"</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">self</span><span class="p">[</span><span class="nf">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</pre></table></code></div></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/tech/'>Tech</a>, <a href='/categories/oc/'>OC</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/oc/" class="post-tag no-text-decoration" >OC</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" class="post-tag no-text-decoration" >编程</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=OC防犯数组和字典崩溃策略整理 - RAMBO&url=https://RamboQiu.github.io/posts/OC%E9%98%B2%E7%8A%AF%E8%B6%8A%E7%95%8C%E5%B4%A9%E6%BA%83%E7%AD%96%E7%95%A5%E6%95%B4%E7%90%86/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=OC防犯数组和字典崩溃策略整理 - RAMBO&u=https://RamboQiu.github.io/posts/OC%E9%98%B2%E7%8A%AF%E8%B6%8A%E7%95%8C%E5%B4%A9%E6%BA%83%E7%AD%96%E7%95%A5%E6%95%B4%E7%90%86/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=OC防犯数组和字典崩溃策略整理 - RAMBO&url=https://RamboQiu.github.io/posts/OC%E9%98%B2%E7%8A%AF%E8%B6%8A%E7%95%8C%E5%B4%A9%E6%BA%83%E7%AD%96%E7%95%A5%E6%95%B4%E7%90%86/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-lastmod" class="post"> <span>Recent Update</span><ul class="post-content pl-0 pb-1 ml-1 mt-2"><li><a href="/posts/iOS%E5%9F%8B%E7%82%B9%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3/">iOS埋点接入文档</a><li><a href="/posts/%E5%9F%8B%E7%82%B9%E4%B9%8B%E5%85%A5%E5%8F%A3%E9%A1%B5%E5%AF%BC%E8%B4%AD%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%A1%88/">埋点之入口页导购统计方案</a><li><a href="/posts/iOS%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6/">iOS消息转发机制</a><li><a href="/posts/iOS%E7%A7%92%E5%BC%80H5%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/">iOS秒开H5实战总结</a><li><a href="/posts/iOS15%E7%BA%BF%E4%B8%8A%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">iOS15线上问题总结</a></ul></div><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/GCD%E5%AE%9E%E7%94%A8%E7%AF%87/"><div class="card-body"> <span class="timeago small" > Aug 8, 2017 <i class="unloaded">2017-08-08T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>GCD相关实用方法讲解</h3><div class="text-muted small"><p> 写在前面 gcd在使用上主要是为了多线程操作，及由解决暂用主线程导致UI界面卡顿的问题，其中主要就是同步线程和异步线程。 涉及到的应用方式常用的有如何有效的执行线程等待、多线程协同工作 1. dispatch_semaphore之停车入库原理 1.1 原理 semaphore 信号同步机制，可以简单以停车场停车入库来解释： 停车场有十个车位，现在即使来了十辆车也能全部进来停下，但是此时又来...</p></div></div></a></div><div class="card"> <a href="/posts/Mixpanel%E4%BB%A3%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E7%AD%96%E7%95%A5%E8%A7%A3%E6%9E%90%E4%B9%8Bhook%E6%97%A0%E5%9F%8B%E7%82%B9%E9%83%A8%E5%88%86/"><div class="card-body"> <span class="timeago small" > Aug 9, 2017 <i class="unloaded">2017-08-09T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Mixpanel代代码实现策略解析之hook无埋点部分</h3><div class="text-muted small"><p> 写在前面 Mixpanel是非常好用的移动数据统计分析工具。开发者通过调用相关接口，就可以访问MixPanel收集的目标APP的各种即时分析数据。该平台可以跟踪用户的评论数、订阅者数、like 次数、分享次数、页面浏览数量等。 Mixpanel is the most advanced analytics platform for mobile &amp; web. Instead o...</p></div></div></a></div><div class="card"> <a href="/posts/Static_TableView/"><div class="card-body"> <span class="timeago small" > Sep 5, 2017 <i class="unloaded">2017-09-05T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>静态TableView通过后端数据的实时布局方案</h3><div class="text-muted small"><p> 静态TableView的快速布局 项目开发中碰到的所有界面基本上都少不了TableView的布局，大体参考视觉元素设计能将界面按行拆解开来，包括分割行 这么设计的原因是整个界面元素的显示与排列顺序能灵活的根据产品变动进行快速变更 行元素定义如下： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 @interface RAMCellD...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/%E5%81%A5%E8%BA%AB%E4%B9%8B%E8%83%B8%E9%83%A8/" class="btn btn-outline-primary"><p>健身之胸部锻炼</p></a> <a href="/posts/GCD%E5%AE%9E%E7%94%A8%E7%AF%87/" class="btn btn-outline-primary"><p>GCD相关实用方法讲解</p></a></div><div id="gitalk-container"></div><script> var gitalk = new Gitalk({ id: (decodeURIComponent(window.location.pathname)).substring(0, 49), clientID: 'ab82be4b02f8a8f27c36', clientSecret: 'a17055d499d8765e427a1842fea5d5c4d3f38691', accessToken: '44315eb9b98036aaa9f0f64bc6c4e695508b474d', repo: 'RamboQiu.github.io', owner: 'RamboQiu', admin: ['RamboQiu'], distractionFreeMode: false }); gitalk.render('gitalk-container'); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2021 <a href="https://github.com/RamboQiu">Rambo</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy/" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/c/">c</a> <a class="post-tag" href="/tags/oc/">OC</a> <a class="post-tag" href="/tags/c/">c++</a> <a class="post-tag" href="/tags/cjson/">cJSON</a> <a class="post-tag" href="/tags/ios/">iOS</a> <a class="post-tag" href="/tags/sdl/">SDL</a> <a class="post-tag" href="/tags/%E5%9F%8B%E7%82%B9/">埋点</a> <a class="post-tag" href="/tags/attribute/">attribute</a> <a class="post-tag" href="/tags/gitlab/">gitlab</a> <a class="post-tag" href="/tags/runloop/">runloop</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://RamboQiu.github.io{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>
