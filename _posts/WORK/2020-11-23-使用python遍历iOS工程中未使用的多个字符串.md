@@ -10,7 +10,7 @@ tags: [iOS, python]
 ## 起因
 
 在项目中，埋点数据采集在本地有一个埋点配置plist，管理项目中的所有的业务打点key，如下：
-![](/assets/img/work/20201123/20201123145306868.png#pic_left)
+![](/assets/img/work/20201123/20201123145306868.png){: .left}
 随着业务的迭代，埋点越来越多，但是业务层面并没有埋点下线功能，也就是某个模块已经重构或是被删除，代码中已经没有相关打点逻辑，这个涉及到的埋点并没有被删除掉，导致plist文件里面的项越来越多，希望开发去手动下线删除其实也挺恶心的，所以有了下面的动作。
 
 > 全局搜索项目中没有使用的埋点，并把它从plist中删除
@@ -23,7 +23,7 @@ tags: [iOS, python]
 plist的解析和写入用的是biplist [python .plist 文件读写](https://www.cnblogs.com/kaisne/archive/2012/12/24/biplist.html)
 
 Setting-Project Interpreter-+-biplist
-![](/assets/img/work/20201123/20201123160338473.png#pic_left)
+![](/assets/img/work/20201123/20201123160338473.png){: .left}
 
 ## 结果
 共检索5836个文件，是否包含1047个字符串key，查出99个key是没有地方使用的
@@ -31,7 +31,7 @@ Setting-Project Interpreter-+-biplist
 如果是规则字符串，直接使用字符串包含即可，4s就能完成
 之后再检索修改plist即可
 
-> 如果你是复杂不规则字符串的话使用正则用xcode去跑的话，晚上下班之后再跑吧，不然最好还是领出来改下文件对应的地址，用python单独去跑![](/assets/img/work/20201123/20201123173542997.png#pic_left)
+> 如果你是复杂不规则字符串的话使用正则用xcode去跑的话，晚上下班之后再跑吧，不然最好还是领出来改下文件对应的地址，用python单独去跑![](/assets/img/work/20201123/20201123173542997.png){: .left}
 
 
 ## 原理介绍
@@ -184,11 +184,11 @@ if __name__ == "__main__":
 
 ## 编译执行
 在xcode的build phases 添加自定义的脚本即可
-![](/assets/img/work/20201123/20201123211600601.png#pic_left)
+![](/assets/img/work/20201123/20201123211600601.png){: .left}
 
 ## 其他
 该脚本不需要打包上线，所以在Build Settings->Build Options->Excluded Source File Names->AppStore
-![](/assets/img/work/20201123/20201123212410206.png#pic_left)
+![](/assets/img/work/20201123/20201123212410206.png){: .left}
 
 ## 参考文章
 [python 文件查找及内容匹配](https://blog.csdn.net/changhuzhao/article/details/58585448)
