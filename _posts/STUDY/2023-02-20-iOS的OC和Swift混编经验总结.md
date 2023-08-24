@@ -282,6 +282,90 @@ timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _
 
 
 
+## 9. where
+
+```swift
+// 放在switch中的case里面当做条件判断
+var value:(Int,String) = (1,"小明")
+switch value {
+case let (x,_) where x < 60:
+    print("不及格")
+default:
+    print("及格")
+}
+
+// 放在forin循环里面当做条件判断
+let arrayOne = [1,2,3,4,5]
+let dictionary = [1:"hehe1",2:"hehe2"]
+for i in arrayOne where dictionary[i] != nil {
+    print(i)
+}
+
+// 泛型里面，标识只支持实现了ExpressibleByStringLiteral的泛型
+func genericFunction<S>(str:S) where S:ExpressibleByStringLiteral{
+    print(str)
+}
+// 也可以不使用where语句，直接在尖括号中定义时做限制
+func genericFunction2<S:ExpressibleByStringLiteral>(str:S){
+    print(str)
+}
+
+
+// 放在扩展力里面
+protocol aProtocol{}
+extension aProtocol where Self:UIView{
+    //只给遵守myProtocol协议的UIView添加了扩展
+    func getString() -> String{
+        return "string"
+    }
+}
+```
+
+### 10. 泛型
+
+我们学习下
+
+```swift
+
+// 实现Base泛型类型的JKPop
+public struct JKPOP<Base> {
+    let base: Base
+    init(_ base: Base) {
+        self.base = base
+    }
+}
+
+
+
+public protocol JKPOPCompatible {}
+
+public extension JKPOPCompatible {
+    
+    static var jk: JKPOP<Self>.Type {
+        get{ JKPOP<Self>.self }
+        set {}
+    }
+    
+    var jk: JKPOP<Self> {
+        get { JKPOP(self) }
+        set {}
+    }
+}
+
+/// Define Property protocol
+internal protocol JKSwiftPropertyCompatible {
+  
+    /// Extended type
+    associatedtype T
+    
+    ///Alias for callback function
+    typealias SwiftCallBack = ((T?) -> ())
+    
+    ///Define the calculated properties of the closure type
+    var swiftCallBack: SwiftCallBack?  { get set }
+}
+```
+
 
 
 ## OC方法在Swift中的使用表
