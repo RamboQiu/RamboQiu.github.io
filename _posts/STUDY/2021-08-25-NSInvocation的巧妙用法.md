@@ -307,7 +307,7 @@ static const char *__BlockSignature__(id blockObj)
 
 热修复核心逻辑，方法替换，将需要热修的方法实现指向`_objc_msgForward`，原实现指向我们新定义的`sel`
 
-![](/assets/img/study/screenshot-20210825-162930.png){: .normal}
+![图片](/assets/img/study/screenshot-20210825-162930.png){: .normal}
 
 然后hook`forwardInvocation`，使他指向我们实现的方法。
 
