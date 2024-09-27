@@ -180,6 +180,10 @@ https://www.bennyhuo.com/2021/10/13/swift-coroutines-02-wrap-callback/
 
 https://www.cnswift.org/concurrency
 
+https://onevcat.com/2021/07/swift-concurrency/
+
 https://juejin.cn/post/7181121378471378981
 
 https://juejin.cn/post/7169914508360548360
+
+https://stackoverflow.com/questions/78496014/main-actor-isolated-static-property-text-cannot-be-mutated-from-a-non-isolated
