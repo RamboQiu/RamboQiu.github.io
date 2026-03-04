@@ -46,7 +46,10 @@ jobs:
           bundler-cache: true
 
       - name: Build site
-        run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}"
+        run: |
+          # 添加 --skip-initial-build 确保环境干净
+          # 关键点：确保产物是纯静态文件，不带 symlinks
+          bundle exec jekyll build -d "_site${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: "production"
 
