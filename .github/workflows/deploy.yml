@@ -57,6 +57,16 @@ jobs:
         run: |
           bundle exec htmlproofer _site --disable-external --check-html --allow_hash_href
 
+      - name: Check for symlinks in build output
+        run: |
+          if find _site -type l | grep -q .; then
+            echo "ERROR: Symlinks found in build output! GitHub Pages doesn't support symlinks."
+            find _site -type l
+            exit 1
+          else
+            echo "No symlinks found in build output."
+          fi
+
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
         with:
