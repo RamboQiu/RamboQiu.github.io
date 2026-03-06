@@ -61,60 +61,47 @@ jobs:
         run: |
           bundle exec htmlproofer _site --disable-external --check-html --allow_hash_href
 
-      - name: Check for and fix symlinks in build output
+      - name:彻底消除符号链接和硬链接
         run: |
-          # Check for symlinks
-          SYMLINKS=$(find _site -type l)
+          # 创建一个新的输出目录
+          mkdir -p _site_no_symlinks
+          
+          # 使用 rsync 复制所有文件，确保符号链接被解析为实际文件
+          # -a: 归档模式，保留文件属性
+          # -L: 复制符号链接指向的实际文件
+          # --copy-links: 复制符号链接指向的实际文件（与 -L 类似）
+          # --no-hard-links: 不保留硬链接，将它们转换为普通文件
+          rsync -aL --copy-links --no-hard-links _site/ _site_no_symlinks/
+          
+          # 验证新目录中没有符号链接
+          SYMLINKS=$(find _site_no_symlinks -type l)
           if [ ! -z "$SYMLINKS" ]; then
-            echo "WARNING: Symlinks found in build output! Converting to actual files."
-            echo "Symlinks found:"
+            echo "ERROR: Still found symlinks after rsync:"
             echo "$SYMLINKS"
-            
-            # Convert each symlink to actual file
-            find _site -type l | while read -r LINK; do
-              TARGET=$(readlink "$LINK")
-              echo "Converting symlink $LINK -> $TARGET to actual file"
-              
-              # Remove the symlink
-              rm "$LINK"
-              
-              # If target is relative, make it absolute
-              if [[ "$TARGET" != /* ]]; then
-                TARGET="$(dirname "$LINK")/$TARGET"
-              fi
-              
-              # Copy the actual file
-              cp "$TARGET" "$LINK"
-            done
+            exit 1
           fi
           
-          # Check for hard links
-          HARDLINKS=$(find _site -type f -links +1)
+          # 验证新目录中没有硬链接
+          HARDLINKS=$(find _site_no_symlinks -type f -links +1)
           if [ ! -z "$HARDLINKS" ]; then
-            echo "WARNING: Hard links found in build output! Converting to regular files."
-            echo "Hard links found:"
+            echo "WARNING: Still found hard links after rsync:"
             echo "$HARDLINKS"
             
-            # Convert each hard link to regular file
-            find _site -type f -links +1 | while read -r FILE; do
-              echo "Converting hard link $FILE to regular file"
-              
-              # Create a copy of the file
+            # 进一步处理剩余的硬链接
+            find _site_no_symlinks -type f -links +1 | while read -r FILE; do
               cp "$FILE" "$FILE.tmp"
-              
-              # Replace the hard link with the copy
               mv "$FILE.tmp" "$FILE"
             done
           fi
           
-          echo "All symlinks and hard links have been processed."
+          echo "Successfully removed all symlinks and hard links."
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
         with:
           # 必须叫这个名字，deploy-pages 才能找到它
           name: github-pages
-          path: "_site"
+          path: "_site_no_symlinks"
 
   deploy:
     environment:
