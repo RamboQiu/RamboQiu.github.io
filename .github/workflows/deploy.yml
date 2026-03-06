@@ -49,7 +49,7 @@ jobs:
         run: |
           # 添加 --skip-initial-build 确保环境干净
           # 关键点：确保产物是纯静态文件，不带 symlinks
-          bundle exec jekyll build -d "_site${{ steps.pages.outputs.base_path }}"
+          bundle exec jekyll build -d "_site"
         env:
           JEKYLL_ENV: "production"
 
@@ -62,7 +62,7 @@ jobs:
         with:
           # 必须叫这个名字，deploy-pages 才能找到它
           name: github-pages
-          path: "_site${{ steps.pages.outputs.base_path }}"
+          path: "_site"
 
   deploy:
     environment:
