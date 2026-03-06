@@ -61,27 +61,53 @@ jobs:
         run: |
           bundle exec htmlproofer _site --disable-external --check-html --allow_hash_href
 
-      - name: Check for symlinks and hard links in build output
+      - name: Check for and fix symlinks in build output
         run: |
           # Check for symlinks
           SYMLINKS=$(find _site -type l)
           if [ ! -z "$SYMLINKS" ]; then
-            echo "ERROR: Symlinks found in build output! GitHub Pages doesn't support symlinks."
+            echo "WARNING: Symlinks found in build output! Converting to actual files."
             echo "Symlinks found:"
             echo "$SYMLINKS"
-            exit 1
+            
+            # Convert each symlink to actual file
+            find _site -type l | while read -r LINK; do
+              TARGET=$(readlink "$LINK")
+              echo "Converting symlink $LINK -> $TARGET to actual file"
+              
+              # Remove the symlink
+              rm "$LINK"
+              
+              # If target is relative, make it absolute
+              if [[ "$TARGET" != /* ]]; then
+                TARGET="$(dirname "$LINK")/$TARGET"
+              fi
+              
+              # Copy the actual file
+              cp "$TARGET" "$LINK"
+            done
           fi
           
           # Check for hard links
           HARDLINKS=$(find _site -type f -links +1)
           if [ ! -z "$HARDLINKS" ]; then
-            echo "ERROR: Hard links found in build output! GitHub Pages doesn't support hard links."
+            echo "WARNING: Hard links found in build output! Converting to regular files."
             echo "Hard links found:"
             echo "$HARDLINKS"
-            exit 1
+            
+            # Convert each hard link to regular file
+            find _site -type f -links +1 | while read -r FILE; do
+              echo "Converting hard link $FILE to regular file"
+              
+              # Create a copy of the file
+              cp "$FILE" "$FILE.tmp"
+              
+              # Replace the hard link with the copy
+              mv "$FILE.tmp" "$FILE"
+            done
           fi
           
-          echo "No symlinks or hard links found in build output."
+          echo "All symlinks and hard links have been processed."
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
