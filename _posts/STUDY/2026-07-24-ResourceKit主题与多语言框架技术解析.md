@@ -5,6 +5,7 @@ date:   2026-07-24
 desc: "系统介绍一套面向组件化 iOS App 的主题、多语言和资源检索框架。内容不仅包含接入方式，也会展开协议设计、运行时解析、Bundle 路由、远程皮肤、跨端同步以及实际工程中容易忽略的边界问题"
 categories: [Tech, Study]
 tags: [iOS, 多语言, 主题]
+mermaid: true
 
 
 
